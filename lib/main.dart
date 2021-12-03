@@ -67,7 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         iconSize: 35,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: "Рестораны",
+            label: "Рестораныы",
             icon: Icon(Icons.restaurant),
           ),
           BottomNavigationBarItem(
