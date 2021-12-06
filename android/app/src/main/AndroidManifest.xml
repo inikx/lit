@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.platinaboy.lit">
+    package="com.example.lit_app">
    <application
-        android:label="lit"
+        android:label="lit_app"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

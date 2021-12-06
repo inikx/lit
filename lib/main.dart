@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lit_app/presentation/pages/restaurants.dart';
 
 void main() => runApp(const MyApp());
 
@@ -26,6 +27,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
+    Restaurants(),
     Text(
       'Рестораны',
     ),
@@ -52,10 +54,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-        backgroundColor: Colors.white,
-      ),
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
