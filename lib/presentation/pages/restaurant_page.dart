@@ -11,16 +11,17 @@ class RestarauntPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
+        backgroundColor: Colors.white,
+        toolbarHeight: 48,
         title: const Text(
           'title', //title
           style: TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.white,
-        toolbarHeight: 48,
       ),
       body: Column(
         children: [

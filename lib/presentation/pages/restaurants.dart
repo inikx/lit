@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/widgets/restaurants_list.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class Restaurants extends StatelessWidget {
   const Restaurants({Key? key}) : super(key: key);
@@ -60,18 +63,69 @@ class Restaurants extends StatelessWidget {
             InkWell(
               onTap: () {
                 showModalBottomSheet(
+                    //fix
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     context: context,
                     builder: (context) {
-                      return Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              //filters
-                            ],
-                          )
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Кухня"),
+                                    SizedBox(height: 15),
+                                    Text("Средний чек"),
+                                    SizedBox(height: 15),
+                                    Text("Рейтинг"),
+                                    SizedBox(height: 15),
+                                    Text("Расстояние"),
+                                    SizedBox(height: 15),
+                                    Text("Верификация Lit"),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text("Японская"),
+                                    SizedBox(height: 15),
+                                    Text("r icons"),
+                                    SizedBox(height: 15),
+                                    Text("star icons"),
+                                    SizedBox(height: 15),
+                                    Text("slider"),
+                                    SizedBox(height: 15),
+                                    // Container(
+                                    //     width: double.maxFinite,
+                                    //     child: CupertinoSlider(
+                                    //         min: 0.0,
+                                    //         max: 100.0,
+                                    //         value: 20,
+                                    //         onChanged: (value) {})),
+                                    Text("icon"),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                              ),
+                              onPressed: () {},
+                              child: Text("Подтвердить",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  )),
+                            )
+                          ],
+                        ),
                       );
                     });
               },

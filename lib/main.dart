@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      theme: ThemeData(
-        textTheme: GoogleFonts.montserratTextTheme(),
-      ),
+      theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
       home: MyStatefulWidget(),
     );
   }

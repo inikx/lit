@@ -7,38 +7,84 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-      title: const Text('Профиль'),
-      actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.account_circle_outlined),
-          tooltip: 'Show Snackbar',
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('This is a snackbar')));
-          },
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+          toolbarHeight: 48,
+          title: const Text(
+            'Профиль',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-        IconButton(
-          icon: const Icon(Icons.navigate_next),
-          tooltip: 'Go to the next page',
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute<void>(
-              builder: (BuildContext context) {
-                return Scaffold(
-                  appBar: AppBar(
-                    title: const Text('Next page'),
-                  ),
-                  body: const Center(
-                    child: Text(
-                      'This is the next page',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ),
-                );
-              },
-            ));
-          },
-        ),
-      ],
-    ));
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //fix inkwell color and width
+              TextButton.icon(
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(
+                  Icons.person,
+                  size: 18,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Мои данные",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 15),
+              TextButton.icon(
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(
+                  Icons.book,
+                  size: 18,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Мои бронирования",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 15),
+              TextButton.icon(
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(
+                  Icons.bookmark,
+                  size: 18,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Избранное",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 15),
+              TextButton.icon(
+                onPressed: () {
+                  // Respond to button press
+                },
+                icon: Icon(
+                  Icons.notifications,
+                  size: 18,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Уведомления",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
