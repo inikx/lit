@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lit_app/presentation/pages/restaurants.dart';
+import 'package:lit/presentation/pages/restaurants.dart';
+import 'package:lit/presentation/pages/profile.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,8 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: _title,
+      theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(),
+      ),
       home: MyStatefulWidget(),
     );
   }
@@ -29,9 +34,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
     Text(
-      'Рестораны',
-    ),
-    Text(
       'Подборки',
     ),
     Text(
@@ -40,9 +42,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Text(
       'Поиск',
     ),
-    Text(
-      'Профиль',
-    ),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
