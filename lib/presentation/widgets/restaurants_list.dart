@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:lit/presentation/pages/restarurant_page.dart';
+import 'package:lit/presentation/pages/restaurant_page.dart';
 
 class RestaurantsList extends StatelessWidget {
   const RestaurantsList({Key? key}) : super(key: key);
@@ -70,13 +70,21 @@ class Restaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String title = this.title;
     return Padding(
       padding: const Pad(all: 20),
       child: InkWell(
         //inkwell container
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RestarauntPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RestarauntPage(
+                      title: title,
+                      kitchen_type: kitchen_type,
+                      rating: rating,
+                      image: image,
+                      address: address)));
         },
         child: Container(
           decoration: BoxDecoration(

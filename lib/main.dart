@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lit/presentation/pages/login.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,9 +32,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
-    Text(
-      'Подборки',
-    ),
+    LoginPage(),
     Text(
       'Статус бронирования',
     ),

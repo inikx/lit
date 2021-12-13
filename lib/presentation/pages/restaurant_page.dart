@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lit/presentation/widgets/booking.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'package:lit/presentation/widgets/booking.dart';
 
 import 'booking_status.dart';
 
 class RestarauntPage extends StatelessWidget {
-  const RestarauntPage({Key? key}) : super(key: key);
+  final String title;
+  final String kitchen_type;
+  final String address;
+  final double rating;
+  final Image image;
+  const RestarauntPage({
+    Key? key,
+    required this.title,
+    required this.kitchen_type,
+    required this.address,
+    required this.rating,
+    required this.image,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +30,8 @@ class RestarauntPage extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         toolbarHeight: 48,
-        title: const Text(
-          'title', //title
+        title: Text(
+          title, //title
           style: TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
         ),
@@ -38,10 +51,11 @@ class RestarauntPage extends StatelessWidget {
             child: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text("Кухня", style: TextStyle(fontSize: 20)),
-                Text("4,6"), //rating icon
+                Text(rating.toString()), //rating icon
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text("Японская", style: TextStyle(fontSize: 15)), //kitchen_type
+                Text(kitchen_type,
+                    style: TextStyle(fontSize: 15)), //kitchen_type
                 Text("Цена"), //price icon
               ]),
               SizedBox(height: 20),
