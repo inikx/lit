@@ -10,7 +10,7 @@ class LoginPage extends StatelessWidget {
         SizedBox(
           height: 300,
           child: Icon(
-            Icons.book,
+            Icons.free_breakfast,
             size: 150,
           ),
         ),
@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
           width: 300,
           child: TextField(
               keyboardType: TextInputType.number,
-              autofocus: false, //fix autofocus
+              autofocus: false,
               decoration: InputDecoration(
                 hintText: 'Номер телефона',
                 hintStyle: TextStyle(

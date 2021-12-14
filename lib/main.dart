@@ -9,15 +9,24 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'lit';
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
-      home: MyStatefulWidget(),
-    );
+    return GestureDetector(
+        //fix unfocus textfields
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: MaterialApp(
+          title: _title,
+          theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
+          home: MyStatefulWidget(),
+        ));
   }
 }
 
@@ -36,9 +45,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Text(
       'Статус бронирования',
     ),
-    Text(
-      'Поиск',
-    ),
+    // Text(
+    //   'Поиск',
+    // ),
     ProfilePage(),
   ];
 
@@ -71,13 +80,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Подборки',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.free_breakfast),
             label: 'Статус бронирования',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Поиск',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.search),
+          //   label: 'Поиск',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Профиль',
