@@ -10,6 +10,7 @@ class RestaurantsList extends StatelessWidget {
     final controller = ScrollController();
 
     return SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         //add search on swipe
         controller: controller,
         child: Column(children: [

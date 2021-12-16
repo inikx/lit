@@ -41,13 +41,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
-    LoginPage(),
     Text(
       'Статус бронирования',
     ),
-    // Text(
-    //   'Поиск',
-    // ),
+    Text(
+      'Статус бронирования',
+    ),
+    Text(
+      'Поиск',
+    ),
     ProfilePage(),
   ];
 
@@ -83,10 +85,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             icon: Icon(Icons.free_breakfast),
             label: 'Статус бронирования',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.search),
-          //   label: 'Поиск',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Поиск',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Профиль',
