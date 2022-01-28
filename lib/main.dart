@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lit/presentation/pages/login.dart';
+import 'package:lit/presentation/pages/mapexample.dart';
+import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,14 +44,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
     Text(
-      'Статус бронирования',
+      'Подборки',
     ),
     Text(
       'Статус бронирования',
     ),
-    Text(
-      'Поиск',
-    ),
+    Map(),
     ProfilePage(),
   ];
 
@@ -86,8 +86,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Статус бронирования',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Поиск',
+            icon: Icon(Icons.map),
+            label: 'Карта',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

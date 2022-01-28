@@ -104,7 +104,7 @@ class RestarauntPage extends StatelessWidget {
                     builder: (context) {
                       int numberOfperson = 0; //
                       return FractionallySizedBox(
-                          heightFactor: 0.7,
+                          heightFactor: 0.75, //keyboard on other devices?
                           child: Column(
                             children: <Widget>[
                               Padding(

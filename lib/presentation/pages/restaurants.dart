@@ -10,22 +10,28 @@ class Restaurants extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const Pad(top: 47),
-        child: Column(children: [
-          const Padding(
-              padding: Pad(left: 5),
-              child: TextField(
-                autofocus: false, //fix autofocus
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: 'Введите адрес',
-                  hintStyle: TextStyle(
-                    fontSize: 15,
+    return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+          toolbarHeight: 48,
+          title: const Text('Рестораны', style: TextStyle(color: Colors.black)),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    Icons.search,
+                    size: 26.0,
                   ),
-                  border: InputBorder.none,
-                ),
-              )),
+                )),
+          ]),
+      body: Column(
+        children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             InkWell(
               onTap: () {
@@ -50,7 +56,7 @@ class Restaurants extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 2,
                   decoration: const BoxDecoration(
                       border: Border(
-                    top: BorderSide(width: 1, color: Colors.grey),
+                    //top: BorderSide(width: 1, color: Colors.grey),
                     bottom: BorderSide(width: 1, color: Colors.grey),
                     right: BorderSide(width: 0.5, color: Colors.grey),
                   )),
@@ -134,7 +140,7 @@ class Restaurants extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 2,
                   decoration: const BoxDecoration(
                       border: Border(
-                    top: BorderSide(width: 1, color: Colors.grey),
+                    //top: BorderSide(width: 1, color: Colors.grey),
                     bottom: BorderSide(width: 1, color: Colors.grey),
                     left: BorderSide(width: 0.5, color: Colors.grey),
                   )),
@@ -146,8 +152,10 @@ class Restaurants extends StatelessWidget {
             ),
           ]),
           SizedBox(
-              height: MediaQuery.of(context).size.height - 208,
+              height: MediaQuery.of(context).size.height - 220,
               child: RestaurantsList()),
-        ]));
+        ],
+      ),
+    );
   }
 }

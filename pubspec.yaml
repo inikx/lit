@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^2.1.0
   modal_bottom_sheet: ^2.0.0
   syncfusion_flutter_sliders: ^19.3.57
+  yandex_mapkit: ^2.0.1
 
 dev_dependencies:
   flutter_test:
