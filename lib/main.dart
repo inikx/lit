@@ -5,6 +5,7 @@ import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lit/presentation/widgets/geoposition.dart';
 
 void main() => runApp(const MyApp());
 
@@ -43,9 +44,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
-    Text(
-      'Подборки',
-    ),
+    Geo(),
     Text(
       'Статус бронирования',
     ),
