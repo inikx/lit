@@ -44,7 +44,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
-    Geo(),
+    ReverseSearchPage(),
     Text(
       'Статус бронирования',
     ),

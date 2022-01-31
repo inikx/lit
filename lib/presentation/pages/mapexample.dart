@@ -1,47 +1,91 @@
 import 'dart:async';
+import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lit/presentation/widgets/control_button.dart';
 import 'package:lit/presentation/widgets/map_page.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class SearchPage extends MapPage {
-  const SearchPage() : super('Search example');
+class ReverseSearchPage extends MapPage {
+  const ReverseSearchPage() : super('Reverse search example');
 
   @override
   Widget build(BuildContext context) {
-    return _SearchExample();
+    return _ReverseSearchExample();
   }
 }
 
-class _SearchExample extends StatefulWidget {
+class _ReverseSearchExample extends StatefulWidget {
   @override
-  _SearchExampleState createState() => _SearchExampleState();
+  _ReverseSearchExampleState createState() => _ReverseSearchExampleState();
 }
 
-class _SearchExampleState extends State<_SearchExample> {
+class _ReverseSearchExampleState extends State<_ReverseSearchExample> {
   final TextEditingController queryController = TextEditingController();
+  late YandexMapController controller;
+  late final List<MapObject> mapObjects = [
+    Placemark(
+      mapId: cameraMapObjectId,
+      point: Point(latitude: 55.755848, longitude: 37.620409),
+      icon: PlacemarkIcon.single(PlacemarkIconStyle(
+          image: BitmapDescriptor.fromAssetImage('lib/assets/place.png'),
+          scale: 0.75)),
+      opacity: 0.5,
+    )
+  ];
+
+  final MapObjectId cameraMapObjectId = MapObjectId('camera_placemark');
 
   @override
   Widget build(BuildContext context) {
+    final mapHeight = 300.0;
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: mapHeight,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                YandexMap(
+                  mapObjects: mapObjects,
+                  onCameraPositionChanged: (CameraPosition cameraPosition,
+                      CameraUpdateReason _, bool __) async {
+                    final placemark = mapObjects.firstWhere(
+                        (el) => el.mapId == cameraMapObjectId) as Placemark;
+
+                    setState(() {
+                      mapObjects[mapObjects.indexOf(placemark)] =
+                          placemark.copyWith(point: cameraPosition.target);
+                    });
+                  },
+                  onMapCreated:
+                      (YandexMapController yandexMapController) async {
+                    final placemark = mapObjects.firstWhere(
+                        (el) => el.mapId == cameraMapObjectId) as Placemark;
+
+                    controller = yandexMapController;
+
+                    await controller.moveCamera(CameraUpdate.newCameraPosition(
+                        CameraPosition(target: placemark.point, zoom: 17)));
+                  },
+                )
+              ],
+            ),
+          ),
           const SizedBox(height: 20),
           Expanded(
               child: SingleChildScrollView(
                   child: Column(children: <Widget>[
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Flexible(
-                  child: TextField(
-                    controller: queryController,
-                    decoration: InputDecoration(hintText: 'Search'),
-                  ),
-                ),
-                ControlButton(onPressed: _search, title: 'Query'),
+                ControlButton(onPressed: _search, title: 'What is here?'),
               ],
             ),
           ])))
@@ -49,44 +93,44 @@ class _SearchExampleState extends State<_SearchExample> {
   }
 
   void _search() async {
-    final query = queryController.text;
+    final cameraPosition = await controller.getCameraPosition();
 
-    print('Search query: $query');
+    print('Point: ${cameraPosition.target}, Zoom: ${cameraPosition.zoom}');
 
-    final resultWithSession = YandexSearch.searchByText(
-      searchText: query,
-      geometry: Geometry.fromBoundingBox(BoundingBox(
-        southWest:
-            Point(latitude: 55.76996383933034, longitude: 37.57483142322235),
-        northEast:
-            Point(latitude: 55.785322774728414, longitude: 37.590924677311705),
-      )),
+    final resultWithSession = YandexSearch.searchByPoint(
+      point: cameraPosition.target,
+      zoom: cameraPosition.zoom.toInt(),
       searchOptions: SearchOptions(
-        searchType: SearchType.geo,
-        geometry: false,
-      ),
+          searchType: SearchType.biz,
+          geometry: false,
+          suggestWords: true,
+          searchSnippet: SearchSnippet.experimental),
     );
 
     await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => _SessionPage(
-                query, resultWithSession.session, resultWithSession.result)));
+                cameraPosition.target,
+                resultWithSession.session,
+                resultWithSession.result)));
   }
 }
 
 class _SessionPage extends StatefulWidget {
   final Future<SearchSessionResult> result;
   final SearchSession session;
-  final String query;
+  final Point point;
 
-  _SessionPage(this.query, this.session, this.result);
+  _SessionPage(this.point, this.session, this.result);
 
   @override
   _SessionState createState() => _SessionState();
 }
 
 class _SessionState extends State<_SessionPage> {
+  final List<MapObject> mapObjects = [];
+
   final List<SearchSessionResult> results = [];
   bool _progress = true;
 
@@ -114,6 +158,36 @@ class _SessionState extends State<_SessionPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        YandexMap(
+                          mapObjects: mapObjects,
+                          onMapCreated:
+                              (YandexMapController yandexMapController) async {
+                            final placemark = Placemark(
+                                mapId: MapObjectId('search_placemark'),
+                                point: widget.point,
+                                icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                                    image: BitmapDescriptor.fromAssetImage(
+                                        'lib/assets/place.png'),
+                                    scale: 0.75)));
+
+                            setState(() {
+                              mapObjects.add(placemark);
+                            });
+
+                            await yandexMapController.moveCamera(
+                                CameraUpdate.newCameraPosition(CameraPosition(
+                                    target: widget.point, zoom: 17)));
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Expanded(
                       child: SingleChildScrollView(
@@ -124,10 +198,10 @@ class _SessionState extends State<_SessionPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(widget.query,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )),
+                            Text(
+                              'Point',
+                              style: TextStyle(fontSize: 20),
+                            ),
                             !_progress
                                 ? Container()
                                 : TextButton.icon(
@@ -136,6 +210,11 @@ class _SessionState extends State<_SessionPage> {
                                     onPressed: _cancel)
                           ],
                         )),
+                    Row(children: [
+                      Flexible(
+                          child: Text(
+                              'Lat: ${widget.point.latitude}, Lon: ${widget.point.longitude}'))
+                    ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -163,10 +242,8 @@ class _SessionState extends State<_SessionPage> {
     for (var r in results) {
       list.add(Text('Page: ${r.page}'));
       list.add(Container(height: 20));
-
       r.items!.asMap().forEach((i, item) {
-        list.add(
-            Text('Item $i: ${item.toponymMetadata!.address.formattedAddress}'));
+        list.add(Text('Item $i: ${item.businessMetadata} '));
       });
 
       list.add(Container(height: 20));

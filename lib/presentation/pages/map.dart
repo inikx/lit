@@ -24,12 +24,8 @@ class _MapState extends State<Map> {
         toolbarHeight: 48,
         title: const Text('Карта', style: TextStyle(color: Colors.black)),
       ),
-      body: Column(
-        children: [
-          YandexMap(
-            onMapCreated: _onMapCreated,
-          ),
-        ],
+      body: YandexMap(
+        onMapCreated: _onMapCreated,
       ),
     );
   }
