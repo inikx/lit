@@ -22,8 +22,10 @@ class ProfilePage extends StatelessWidget {
             children: [
               //fix inkwell color and width
               TextButton.icon(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 onPressed: () {
-                  // Respond to button press
+                  //Respond to button press
                 },
                 icon: Icon(
                   Icons.person,
@@ -37,6 +39,8 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 15),
               TextButton.icon(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 onPressed: () {
                   // Respond to button press
                 },
@@ -52,6 +56,8 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 15),
               TextButton.icon(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 onPressed: () {
                   // Respond to button press
                 },
@@ -67,6 +73,8 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 15),
               TextButton.icon(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 onPressed: () {
                   // Respond to button press
                 },

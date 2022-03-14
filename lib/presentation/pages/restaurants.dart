@@ -11,151 +11,165 @@ class Restaurants extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white,
-          toolbarHeight: 48,
-          title: const Text('Рестораны', style: TextStyle(color: Colors.black)),
-          actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Icon(
-                    Icons.search,
-                    size: 26.0,
-                  ),
-                )),
-          ]),
-      body: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    context: context,
-                    builder: (context) {
-                      return Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              //sort
-                            ],
-                          )
-                        ],
-                      );
-                    });
-              },
-              child: Container(
-                  padding: const Pad(all: 10),
-                  width: MediaQuery.of(context).size.width / 2,
-                  decoration: const BoxDecoration(
-                      border: Border(
-                    //top: BorderSide(width: 1, color: Colors.grey),
-                    bottom: BorderSide(width: 1, color: Colors.grey),
-                    right: BorderSide(width: 0.5, color: Colors.grey),
-                  )),
-                  child: const Center(
-                      child: Text(
-                    "Сортировать",
-                    style: TextStyle(fontSize: 15),
-                  ))),
+        appBar: AppBar(
+            centerTitle: true,
+            iconTheme: IconThemeData(
+              color: Colors.black,
             ),
-            InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    //fix
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    context: context,
-                    builder: (context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Кухня"),
-                                    SizedBox(height: 15),
-                                    Text("Средний чек"),
-                                    SizedBox(height: 15),
-                                    Text("Рейтинг"),
-                                    SizedBox(height: 15),
-                                    Text("Расстояние"),
-                                    SizedBox(height: 15),
-                                    Text("Верификация Lit"),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text("Японская"),
-                                    SizedBox(height: 15),
-                                    Text("r icons"),
-                                    SizedBox(height: 15),
-                                    Text("star icons"),
-                                    SizedBox(height: 15),
-                                    Text("slider"),
-                                    SizedBox(height: 15),
-                                    // Container(
-                                    //     width: double.maxFinite,
-                                    //     child: CupertinoSlider(
-                                    //         min: 0.0,
-                                    //         max: 100.0,
-                                    //         value: 20,
-                                    //         onChanged: (value) {})),
-                                    Text("icon"),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 15),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.black,
-                              ),
-                              onPressed: () {},
-                              child: Text("Подтвердить",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  )),
-                            )
-                          ],
-                        ),
-                      );
-                    });
-              },
-              child: Container(
-                  padding: const Pad(all: 10),
-                  width: MediaQuery.of(context).size.width / 2,
-                  decoration: const BoxDecoration(
-                      border: Border(
-                    //top: BorderSide(width: 1, color: Colors.grey),
-                    bottom: BorderSide(width: 1, color: Colors.grey),
-                    left: BorderSide(width: 0.5, color: Colors.grey),
-                  )),
-                  child: const Center(
-                      child: Text(
-                    "Фильтры",
-                    style: TextStyle(fontSize: 15),
-                  ))),
+            backgroundColor: Colors.white,
+            toolbarHeight: 48,
+            title: const Text(
+              'Рестораны',
+              style: TextStyle(color: Colors.black, fontSize: 20),
             ),
-          ]),
-          SizedBox(
-              height: MediaQuery.of(context).size.height - 220,
-              child: RestaurantsList()),
-        ],
-      ),
-    );
+            actions: <Widget>[
+              IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Icon(Icons.filter_list, size: 26),
+                  onPressed: () {
+                    restaurantsFilters(context);
+                  }),
+              IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                icon: Icon(Icons.search, size: 26),
+                onPressed: () {
+                  //add search
+                },
+              ),
+            ]),
+        body: Column(children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.45),
+                  spreadRadius: 2.8,
+                  blurRadius: 2.2,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 167,
+                    child: RestaurantsList()),
+              ],
+            ),
+          )
+        ]));
   }
+}
+
+restaurantsFilters(BuildContext context) {
+  //fix
+  showModalBottomSheet(
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.7,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
+            child: Column(
+              children: <Widget>[
+                Container(
+                    height: 8,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.all(Radius.circular(8)))),
+                SizedBox(height: 15),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Фильтры",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: 20),
+                        Text("Кухня"),
+                        SizedBox(height: 15),
+                        Text("Средний чек"),
+                        SizedBox(height: 15),
+                        Text("Рейтинг"),
+                        SizedBox(height: 15),
+                        Text("Расстояние"),
+                        SizedBox(height: 15),
+                        Text("Верификация Lit"),
+                        SizedBox(height: 30),
+                        Text(
+                          "Показать сначала",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: 20),
+                        Text("По расстоянию"),
+                        SizedBox(height: 15),
+                        Text("По рейтингу"),
+                        SizedBox(height: 15),
+                        Text("Недорогие"),
+                        SizedBox(height: 15),
+                        Text("Дорогие")
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            style: TextButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text("Сбросить",
+                                style: TextStyle(
+                                  height: -0.1,
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ))),
+                        Text("Японская"),
+                        SizedBox(height: 15),
+                        Text("r icons"),
+                        SizedBox(height: 15),
+                        Text("star icons"),
+                        SizedBox(height: 15),
+                        Text("slider"),
+                        SizedBox(height: 15),
+                        // Container(
+                        //     width: double.maxFinite,
+                        //     child: CupertinoSlider(
+                        //         min: 0.0,
+                        //         max: 100.0,
+                        //         value: 20,
+                        //         onChanged: (value) {})),
+                        Text("icon"),
+                        SizedBox(height: 80),
+                        Text("-"),
+                        SizedBox(height: 15),
+                        Text("-"),
+                        SizedBox(height: 15),
+                        Text("-"),
+                        SizedBox(height: 15),
+                        Text("-"),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      });
 }

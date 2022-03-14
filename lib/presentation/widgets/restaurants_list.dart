@@ -11,7 +11,6 @@ class RestaurantsList extends StatelessWidget {
 
     return SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        //add search on swipe
         controller: controller,
         child: Column(children: [
           Restaurant(
@@ -91,101 +90,105 @@ class Restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const Pad(all: 20),
-      child: InkWell(
-        //inkwell container
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => RestarauntPage(
-                        title: title,
-                        kitchen_type: kitchen_type,
-                        address: address,
-                        rating: rating,
-                        image: image,
-                        price: price,
-                        description: description,
-                      )));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.white),
+      padding: const Pad(all: 22),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blueGrey.withOpacity(0.25),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          child: InkWell(
+            splashColor: Colors.blueGrey[250],
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: Offset(0, 5),
-              ),
-            ],
-          ),
-          width: MediaQuery.of(context).size.width,
-          height: 160,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-                child: SizedBox(
-                  height: 135,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 38,
-                        child: Icon(
-                          Icons.location_on,
-                          size: 18,
-                        ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RestarauntPage(
+                            title: title,
+                            kitchen_type: kitchen_type,
+                            address: address,
+                            rating: rating,
+                            image: image,
+                            price: price,
+                            description: description,
+                          )));
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 160,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+                    child: SizedBox(
+                      height: 135,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 38,
+                            child: Icon(
+                              Icons.location_on,
+                              size: 18,
+                            ),
+                          ),
+                          Icon(
+                            Icons.star,
+                            size: 18,
+                          )
+                        ],
                       ),
-                      Icon(
-                        Icons.star,
-                        size: 18,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
-                      height: 40,
-                      child: Text(kitchen_type,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          title,
                           style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400)),
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Text(kitchen_type,
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w400)),
+                        ),
+                        Text(address,
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400)),
+                        Text(rating.toString(),
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400)),
+                      ],
                     ),
-                    Text(address,
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w400)),
-                    Text(rating.toString(),
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w400)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: image,
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: image,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

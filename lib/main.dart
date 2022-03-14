@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/pages/login.dart';
-import 'package:lit/presentation/pages/mapexample.dart';
-import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +11,7 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'lit';
+  static const String _title = 'Lit';
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +43,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Restaurants(),
-    ReverseSearchPage(),
+    Geo(),
+    BookingStatus(),
     Text(
-      'Статус бронирования',
+      'Карта',
     ),
-    Map(),
     ProfilePage(),
   ];
 
