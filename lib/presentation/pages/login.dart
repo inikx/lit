@@ -7,7 +7,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 300,
           child: Icon(
             Icons.free_breakfast,
@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
               autofocus: false,
               decoration: InputDecoration(
                 hintText: 'Номер телефона',
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontSize: 15,
                 ),
                 border: OutlineInputBorder(
@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
                 filled: true,
               )),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Container(
           width: 300,
           child: TextField(
@@ -46,7 +46,7 @@ class LoginPage extends StatelessWidget {
               autocorrect: false,
               decoration: InputDecoration(
                 hintText: 'Пароль',
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontSize: 15,
                 ),
                 border: OutlineInputBorder(
@@ -61,9 +61,9 @@ class LoginPage extends StatelessWidget {
                 filled: true,
               )),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         TextButton(
-          child: Text(
+          child: const Text(
             "Забыли пароль?",
             style: TextStyle(fontSize: 15, color: Colors.black),
           ),
@@ -71,7 +71,7 @@ class LoginPage extends StatelessWidget {
             // Respond to button press
           },
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Container(
           width: 300,
           child: ElevatedButton(
@@ -79,16 +79,16 @@ class LoginPage extends StatelessWidget {
               primary: Colors.black,
             ),
             onPressed: () {},
-            child: Text("Войти",
+            child: const Text("Войти",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                 )),
           ),
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         TextButton(
-          child: Text(
+          child: const Text(
             "Регистрация",
             style: TextStyle(fontSize: 15, color: Colors.black),
           ),

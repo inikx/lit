@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
-import 'package:lit/presentation/pages/login.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        //fix unfocus textfields
+        //?
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
 
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: _title,
           theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
-          home: MyStatefulWidget(),
+          home: const MyStatefulWidget(),
         ));
   }
 }
@@ -42,9 +41,15 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    Restaurants(),
+    RestaurantsPage(),
     Geo(),
-    BookingStatus(),
+    BookingStatusPage(
+        //data
+        title: "Пхали-Хинкали",
+        date: "25 сентября",
+        time: "19:00",
+        personCount: "8",
+        comment: "Можем задержаться на 20 минут"),
     Text(
       'Карта',
     ),

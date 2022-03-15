@@ -3,7 +3,7 @@ import 'booking_status.dart';
 
 class RestarauntPage extends StatelessWidget {
   final String title;
-  final String kitchen_type;
+  final String kitchenType;
   final String address;
   final double rating;
   final Image image;
@@ -13,7 +13,7 @@ class RestarauntPage extends StatelessWidget {
   const RestarauntPage({
     Key? key,
     required this.title,
-    required this.kitchen_type,
+    required this.kitchenType,
     required this.address,
     required this.rating,
     required this.image,
@@ -24,61 +24,76 @@ class RestarauntPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
         backgroundColor: Colors.white,
         toolbarHeight: 48,
         title: Text(
           title,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
         ),
       ),
       body: Column(
         children: [
-          Container(
+          SizedBox(
               height: 250,
               width: MediaQuery.of(context).size.width,
               child: image),
           Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
             child: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text("Кухня", style: TextStyle(fontSize: 20)),
-                SizedBox(width: 290),
+                const Text("Кухня",
+                    style: TextStyle(
+                      fontSize: 20,
+                      //fontWeight: FontWeight.w600 ?
+                    )),
+                const SizedBox(width: 285),
                 Text(rating.toString()),
-                Icon(Icons.star, size: 18) //5 rating icons
+                const Icon(Icons.star, size: 18) //5 rating icons ?
               ]),
+              const SizedBox(height: 5),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(kitchen_type, style: TextStyle(fontSize: 15)),
+                Text(kitchenType, style: const TextStyle(fontSize: 15)),
                 Text(price.toString()) //3 price icons
               ]),
-              SizedBox(height: 20),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text("Описание", style: TextStyle(fontSize: 20)),
-              ]),
-              Container(
-                child: Text(description, style: TextStyle(fontSize: 15)),
+              const SizedBox(height: 20),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text("Описание",
+                        style: TextStyle(
+                          fontSize: 20,
+                          //fontWeight: FontWeight.w600 ?
+                        )),
+                  ]),
+              const SizedBox(height: 5),
+              Text(
+                description,
+                style: const TextStyle(fontSize: 15),
+                textAlign: TextAlign.justify,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.location_on, size: 35)), //button
-                  SizedBox(width: 15),
+                      icon: const Icon(Icons.location_on, size: 35)), //button
+                  const SizedBox(width: 15),
                   IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.local_phone, size: 35)), //button
-                  SizedBox(
+                      icon: const Icon(Icons.local_phone, size: 35)), //button
+                  const SizedBox(
                     width: 220,
                   ),
                   IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.bookmark_border,
+                      icon: const Icon(Icons.bookmark_border,
                           size: 35)), //add icon change + add in bookmarks
                   //button
                 ],
@@ -95,7 +110,7 @@ class RestarauntPage extends StatelessWidget {
               onPressed: () {
                 bookingInput(context);
               },
-              child: Text("Бронировать",
+              child: const Text("Бронировать",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -109,11 +124,9 @@ class RestarauntPage extends StatelessWidget {
 }
 
 bookingInput(BuildContext context) {
-  showModalBottomSheet<dynamic>(
-      //booking (mb in other file)
-      //Navigator.push(context,
-      //MaterialPageRoute(builder: (context) => Booking()));
-      shape: RoundedRectangleBorder(
+  return showModalBottomSheet<dynamic>(
+      //mb in widget?
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       isScrollControlled: true,
@@ -135,17 +148,19 @@ bookingInput(BuildContext context) {
                           decoration: BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(8)))),
-                      SizedBox(height: 15),
+                                  const BorderRadius.all(Radius.circular(8)))),
+                      const SizedBox(height: 15),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text("Ваше имя"),
                             SizedBox(width: 150),
                             Flexible(
                                 child: TextField(
                                     textAlign: TextAlign.right,
-                                    autofocus: false,
+                                    autofocus: true,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     decoration: InputDecoration(
                                       hintText: 'Введите имя',
                                       hintStyle: TextStyle(
@@ -157,13 +172,13 @@ bookingInput(BuildContext context) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Количество персон"),
-                          SizedBox(width: 100),
-                          Container(
+                          const Text("Количество персон"),
+                          const SizedBox(width: 100),
+                          SizedBox(
                             height: 30,
                             width: 30,
                             child: FloatingActionButton(
-                              child: Icon(Icons.remove,
+                              child: const Icon(Icons.remove,
                                   color: Colors.black, size: 15),
                               backgroundColor: Colors.white,
                               onPressed: () {
@@ -174,7 +189,7 @@ bookingInput(BuildContext context) {
                             ),
                           ),
                           Text('$numberOfperson'), //add button work
-                          Container(
+                          SizedBox(
                             height: 30,
                             width: 30,
                             child: FloatingActionButton(
@@ -183,32 +198,33 @@ bookingInput(BuildContext context) {
                                   //   numberOfperson--;
                                   // });
                                 },
-                                child: Icon(Icons.add,
+                                child: const Icon(Icons.add,
                                     color: Colors.black, size: 15),
                                 backgroundColor: Colors.white),
                           )
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text("Дата"),
                             Text("23 окт") //add showDatePicker
                           ]),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text("Время"),
                             Text("19:00") //add showDatePicker
                           ]),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextField(
                           autofocus: false,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             hintText: 'Комментарий',
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                               fontSize: 15,
                             ),
                             border: OutlineInputBorder(
@@ -222,19 +238,26 @@ bookingInput(BuildContext context) {
                             fillColor: Colors.grey[200],
                             filled: true,
                           )),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black,
                         ),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      BookingStatus())); //fix black background
+                                  builder: (context) => const BookingStatusPage(
+                                      // TextFields -> BookingStatusPage Globalkey?
+                                      title: "Пхали-Хинкали",
+                                      date: "25 сентября",
+                                      time: "19:00",
+                                      personCount: "8",
+                                      comment:
+                                          "Можем задержаться на 20 минут"))); //fix bottomNavigation
                         },
-                        child: Text("Подтвердить",
+                        child: const Text("Подтвердить",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,

@@ -1,19 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/widgets/restaurants_list.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-class Restaurants extends StatelessWidget {
-  const Restaurants({Key? key}) : super(key: key);
+class RestaurantsPage extends StatelessWidget {
+  const RestaurantsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black,
             ),
             backgroundColor: Colors.white,
@@ -26,14 +22,14 @@ class Restaurants extends StatelessWidget {
               IconButton(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  icon: Icon(Icons.filter_list, size: 26),
+                  icon: const Icon(Icons.filter_list, size: 26),
                   onPressed: () {
                     restaurantsFilters(context);
                   }),
               IconButton(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                icon: Icon(Icons.search, size: 26),
+                icon: const Icon(Icons.search, size: 26),
                 onPressed: () {
                   //add search
                 },
@@ -48,7 +44,7 @@ class Restaurants extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.45),
                   spreadRadius: 2.8,
                   blurRadius: 2.2,
-                  offset: Offset(0, 1),
+                  offset: const Offset(0, 1),
                 ),
               ],
             ),
@@ -58,7 +54,7 @@ class Restaurants extends StatelessWidget {
                 SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 167,
-                    child: RestaurantsList()),
+                    child: const RestaurantsList()),
               ],
             ),
           )
@@ -68,9 +64,9 @@ class Restaurants extends StatelessWidget {
 
 restaurantsFilters(BuildContext context) {
   //fix
-  showModalBottomSheet(
+  return showModalBottomSheet(
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       context: context,
@@ -86,15 +82,16 @@ restaurantsFilters(BuildContext context) {
                     width: 80,
                     decoration: BoxDecoration(
                         color: Colors.grey[300],
-                        borderRadius: BorderRadius.all(Radius.circular(8)))),
-                SizedBox(height: 15),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)))),
+                const SizedBox(height: 15),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Фильтры",
                           style: TextStyle(
@@ -133,20 +130,20 @@ restaurantsFilters(BuildContext context) {
                             style: TextButton.styleFrom(
                                 splashFactory: NoSplash.splashFactory),
                             onPressed: () {},
-                            child: Text("Сбросить",
+                            child: const Text("Сбросить",
                                 style: TextStyle(
                                   height: -0.1,
                                   color: Colors.black,
                                   fontSize: 15,
                                 ))),
-                        Text("Японская"),
-                        SizedBox(height: 15),
-                        Text("r icons"),
-                        SizedBox(height: 15),
-                        Text("star icons"),
-                        SizedBox(height: 15),
-                        Text("slider"),
-                        SizedBox(height: 15),
+                        const Text("Японская"),
+                        const SizedBox(height: 15),
+                        const Text("r icons"),
+                        const SizedBox(height: 15),
+                        const Text("star icons"),
+                        const SizedBox(height: 15),
+                        const Text("slider"),
+                        const SizedBox(height: 15),
                         // Container(
                         //     width: double.maxFinite,
                         //     child: CupertinoSlider(
@@ -154,15 +151,15 @@ restaurantsFilters(BuildContext context) {
                         //         max: 100.0,
                         //         value: 20,
                         //         onChanged: (value) {})),
-                        Text("icon"),
-                        SizedBox(height: 80),
-                        Text("-"),
-                        SizedBox(height: 15),
-                        Text("-"),
-                        SizedBox(height: 15),
-                        Text("-"),
-                        SizedBox(height: 15),
-                        Text("-"),
+                        const Text("icon"),
+                        const SizedBox(height: 80),
+                        const Text("-"),
+                        const SizedBox(height: 15),
+                        const Text("-"),
+                        const SizedBox(height: 15),
+                        const Text("-"),
+                        const SizedBox(height: 15),
+                        const Text("-"),
                       ],
                     )
                   ],

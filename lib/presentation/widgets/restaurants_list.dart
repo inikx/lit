@@ -10,12 +10,12 @@ class RestaurantsList extends StatelessWidget {
     final controller = ScrollController();
 
     return SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: controller,
         child: Column(children: [
           Restaurant(
             title: "Пхали-Хинкали",
-            kitchen_type: "Ресторан грузинской кухни",
+            kitchenType: "Ресторан грузинской кухни",
             address: "Большая Морская ул., 27",
             rating: 4.7,
             image: Image.network(
@@ -28,7 +28,7 @@ class RestaurantsList extends StatelessWidget {
           ),
           Restaurant(
             title: "Название",
-            kitchen_type: "Тип кухни",
+            kitchenType: "Тип кухни",
             address: "Адрес",
             rating: 2.8,
             image: Image.network(
@@ -41,7 +41,7 @@ class RestaurantsList extends StatelessWidget {
           ),
           Restaurant(
             title: "Название",
-            kitchen_type: "Тип кухни",
+            kitchenType: "Тип кухни",
             address: "Адрес",
             rating: 2.8,
             image: Image.network(
@@ -53,7 +53,7 @@ class RestaurantsList extends StatelessWidget {
           ),
           Restaurant(
             title: "Название",
-            kitchen_type: "Тип кухни",
+            kitchenType: "Тип кухни",
             address: "Адрес",
             rating: 2.8,
             image: Image.network(
@@ -69,7 +69,7 @@ class RestaurantsList extends StatelessWidget {
 
 class Restaurant extends StatelessWidget {
   final String title;
-  final String kitchen_type;
+  final String kitchenType;
   final String address;
   final double rating;
   final Image image;
@@ -79,7 +79,7 @@ class Restaurant extends StatelessWidget {
   const Restaurant(
       {Key? key,
       required this.title,
-      required this.kitchen_type,
+      required this.kitchenType,
       required this.address,
       required this.rating,
       required this.image,
@@ -98,7 +98,7 @@ class Restaurant extends StatelessWidget {
               color: Colors.blueGrey.withOpacity(0.25),
               spreadRadius: 1,
               blurRadius: 8,
-              offset: Offset(0, 5),
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -114,7 +114,7 @@ class Restaurant extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => RestarauntPage(
                             title: title,
-                            kitchen_type: kitchen_type,
+                            kitchenType: kitchenType,
                             address: address,
                             rating: rating,
                             image: image,
@@ -122,7 +122,7 @@ class Restaurant extends StatelessWidget {
                             description: description,
                           )));
             },
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 160,
               child: Row(
@@ -134,7 +134,7 @@ class Restaurant extends StatelessWidget {
                       height: 135,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: const [
                           SizedBox(
                             height: 38,
                             child: Icon(
@@ -157,27 +157,27 @@ class Restaurant extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
                           height: 40,
-                          child: Text(kitchen_type,
-                              style: TextStyle(
+                          child: Text(kitchenType,
+                              style: const TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w400)),
                         ),
                         Text(address,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400)),
                         Text(rating.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400)),
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: Container(
+                    child: SizedBox(
                       width: 120,
                       height: 120,
                       child: ClipRRect(
