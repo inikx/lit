@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:lit/data/provider/location_provider.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lit/presentation/widgets/geoposition.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LocationProvider(),
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,20 +22,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        //?
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: MaterialApp(
-          title: _title,
-          theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
-          home: const MyStatefulWidget(),
-        ));
+    return MaterialApp(
+      title: _title,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
+      home: const MyStatefulWidget(),
+    );
   }
 }
 
@@ -42,7 +42,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     RestaurantsPage(),
-    Geo(),
+    Text("Подборки"),
     BookingStatusPage(
         //data
         title: "Пхали-Хинкали",
@@ -50,9 +50,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         time: "19:00",
         personCount: "8",
         comment: "Можем задержаться на 20 минут"),
-    Text(
-      'Карта',
-    ),
     ProfilePage(),
   ];
 
@@ -87,10 +84,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.free_breakfast),
             label: 'Статус бронирования',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Карта',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lit/data/provider/location_provider.dart';
+import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/widgets/restaurants_list.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantsPage extends StatelessWidget {
   const RestaurantsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<LocationProvider>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
@@ -31,34 +35,38 @@ class RestaurantsPage extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 icon: const Icon(Icons.search, size: 26),
                 onPressed: () {
-                  //add search
+                  provider.getLocation();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Maps()));
                 },
               ),
             ]),
-        body: Column(children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.45),
-                  spreadRadius: 2.8,
-                  blurRadius: 2.2,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 167,
-                    child: const RestaurantsList()),
-              ],
-            ),
-          )
-        ]));
+        body: SafeArea(
+          child: Column(children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.45),
+                    spreadRadius: 2.8,
+                    blurRadius: 2.2,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 180, //?
+                      child: const RestaurantsList()),
+                ],
+              ),
+            )
+          ]),
+        ));
   }
 }
 

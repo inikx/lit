@@ -20,25 +20,29 @@ class ProfilePage extends StatelessWidget {
           toolbarHeight: 48,
           title: const Text('Профиль', style: TextStyle(color: Colors.black)),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              profileData(context),
-              const SizedBox(height: 15),
-              profileBooking(context),
-              const SizedBox(height: 15),
-              profileFavorites(context),
-              const SizedBox(height: 15),
-              profileNotifications(context),
-              const SizedBox(height: 190),
-              Container(
-                alignment: Alignment.center,
-                child: profileSupport(context),
-              ),
-            ],
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                profileData(context),
+                const SizedBox(height: 15),
+                profileBooking(context),
+                const SizedBox(height: 15),
+                profileFavorites(context),
+                const SizedBox(height: 15),
+                profileNotifications(context),
+                const SizedBox(height: 180), //?
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: profileSupport(context),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

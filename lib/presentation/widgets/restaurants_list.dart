@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:lit/presentation/pages/restaurant_page.dart';
 
 class RestaurantsList extends StatelessWidget {
@@ -22,7 +23,7 @@ class RestaurantsList extends StatelessWidget {
               "https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg",
               fit: BoxFit.cover,
             ),
-            price: 1000,
+            price: null,
             description:
                 "Грузинская кухня и европейское гостеприимство - семья ресторанов «Пхали Хинкали» - вкусный и душевный проект с новым качественным подходом к кавказской кухне. Домашняя обстановка, приятные цены, оригинальные рецепты, европейский подход, радушие и гостеприимство – все это ждет вас в Пхали-Хинкали.",
           ),
@@ -35,7 +36,7 @@ class RestaurantsList extends StatelessWidget {
               "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
               fit: BoxFit.cover,
             ),
-            price: 1000,
+            price: null,
             description:
                 "ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы",
           ),
@@ -48,7 +49,7 @@ class RestaurantsList extends StatelessWidget {
               "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
               fit: BoxFit.cover,
             ),
-            price: 1000,
+            price: null,
             description: "фыовддлофыводфлыволдфыводфлыовдлфоывд",
           ),
           Restaurant(
@@ -60,7 +61,7 @@ class RestaurantsList extends StatelessWidget {
               "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
               fit: BoxFit.cover,
             ),
-            price: 1000,
+            price: null,
             description: "фыовддлофыводфлыволдфыводфлыовдлфоывд",
           ),
         ]));
@@ -70,10 +71,10 @@ class RestaurantsList extends StatelessWidget {
 class Restaurant extends StatelessWidget {
   final String title;
   final String kitchenType;
-  final String address;
-  final double rating;
+  final String? address;
+  final num? rating;
   final Image image;
-  final int price;
+  final PriceLevel? price;
   final String description;
 
   const Restaurant(
@@ -166,7 +167,7 @@ class Restaurant extends StatelessWidget {
                               style: const TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w400)),
                         ),
-                        Text(address,
+                        Text(address.toString(),
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400)),
                         Text(rating.toString(),

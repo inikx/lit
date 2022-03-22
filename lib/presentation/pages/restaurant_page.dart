@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'booking_status.dart';
 
 class RestarauntPage extends StatelessWidget {
   final String title;
   final String kitchenType;
-  final String address;
-  final double rating;
+  final String? address;
+  final num? rating;
   final Image image;
-  final int price;
+  final PriceLevel? price;
   final String description;
 
   const RestarauntPage({
@@ -38,93 +39,105 @@ class RestarauntPage extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-              height: 250,
-              width: MediaQuery.of(context).size.width,
-              child: image),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
-            child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                const Text("Кухня",
-                    style: TextStyle(
-                      fontSize: 20,
-                      //fontWeight: FontWeight.w600 ?
-                    )),
-                const SizedBox(width: 285),
-                Text(rating.toString()),
-                const Icon(Icons.star, size: 18) //5 rating icons ?
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+                height: 200, //?
+                width: MediaQuery.of(context).size.width,
+                child: image),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Кухня",
+                          style: TextStyle(
+                            fontSize: 20,
+                            //fontWeight: FontWeight.w600 ?
+                          )),
+                      const SizedBox(width: 255), //FIX
+                      Text(rating.toString()),
+                      const Icon(Icons.star, size: 18) //5 rating icons ?
+                    ]),
+                const SizedBox(height: 5),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(kitchenType, style: const TextStyle(fontSize: 15)),
+                      Text(price.toString()) //3 price icons
+                    ]),
+                const SizedBox(height: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text("Описание",
+                          style: TextStyle(
+                            fontSize: 20,
+                            //fontWeight: FontWeight.w600 ?
+                          )),
+                    ]),
+                const SizedBox(height: 5),
+                Text(
+                  description,
+                  style: const TextStyle(fontSize: 15),
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          //button
+                        },
+                        icon: const Icon(Icons.location_on, size: 35)),
+                    const SizedBox(width: 15),
+                    IconButton(
+                        onPressed: () {
+                          //button
+                        },
+                        icon: const Icon(Icons.local_phone, size: 35)),
+                    const SizedBox(
+                      width: 200, //FIX
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          //button add in bookmarks
+                        },
+                        icon: const Icon(Icons.bookmark_border,
+                            size: 35)), //icon change
+                  ],
+                ),
               ]),
-              const SizedBox(height: 5),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(kitchenType, style: const TextStyle(fontSize: 15)),
-                Text(price.toString()) //3 price icons
-              ]),
-              const SizedBox(height: 20),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text("Описание",
-                        style: TextStyle(
-                          fontSize: 20,
-                          //fontWeight: FontWeight.w600 ?
-                        )),
-                  ]),
-              const SizedBox(height: 5),
-              Text(
-                description,
-                style: const TextStyle(fontSize: 15),
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.location_on, size: 35)), //button
-                  const SizedBox(width: 15),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.local_phone, size: 35)), //button
-                  const SizedBox(
-                    width: 220,
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.bookmark_border,
-                          size: 35)), //add icon change + add in bookmarks
-                  //button
-                ],
-              ),
-            ]),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, top: 10),
-            child: ElevatedButton(
-              //aligment bottom
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-              ),
-              onPressed: () {
-                bookingInput(context);
-              },
-              child: const Text("Бронировать",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  )),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
+              child: ElevatedButton(
+                //aligment bottom
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black,
+                ),
+                onPressed: () {
+                  bookingInput(context);
+                },
+                child: const Text("Бронировать",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    )),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
 bookingInput(BuildContext context) {
-  return showModalBottomSheet<dynamic>(
+  return showModalBottomSheet(
       //mb in widget?
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
