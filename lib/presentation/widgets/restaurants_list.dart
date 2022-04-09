@@ -14,55 +14,90 @@ class RestaurantsList extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         controller: controller,
         child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: TextField(
+                textCapitalization: TextCapitalization.words,
+                cursorColor: Colors.grey,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  hintText: 'Поиск',
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                )),
+          ),
           Restaurant(
             title: "Пхали-Хинкали",
-            kitchenType: "Ресторан грузинской кухни",
+            kitchenType: "Грузинская кухня",
             address: "Большая Морская ул., 27",
             rating: 4.7,
             image: Image.network(
-              "https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg",
+              "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/1/2/8/c/128c1b700e3dd4d63f4dff3b699172d2.jpg",
               fit: BoxFit.cover,
             ),
-            price: null,
+            price: "₽₽₽",
             description:
                 "Грузинская кухня и европейское гостеприимство - семья ресторанов «Пхали Хинкали» - вкусный и душевный проект с новым качественным подходом к кавказской кухне. Домашняя обстановка, приятные цены, оригинальные рецепты, европейский подход, радушие и гостеприимство – все это ждет вас в Пхали-Хинкали.",
           ),
           Restaurant(
-            title: "Название",
-            kitchenType: "Тип кухни",
-            address: "Адрес",
-            rating: 2.8,
+            title: "Юми",
+            kitchenType: "Китайская кухня",
+            address: "ул. Разъезжая 10",
+            rating: 4.8,
             image: Image.network(
-              "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
+              "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/6/1/d/b/61db7087cede8f68d2cf39f79c249490.jpg",
               fit: BoxFit.cover,
             ),
-            price: null,
+            price: "₽₽₽",
             description:
-                "ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы",
+                "Ресторан «Юми», открывшийся в начале 2016 года на улице Разъезжей, предлагает гостям аутентичную китайскую кухню в стильном современном интерьере.",
           ),
           Restaurant(
-            title: "Название",
-            kitchenType: "Тип кухни",
-            address: "Адрес",
-            rating: 2.8,
+            title: "Room DND",
+            kitchenType: "Японская кухня",
+            address: "Суворовский пр. 18",
+            rating: 4.8,
             image: Image.network(
-              "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
+              "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/9/0/1/f/901f4ec1b2d1c6905dc63567936a141b.jpg",
               fit: BoxFit.cover,
             ),
-            price: null,
-            description: "фыовддлофыводфлыволдфыводфлыовдлфоывд",
+            price: "₽₽₽",
+            description:
+                "Японский секретный ресторан в Grand Hotel Emerald на Суворовском проспекте. Название спикизи-ресторана расшифровывается как просьба не беспокоить на ручке номера отеля.   ",
           ),
           Restaurant(
-            title: "Название",
-            kitchenType: "Тип кухни",
-            address: "Адрес",
-            rating: 2.8,
+            title: "Гуси-лебеди",
+            kitchenType: "Русская кухня",
+            address: "пр. Коломяжский 19/2",
+            rating: 4.0,
             image: Image.network(
-              "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
+              "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/0/3/5/8/0358490d24c9e6dfe026a806c0207bd2.jpg",
               fit: BoxFit.cover,
             ),
-            price: null,
-            description: "фыовддлофыводфлыволдфыводфлыовдлфоывд",
+            price: "₽₽₽",
+            description:
+                "Семейный ресторан «Гуси-лебеди» смело можно назвать уникальным. И дело не только в огромных масштабах, невероятном интерьере и гигантском меню, хотя и это, конечно, впечатляет. Главное, что такой русской кухни, как здесь, вы не пробовали никогда – и это не художественное преувеличение.",
+          ),
+          Restaurant(
+            title: "Medici",
+            kitchenType: "Итальянская кухня",
+            address: "пр. Медиков 10к1",
+            rating: 4.5,
+            image: Image.network(
+              "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/e/6/d/0/e6d083b9da6e81f72a8d77707f5266ac.jpg",
+              fit: BoxFit.cover,
+            ),
+            price: "₽₽₽",
+            description:
+                "Какие гастрономические образы возникают в воображении, когда вы думаете об Италии? Свежеиспеченная чиабатта, спелый виноград, нежнейшая расплавленная моцарелла и ароматный кофе… Именно такую — сочную — Италию можно найти в ресторане Medici на проспекте Медиков. ",
           ),
         ]));
   }
@@ -74,7 +109,7 @@ class Restaurant extends StatelessWidget {
   final String? address;
   final num? rating;
   final Image image;
-  final PriceLevel? price;
+  final String price; //icon
   final String description;
 
   const Restaurant(
@@ -91,7 +126,7 @@ class Restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const Pad(all: 22),
+      padding: const Pad(all: 20),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [

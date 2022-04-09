@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -7,11 +8,12 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
+        SizedBox(
           height: 300,
-          child: Icon(
-            Icons.free_breakfast,
-            size: 150,
+          child: SvgPicture.asset(
+            'assets/images/lit_logo.svg',
+            semanticsLabel: 'Logo',
+            width: 150,
           ),
         ),
         Container(
