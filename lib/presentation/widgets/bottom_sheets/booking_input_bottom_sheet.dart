@@ -4,7 +4,7 @@ import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
-Future<dynamic> BookingInputBottomSheet(BuildContext context) {
+Future<dynamic> BookingInputBottomSheet(BuildContext context, title) {
   return showModalBottomSheet(
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
@@ -12,28 +12,37 @@ Future<dynamic> BookingInputBottomSheet(BuildContext context) {
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       context: context,
       builder: (context) {
-        return BottomSheet();
+        return BottomSheet(title: title);
       });
 }
 
 class BottomSheet extends StatefulWidget {
-  const BottomSheet({Key? key}) : super(key: key);
+  String title;
+
+  BottomSheet({Key? key, required this.title}) : super(key: key);
 
   @override
   State<BottomSheet> createState() => _BottomSheetState();
 }
 
 class _BottomSheetState extends State<BottomSheet> {
+  TextEditingController _nameEditingController = TextEditingController();
+  TextEditingController _commentEditingController = TextEditingController();
+  int personCount = 1;
   //late FixedExtentScrollController scrollController;
   DateTime now = DateTime.now();
   DateTime? bookingDate;
   late DateFormat dateFormat;
+  late DateFormat dateFormatDM;
+  late DateFormat dateFormatT;
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting();
     dateFormat = DateFormat.MMMMd('ru').add_jm();
+    dateFormatDM = DateFormat.MMMMd('ru');
+    dateFormatT = DateFormat.jm('ru');
     //scrollController = FixedExtentScrollController(initialItem: kitchenValue);
   }
 
@@ -52,7 +61,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       height: 180,
                       child: CupertinoDatePicker(
                         initialDateTime: DateTime(now.year, now.month, now.day,
-                            now.hour + 1, (now.minute % 30 * 30).toInt()),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         onDateTimeChanged: (value) {
                           setState(() {
                             bookingDate = value;
@@ -60,9 +69,9 @@ class _BottomSheetState extends State<BottomSheet> {
                         },
                         use24hFormat: true,
                         maximumDate: DateTime(now.year, now.month + 1, now.day,
-                            now.hour, (now.minute % 30 * 30).toInt()),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         minimumDate: DateTime(now.year, now.month, now.day,
-                            now.hour, (now.minute % 30 * 30).toInt()),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         minuteInterval: 30,
                         mode: CupertinoDatePickerMode.dateAndTime,
                         backgroundColor: Colors.white,
@@ -73,9 +82,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       "Применить",
                       style: TextStyle(color: Colors.black),
                     ),
-                    onPressed: () => print(DateTime.now()))
-                //Navigator.pop(context)),
-                ));
+                    onPressed: () => Navigator.pop(context))));
   }
 
   @override
@@ -98,11 +105,12 @@ class _BottomSheetState extends State<BottomSheet> {
                   const SizedBox(height: 15),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text("Ваше имя"),
                         SizedBox(width: 150),
                         Flexible(
                             child: TextField(
+                                controller: _nameEditingController,
                                 cursorColor: Colors.grey,
                                 textAlign: TextAlign.right,
                                 autofocus: true,
@@ -127,21 +135,23 @@ class _BottomSheetState extends State<BottomSheet> {
                               color: Colors.black, size: 15),
                           backgroundColor: Colors.white,
                           onPressed: () {
-                            // setState(() {
-                            //   numberOfperson++;
-                            // });
+                            setState(() {
+                              if (personCount > 1) {
+                                personCount--;
+                              }
+                            });
                           },
                         ),
                       ),
-                      Text('0'), //add button work
+                      Text(personCount.toString()), //add button work
                       SizedBox(
                         height: 30,
                         width: 30,
                         child: FloatingActionButton(
                             onPressed: () {
-                              // setState(() {
-                              //   numberOfperson--;
-                              // });
+                              setState(() {
+                                personCount++;
+                              });
                             },
                             child: const Icon(Icons.add,
                                 color: Colors.black, size: 15),
@@ -154,6 +164,8 @@ class _BottomSheetState extends State<BottomSheet> {
                       children: [
                         Text("Дата и время"),
                         TextButton(
+                            style: TextButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory),
                             onPressed: () {
                               showDateTimePicker();
                             },
@@ -161,12 +173,11 @@ class _BottomSheetState extends State<BottomSheet> {
                                 ? Text(dateFormat.format(bookingDate!),
                                     style: TextStyle(color: Colors.black))
                                 : Text("Выберите дату и время",
-                                    style: TextStyle(
-                                        color:
-                                            Colors.grey))) //add showDatePicker
+                                    style: TextStyle(color: Colors.grey)))
                       ]),
                   const SizedBox(height: 15),
                   TextField(
+                      controller: _commentEditingController,
                       cursorColor: Colors.grey,
                       autofocus: false,
                       textCapitalization: TextCapitalization.sentences,
@@ -196,14 +207,14 @@ class _BottomSheetState extends State<BottomSheet> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BookingStatusPage(
+                              builder: (context) => BookingStatusPage(
                                   // TextFields -> BookingStatusPage Globalkey?
-                                  title: "Пхали-Хинкали",
-                                  date: "25 сентября",
-                                  time: "19:00",
-                                  personCount: "8",
-                                  comment:
-                                      "Можем задержаться на 20 минут"))); //fix bottomNavigation
+                                  title: widget.title,
+                                  name: _nameEditingController.text,
+                                  date: dateFormatDM.format(bookingDate!),
+                                  time: dateFormatT.format(bookingDate!),
+                                  personCount: personCount,
+                                  comment: _commentEditingController.text)));
                     },
                     child: const Text("Подтвердить",
                         style: TextStyle(

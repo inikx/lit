@@ -26,16 +26,13 @@ class RestaurantsPage extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
             actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    icon: const Icon(Icons.filter_list, size: 26),
-                    onPressed: () {
-                      ProjectFiltersBottomSheet(context);
-                    }),
-              )
+              IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: const Icon(Icons.filter_list, size: 26),
+                  onPressed: () {
+                    ProjectFiltersBottomSheet(context);
+                  })
               // IconButton(
               //   splashColor: Colors.transparent,
               //   highlightColor: Colors.transparent,

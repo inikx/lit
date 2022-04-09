@@ -42,10 +42,7 @@ class RestarauntPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-                height: 200, //?
-                width: MediaQuery.of(context).size.width,
-                child: image),
+            image, //slider
             Padding(
               padding:
                   const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
@@ -120,7 +117,7 @@ class RestarauntPage extends StatelessWidget {
                   primary: Colors.black,
                 ),
                 onPressed: () {
-                  BookingInputBottomSheet(context);
+                  BookingInputBottomSheet(context, title);
                 },
                 child: const Text("Бронировать",
                     style: TextStyle(

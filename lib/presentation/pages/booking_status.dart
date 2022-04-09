@@ -6,14 +6,13 @@ class BookingStatusPage extends StatelessWidget {
   final String name;
   final String date; //date
   final String time; //time
-  final String personCount;
+  final int personCount;
   final String comment;
 
   const BookingStatusPage({
     Key? key,
-    //required this.name,
     required this.title,
-    this.name = "Name",
+    required this.name,
     required this.personCount,
     required this.date,
     required this.time,
@@ -36,45 +35,42 @@ class BookingStatusPage extends StatelessWidget {
             style: TextStyle(color: Colors.black),
             textAlign: TextAlign.center,
           ),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  //cancel booking
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ))
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
           child: Column(
             children: [
-              //bookingRestaurantName(),
-              //SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  bookingDate(),
+                  bookingDate(date),
                   const SizedBox(width: 20),
-                  bookingTime(),
+                  bookingTime(time),
                 ],
               ),
               const SizedBox(height: 20),
-              bookingComment(),
+              bookingComment(comment), //null
               const SizedBox(height: 25),
-              bookingLogoPersonCount(),
-              const SizedBox(height: 235),
+              bookingLogoPersonCount(personCount),
+              const SizedBox(height: 245),
               bookingStatusNow(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Text(
                   "Звонок в ресторан...", //Бронирование..., Бронирование успешно
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                   )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      splashFactory: NoSplash.splashFactory),
-                  onPressed: () {
-                    //Отмена
-                  },
-                  child: const Text("Отмена",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 15,
-                      )))
             ],
           ),
         ),
@@ -83,25 +79,7 @@ class BookingStatusPage extends StatelessWidget {
   }
 }
 
-// bookingRestaurantName() {
-//   return Container(
-//     height: 50,
-//     width: 350,
-//     decoration: BoxDecoration(
-//         color: Colors.black, borderRadius: BorderRadius.circular(10)),
-//     alignment: Alignment.center,
-//     child: Text(
-//       //data
-//       "Пхали - хинкали",
-//       style: TextStyle(
-//         color: Colors.white,
-//         fontSize: 18,
-//       ),
-//     ),
-//   );
-// }
-
-bookingDate() {
+bookingDate(date) {
   return Stack(
     clipBehavior: Clip.none,
     alignment: AlignmentDirectional.topCenter,
@@ -109,15 +87,17 @@ bookingDate() {
     children: [
       Container(
         height: 80,
-        width: 165,
+        width: 150,
         decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(15)),
-        alignment: Alignment.center,
-        child: const Text(
-          //data
-          "24 сентября",
-          style: TextStyle(
+            border: Border.all(color: Colors.black, width: 2),
             color: Colors.white,
+            borderRadius: BorderRadius.circular(15)),
+        alignment: Alignment.center,
+        child: Text(
+          date,
+          //"24 сентября",
+          style: TextStyle(
+            color: Colors.black,
             fontSize: 20,
           ),
         ),
@@ -130,12 +110,7 @@ bookingDate() {
               height: 40,
               width: 20,
               decoration: BoxDecoration(
-                  border: const Border(
-                    top: BorderSide(width: 5, color: Colors.black),
-                    left: BorderSide(width: 5, color: Colors.black),
-                    right: BorderSide(width: 5, color: Colors.black),
-                    bottom: BorderSide(width: 5, color: Colors.black),
-                  ),
+                  border: Border.all(color: Colors.black, width: 2),
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8)),
             ),
@@ -144,12 +119,7 @@ bookingDate() {
               height: 40,
               width: 20,
               decoration: BoxDecoration(
-                  border: const Border(
-                    top: BorderSide(width: 5, color: Colors.black),
-                    left: BorderSide(width: 5, color: Colors.black),
-                    right: BorderSide(width: 5, color: Colors.black),
-                    bottom: BorderSide(width: 5, color: Colors.black),
-                  ),
+                  border: Border.all(color: Colors.black, width: 2),
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8)),
             ),
@@ -160,25 +130,27 @@ bookingDate() {
   );
 }
 
-bookingTime() {
+bookingTime(time) {
   return Container(
     height: 80,
-    width: 165,
+    width: 150,
     decoration: BoxDecoration(
-        color: Colors.black, borderRadius: BorderRadius.circular(15)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.black, width: 2)),
     alignment: Alignment.center,
     child: Container(
       alignment: Alignment.center,
       height: 50,
       width: 100,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(15)),
-      child: const Text(
-        //data
-        "18:30",
+      child: Text(
+        time.toString(),
+        //"18:30",
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 20,
         ),
       ),
@@ -186,22 +158,22 @@ bookingTime() {
   );
 }
 
-bookingComment() {
+bookingComment(comment) {
   return Container(
     height: 75,
     width: 350,
     decoration: BoxDecoration(
-      color: Colors.black,
+      border: Border.all(color: Colors.black, width: 2),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(10),
     ),
     alignment: Alignment.topCenter,
-    child: const Padding(
+    child: Padding(
       padding: EdgeInsets.only(left: 15.0, top: 10, bottom: 10, right: 15),
       child: Text(
-        //data
-        "Место у окна пожалуйста, с нами будет ребенок 5 лет",
+        comment, //null
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 15,
         ),
       ),
@@ -209,7 +181,8 @@ bookingComment() {
   );
 }
 
-bookingLogoPersonCount() {
+bookingLogoPersonCount(personCount) {
+  //fix position
   return Stack(
       clipBehavior: Clip.none,
       alignment: AlignmentDirectional.topCenter,
@@ -223,8 +196,8 @@ bookingLogoPersonCount() {
             width: 230,
           ),
         ),
-        const Text(
-          "9",
+        Text(
+          personCount.toString(),
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
