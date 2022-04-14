@@ -31,7 +31,7 @@ class BookingStatusPage extends StatelessWidget {
           backgroundColor: Colors.white,
           toolbarHeight: 48,
           title: Text(
-            title, //title data
+            "Бронирование",
             style: TextStyle(color: Colors.black),
             textAlign: TextAlign.center,
           ),
@@ -47,22 +47,13 @@ class BookingStatusPage extends StatelessWidget {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  bookingDate(date),
-                  const SizedBox(width: 20),
-                  bookingTime(time),
-                ],
-              ),
-              const SizedBox(height: 20),
-              bookingComment(comment), //null
-              const SizedBox(height: 25),
-              bookingLogoPersonCount(personCount),
-              const SizedBox(height: 245),
+              bookingData(
+                  context, title, name, personCount, date, time, comment),
+              const SizedBox(height: 30),
               bookingStatusNow(),
               const SizedBox(height: 20),
               const Text(
@@ -79,131 +70,88 @@ class BookingStatusPage extends StatelessWidget {
   }
 }
 
-bookingDate(date) {
-  return Stack(
-    clipBehavior: Clip.none,
-    alignment: AlignmentDirectional.topCenter,
-    textDirection: TextDirection.ltr,
-    children: [
-      Container(
-        height: 80,
-        width: 150,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 2),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)),
-        alignment: Alignment.center,
-        child: Text(
-          date,
-          //"24 сентября",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+bookingData(context, title, name, personCount, date, time, comment) {
+  return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 250,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blueGrey.withOpacity(0.25),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 5),
           ),
-        ),
+        ],
       ),
-      Positioned(
-        top: -15,
-        child: Row(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 40,
-              width: 20,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 2),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                children: [
+                  Text("Название ресторана: "),
+                  Expanded(
+                    child: Text(title,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            overflow: TextOverflow.visible)),
+                  )
+                ],
+              ),
             ),
-            const SizedBox(width: 70),
-            Container(
-              height: 40,
-              width: 20,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 2),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8)),
+            Row(
+              children: [
+                Text("Имя гостя: "),
+                Text(name,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600))
+              ],
+            ),
+            Row(
+              children: [
+                Text("Количество гостей: "),
+                Text(personCount.toString(),
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600))
+              ],
+            ),
+            Row(
+              children: [
+                Text("Дата: "),
+                Text(date,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600))
+              ],
+            ),
+            Row(
+              children: [
+                Text("Время: "),
+                Text(time,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600))
+              ],
+            ),
+            Row(
+              children: [
+                Text("Комментарий: "),
+                Expanded(
+                  child: Text(comment != "" ? comment : "-",
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          overflow: TextOverflow.visible)),
+                )
+              ],
             ),
           ],
         ),
-      ),
-    ],
-  );
-}
-
-bookingTime(time) {
-  return Container(
-    height: 80,
-    width: 150,
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.black, width: 2)),
-    alignment: Alignment.center,
-    child: Container(
-      alignment: Alignment.center,
-      height: 50,
-      width: 100,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(15)),
-      child: Text(
-        time.toString(),
-        //"18:30",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-        ),
-      ),
-    ),
-  );
-}
-
-bookingComment(comment) {
-  return Container(
-    height: 75,
-    width: 350,
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.black, width: 2),
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    alignment: Alignment.topCenter,
-    child: Padding(
-      padding: EdgeInsets.only(left: 15.0, top: 10, bottom: 10, right: 15),
-      child: Text(
-        comment, //null
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15,
-        ),
-      ),
-    ),
-  );
-}
-
-bookingLogoPersonCount(personCount) {
-  //fix position
-  return Stack(
-      clipBehavior: Clip.none,
-      alignment: AlignmentDirectional.topCenter,
-      children: [
-        Positioned(
-          left: -88,
-          top: -5,
-          child: SvgPicture.asset(
-            'assets/images/lit_logo.svg',
-            semanticsLabel: 'Logo',
-            width: 230,
-          ),
-        ),
-        Text(
-          personCount.toString(),
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ),
-      ]);
+      ));
 }
 
 bookingStatusNow() {
@@ -214,71 +162,99 @@ bookingStatusNow() {
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(100),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blueGrey.withOpacity(0.25),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
         alignment: Alignment.center,
         child: const Icon(
           Icons.call,
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blueGrey.withOpacity(0.25),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
         alignment: Alignment.center,
         child: const Icon(
-          Icons.person, //robot icon
-          color: Colors.white,
+          Icons.chat,
+          color: Colors.black,
         ),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 9,
         width: 9,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+            color: Colors.black, borderRadius: BorderRadius.circular(100)),
       ),
       Container(
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blueGrey.withOpacity(0.25),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
         alignment: Alignment.center,
         child: const Icon(
           Icons.check_rounded,
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
     ],

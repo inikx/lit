@@ -33,32 +33,9 @@ class RestaurantsPage extends StatelessWidget {
                   onPressed: () {
                     ProjectFiltersBottomSheet(context);
                   })
-              // IconButton(
-              //   splashColor: Colors.transparent,
-              //   highlightColor: Colors.transparent,
-              //   icon: const Icon(Icons.map, size: 26),
-              //   onPressed: () {
-              //     //provider.getLocation();
-              //     Navigator.of(context).push(
-              //         CupertinoPageRoute(builder: (context) => MapTest()));
-              //   },
-              // ),
             ]),
         body: SafeArea(
           child: Column(children: [
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-            //   child: TextField(
-            //       textAlign: TextAlign.center,
-            //       decoration: InputDecoration(
-            //         hintText: 'Введите название ресторана',
-            //         hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
-            //         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
-            //         border: OutlineInputBorder(
-            //             borderRadius: BorderRadius.all(Radius.circular(50.0))),
-            //         //border: ,
-            //       )),
-            // ),
             Expanded(
               child: SizedBox(
                   width: MediaQuery.of(context).size.width,

@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
         SizedBox(
           height: 300,
           child: SvgPicture.asset(
-            'assets/images/lit_logo.svg',
+            'assets/icons/lit_logo.svg',
             semanticsLabel: 'Logo',
             width: 150,
           ),

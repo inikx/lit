@@ -12,36 +12,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lit/presentation/pages/selections.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lit/constants/locator.dart';
+import 'package:lit/route.dart';
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => LocationProvider(),
-      child: MyApp(),
-    ),
+void main() async {
+  await setupLocator();
+  ChangeNotifierProvider(
+    create: (context) => LocationProvider(),
+    child: LitApp(router: AppRouter()),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  static const String _title = 'Lit';
+class LitApp extends StatelessWidget {
+  final AppRouter router;
+  const LitApp({Key? key, required this.router}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', 'US'), // English
-        const Locale('ru', 'RU'), // German
-        // ... other locales the app supports
-      ],
-      title: _title,
+      initialRoute: "/auth",
+      onGenerateRoute: router.generateRoute,
+      title: "Lit",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(textTheme: GoogleFonts.montserratTextTheme()),
       home: const MyStatefulWidget(),
@@ -61,14 +52,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static List<Widget> _widgetOptions = <Widget>[
     RestaurantsPage(),
     Maps(),
-    //SelectionsPage(),
-    // BookingStatusPage(
-    //     //data
-    //     title: "Пхали-Хинкали",
-    //     date: "25 сентября",
-    //     time: "19:00",
-    //     personCount: "8",
-    //     comment: "Можем задержаться на 20 минут"),
     ProfilePage(),
   ];
 
@@ -114,10 +97,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 icon: Icon(Icons.map),
                 label: 'Карта',
               ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.free_breakfast),
-              //   label: 'Статус бронирования',
-              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Профиль',
