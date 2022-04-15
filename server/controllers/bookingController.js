@@ -1,9 +1,9 @@
 const Booking = require('../models/bookingModel');
-
 const { check, validationResult } = require("express-validator/check");
 
 const setBooking = async (req, res) => {
     try {
+        var current_status = "created"
         var current_time = new Date()
         const {title, name, timeOfBooking, personCount, comment} = req.body;
         const errors = validationResult(req);
@@ -11,7 +11,7 @@ const setBooking = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
         
-        const booking = await Booking.create({user_id: req.user.user_id, title: title, name:name, timeOfBooking: timeOfBooking, timeOfOrder: current_time, personCount: personCount, comment: comment})
+        const booking = await Booking.create({user_id: req.user.user_id, title: title, name:name, timeOfBooking: timeOfBooking, timeOfOrder: current_time, personCount: personCount, comment: comment, status: current_status})
 
         res.status(201).json(booking);
     } catch (error) {
@@ -32,7 +32,39 @@ const getBooking = async (req, res) => {
     }
 }
 
+const confirmBooking = async (req, res) => {
+    try {
+        _id = req.body
+        const booking = await Booking.findById(_id).exec()
+        if(booking){
+            const confirmation = {status : 'confirmed'}
+            await booking.updateOne(confirmation)
+            res.status(201).json("Booking confirmed!")
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const cancelBooking = async (req, res) => {
+    try {
+        _id = req.body
+        var current_time = new Date()
+        const booking = await Booking.findById(_id).exec()
+        if(booking){
+            var cancel_time = {status : 'canceled at ' + current_time}
+            await booking.updateOne(cancel_time)
+            res.status(201).json("Booking canceled at " + current_time)
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 module.exports = {
     setBooking,
-    getBooking
+    getBooking,
+    confirmBooking,
+    cancelBooking
 };
