@@ -143,7 +143,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           },
                         ),
                       ),
-                      Text(personCount.toString()), //add button work
+                      Text(personCount.toString()),
                       SizedBox(
                         height: 30,
                         width: 30,
@@ -197,30 +197,38 @@ class _BottomSheetState extends State<BottomSheet> {
                         fillColor: Colors.grey[200],
                         filled: true,
                       )),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: 50,
+                    width: 180,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ))),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BookingStatusPage(
+                                    title: widget.title,
+                                    name: _nameEditingController.text,
+                                    date: dateFormatDM.format(bookingDate!),
+                                    time: dateFormatT.format(bookingDate!),
+                                    personCount: personCount,
+                                    comment: _commentEditingController.text)));
+                      },
+                      child: const Text("Подтвердить",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          )),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BookingStatusPage(
-                                  // TextFields -> BookingStatusPage Globalkey?
-                                  title: widget.title,
-                                  name: _nameEditingController.text,
-                                  date: dateFormatDM.format(bookingDate!),
-                                  time: dateFormatT.format(bookingDate!),
-                                  personCount: personCount,
-                                  comment: _commentEditingController.text)));
-                    },
-                    child: const Text("Подтвердить",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        )),
                   )
                 ],
               ),

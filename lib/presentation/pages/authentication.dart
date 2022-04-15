@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/authentication/authentication_cubit.dart';
@@ -28,10 +30,11 @@ class AuthenticationPage extends StatelessWidget {
                 child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
                   builder: (context, state) {
                     if (state is AuthenticationChecking) {
+                      log(state.runtimeType.toString());
                       return Column(
                         children: const [
                           Text(
-                            'Errand',
+                            'Lit',
                             style: TextStyle(
                               fontFamily: 'Rubik',
                               color: Colors.white,

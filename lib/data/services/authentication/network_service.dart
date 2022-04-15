@@ -7,7 +7,7 @@ class AuthenticationNetworkService {
   auth() async {
     String? token = await storage.read(key: 'token');
     final response = await http.get(
-      Uri.parse('$BASE_URL/api/authentication'),
+      Uri.parse('$BASE_URL/api/auth'),
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token.toString()

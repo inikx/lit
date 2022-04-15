@@ -110,20 +110,26 @@ class RestarauntPage extends StatelessWidget {
               ]),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
-              child: ElevatedButton(
-                //aligment bottom
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+              padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+              child: SizedBox(
+                height: 50,
+                width: 180,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ))),
+                  onPressed: () {
+                    BookingInputBottomSheet(context, title);
+                  },
+                  child: const Text("Забронировать",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      )),
                 ),
-                onPressed: () {
-                  BookingInputBottomSheet(context, title);
-                },
-                child: const Text("Бронировать",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    )),
               ),
             )
           ],

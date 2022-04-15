@@ -13,7 +13,7 @@ import 'package:lit/data/services/login/repository.dart';
 import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
 import 'package:lit/presentation/pages/authentication.dart';
-//import 'package:lit/presentation/pages/home.dart';
+import 'package:lit/presentation/pages/home.dart';
 import 'package:lit/presentation/pages/login.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:lit/presentation/pages/registration.dart';
@@ -41,8 +41,7 @@ class AppRouter {
       case HOME:
         return CupertinoPageRoute(
           builder: (_) => ChangeNotifierProvider(
-              create: (context) => LocationProvider(),
-              child: RestaurantsPage()),
+              create: (context) => LocationProvider(), child: HomePage()),
         );
       case REGISTER:
         return CupertinoPageRoute(
