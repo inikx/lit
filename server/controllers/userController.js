@@ -11,10 +11,16 @@ const { check, validationResult } = require("express-validator/check");
 
 const register = async (req, res) => {
     try {
+        
         const {email, password } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
+        }
+        const old_user = await User.findOne({email}).exec()
+        if(old_user){
+            res.status(400).json("Email already registered")
+            return
         }
         var encryptedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({email: email.toLowerCase(), password:encryptedPassword})
