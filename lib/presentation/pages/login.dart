@@ -22,8 +22,6 @@ class LoginPage extends StatelessWidget {
           case LogInError:
             //snackbar
             log("0");
-            Navigator.pushNamedAndRemoveUntil(
-                context, HOME, (r) => false); //delete
         }
       },
       child: Scaffold(
@@ -45,9 +43,8 @@ class LoginPage extends StatelessWidget {
                 child: TextField(
                     cursorColor: Colors.grey,
                     onChanged: (String value) async {
-                      context.read<LogInCubit>().updateUsername(value);
+                      context.read<LogInCubit>().updateEmail(value);
                     },
-                    //keyboardType: TextInputType.number,
                     autofocus: false,
                     decoration: InputDecoration(
                       hintText: 'Email',

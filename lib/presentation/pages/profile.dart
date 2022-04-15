@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lit/constants/storage.dart';
+import 'package:lit/constants/strings.dart';
 import 'package:lit/presentation/pages/profile_bookings.dart';
 import 'package:lit/presentation/pages/profile_data.dart';
 import 'package:lit/presentation/pages/profile_favorites.dart';
@@ -34,7 +36,16 @@ class ProfilePage extends StatelessWidget {
                 profileFavorites(context),
                 const SizedBox(height: 15),
                 profileNotifications(context),
-                const SizedBox(height: 180), //?
+                const SizedBox(height: 15),
+                TextButton(
+                  onPressed: () async {
+                    await storage.deleteAll();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, LOGIN, (r) => false);
+                  },
+                  child: Text("Выйти", style: TextStyle(color: Colors.red)),
+                ),
+                const SizedBox(height: 130), //?
                 Expanded(
                   child: Container(
                     alignment: Alignment.center,

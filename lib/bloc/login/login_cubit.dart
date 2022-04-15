@@ -8,10 +8,10 @@ class LogInCubit extends Cubit<LogInState> {
   final LoginRepository repository;
   LogInCubit(this.repository) : super(LogInInitial(data: LogInData()));
 
-  void updateUsername(String username) {
+  void updateEmail(String email) {
     final currentState = state;
     if (currentState is LogInChanged || currentState is LogInInitial) {
-      emit(LogInChanged(data: currentState.data.copyWith(username: username)));
+      emit(LogInChanged(data: currentState.data.copyWith(email: email)));
     }
   }
 
@@ -24,7 +24,7 @@ class LogInCubit extends Cubit<LogInState> {
 
   void loginUser(LogInData data) {
     final currentState = state;
-    repository.loginUser(data.username, data.password).then((response) => {
+    repository.loginUser(data.email, data.password).then((response) => {
           if (response.statusCode == 200 || response.statusCode == 201)
             {emit(LoggedIn())}
           else if (response.statusCode == 400)

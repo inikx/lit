@@ -5,7 +5,7 @@ class LoginRepository {
   final LoginNetworkService networkService;
   LoginRepository(this.networkService);
 
-  Future<Response> loginUser(String username, String password) async {
-    return await networkService.login(username, password);
+  Future<Response> loginUser(String email, String password) async {
+    return await networkService.login(email, password);
   }
 }
