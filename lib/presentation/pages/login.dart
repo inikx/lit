@@ -116,6 +116,8 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 7),
               TextButton(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 child: const Text(
                   "Создать аккаунт",
                   style: TextStyle(fontSize: 15, color: Colors.black),
