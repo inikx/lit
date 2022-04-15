@@ -12,10 +12,12 @@ router.post(
     body("timeOfOrder"),
     body("personCount"),
     body("comment"),
+    body("status"),
     bookingController.setBooking
 );
 
 router.get("/getBooking", auth, bookingController.getBooking);
-
+router.post("/confirmBooking", auth, bookingController.confirmBooking)
+router.post("/cancelBooking", auth, bookingController.cancelBooking)
 module.exports = router
 

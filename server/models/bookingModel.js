@@ -7,7 +7,8 @@ const BookingSchema = new mongoose.Schema({
     timeOfBooking: {type: Date, required: true},
     timeOfOrder: {type: Date, required: true},
     personCount: {type: Number, required: true},
-    comment: {type: String, required: true}
+    comment: {type: String, required: true},
+    status: {type: String, required: true},
 })
 var Booking = mongoose.model('Booking', BookingSchema)
 module.exports = Booking
