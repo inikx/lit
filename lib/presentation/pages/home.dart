@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lit/constants/strings.dart';
 import 'package:lit/data/provider/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/profile.dart';
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     RestaurantsPage(),
     Maps(),
-    ProfilePage(),
+    ProfilePage(), //?
   ];
 
   void _onItemTapped(int index) {
@@ -68,7 +69,22 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
+            onTap:
+                // (index) {
+                //   switch (index) {
+                //     case 0:
+                //       Navigator.pushNamed(context, '/first');
+                //       break;
+                //     case 1:
+                //       Navigator.pushNamed(context, '/second');
+                //       break;
+                //     case 2:
+                //       Navigator.pushNamed(context, PROFILE);
+                //       break;
+                //   }
+                // }
+
+                _onItemTapped,
           ),
         ));
   }

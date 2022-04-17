@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:lit/presentation/pages/restaurant_page.dart';
+import 'package:lit/bloc/booking/booking_cubit.dart';
+import 'package:lit/constants/strings.dart';
+import 'package:lit/presentation/pages/restaurant_details.dart';
+import 'package:lit/route.dart';
 
 class RestaurantsList extends StatelessWidget {
   const RestaurantsList({Key? key}) : super(key: key);
@@ -145,18 +149,9 @@ class Restaurant extends StatelessWidget {
             splashColor: Colors.blueGrey[250],
             borderRadius: BorderRadius.circular(10.0),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RestarauntPage(
-                            title: title,
-                            kitchenType: kitchenType,
-                            address: address,
-                            rating: rating,
-                            image: image,
-                            price: price,
-                            description: description,
-                          )));
+              Navigator.pushNamed(context, RESTAURANT_DETAILS,
+                  arguments: RestarauntDetailsArguments(title, kitchenType,
+                      address, rating, image, price, description));
             },
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
