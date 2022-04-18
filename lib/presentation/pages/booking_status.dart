@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class BookingStatusPage extends StatelessWidget {
   final String title;
   final String name;
-  final String date; //date
-  final String time; //time
+  final String date;
+  final String time;
   final int personCount;
   final String comment;
 

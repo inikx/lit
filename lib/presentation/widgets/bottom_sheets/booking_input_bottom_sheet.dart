@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/set_booking/set_booking_cubit.dart';
 import 'package:lit/constants/locator.dart';
+import 'package:lit/constants/strings.dart';
 import 'package:lit/data/services/booking/repository.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lit/route.dart';
 
 Future<dynamic> BookingInputBottomSheet(BuildContext context, title) {
   if (getIt.isRegistered<SetBookingCubit>()) {
@@ -105,14 +107,14 @@ class _BottomSheetState extends State<BottomSheet> {
     return BlocListener<SetBookingCubit, SetBookingState>(
         listener: (context, state) {
           switch (state.runtimeType) {
-            case SetingBookingSuccess:
+            case SettingBookingSuccess:
               log("1");
               // showTopSnackBar(
               //   context,
               //   const SuccessSnackbar(info: "Задача успешно добавлена!"),
               // );
               return;
-            case SetingBookingError:
+            case SettingBookingError:
               log("0");
               // showTopSnackBar(
               //   context,
@@ -288,21 +290,15 @@ class _BottomSheetState extends State<BottomSheet> {
                                       .state
                                       .booking);
                               Navigator.pop(context);
+                              Navigator.pushNamed(context, BOOKING_STATUS,
+                                  arguments: BookingStatusArguments(
+                                      widget.title,
+                                      _nameEditingController.text,
+                                      dateFormatDM.format(bookingDate!),
+                                      dateFormatT.format(bookingDate!),
+                                      personCount,
+                                      _commentEditingController.text));
                             }
-
-                            // Navigator.pop(context);
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => BookingStatusPage(
-                            //             title: widget.title,
-                            //             name: _nameEditingController.text,
-                            //             date: dateFormatDM.format(bookingDate!),
-                            //             time: dateFormatT.format(bookingDate!),
-                            //             personCount: personCount,
-                            //             comment:
-                            //                 _commentEditingController.text)
-                            //                 ));
                           },
                           child: const Text("Подтвердить",
                               style: TextStyle(

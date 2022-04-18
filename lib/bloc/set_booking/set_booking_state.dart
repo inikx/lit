@@ -6,22 +6,20 @@ abstract class SetBookingState {
 
 class SetBookingInitial extends SetBookingState {
   final Booking booking =
-      Booking(timeOfBooking: DateTime.now(), timeOfOrder: DateTime.now()
-          //?
-          );
+      Booking(timeOfBooking: DateTime.now(), timeOfOrder: DateTime.now());
   SetBookingInitial({booking});
 }
 
-class SetingBookingDataChanged extends SetBookingState {
+class SettingBookingDataChanged extends SetBookingState {
   final Booking booking;
-  SetingBookingDataChanged({required this.booking});
+  SettingBookingDataChanged({required this.booking});
 }
 
-class SetingBooking extends SetBookingState {}
+class SettingBooking extends SetBookingState {}
 
-class SetingBookingSuccess extends SetBookingState {}
+class SettingBookingSuccess extends SetBookingState {}
 
-class SetingBookingError extends SetBookingState {
+class SettingBookingError extends SetBookingState {
   final Booking booking;
-  SetingBookingError({required this.booking});
+  SettingBookingError({required this.booking});
 }

@@ -15,6 +15,7 @@ import 'package:lit/data/services/login/repository.dart';
 import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
 import 'package:lit/presentation/pages/authentication.dart';
+import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/pages/home.dart';
 import 'package:lit/presentation/pages/login.dart';
 import 'package:lit/presentation/pages/profile.dart';
@@ -73,6 +74,21 @@ class AppRouter {
             ),
           ),
         );
+      case BOOKING_STATUS:
+        final args = settings.arguments as BookingStatusArguments;
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => BookingCubit(getIt<BookingRepository>()),
+            child: BookingStatusPage(
+              title: args.title,
+              name: args.name,
+              date: args.date,
+              time: args.time,
+              personCount: args.personCount,
+              comment: args.comment,
+            ),
+          ),
+        );
     }
   }
 }
@@ -88,4 +104,16 @@ class RestarauntDetailsArguments {
 
   RestarauntDetailsArguments(this.title, this.kitchenType, this.address,
       this.rating, this.image, this.price, this.description);
+}
+
+class BookingStatusArguments {
+  final String title;
+  final String name;
+  final String date;
+  final String time;
+  final int personCount;
+  final String comment;
+
+  BookingStatusArguments(this.title, this.name, this.date, this.time,
+      this.personCount, this.comment);
 }
