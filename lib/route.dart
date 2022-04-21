@@ -6,6 +6,7 @@ import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/provider/location_provider.dart';
 import 'package:lit/data/services/authentication/network_service.dart';
 import 'package:lit/data/services/authentication/repository.dart';
@@ -63,14 +64,18 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => BookingCubit(getIt<BookingRepository>()),
-            child: RestarauntPage(
-              title: args.title,
-              kitchenType: args.kitchenType,
-              address: args.address,
-              rating: args.rating,
-              image: args.image,
-              price: args.price,
-              description: args.description,
+            child: RestarauntDetails(
+              restaurant: Restaurant(
+                  title: args.title,
+                  kitchen: args.kitchen,
+                  address: args.address,
+                  rating: args.rating,
+                  imagePath: args.imagePath,
+                  averagePrice: args.averagePrice,
+                  description: args.description,
+                  shortDescription: args.shortDescription,
+                  workingHours: args.workingHours,
+                  phone: args.phone),
             ),
           ),
         );
@@ -94,16 +99,28 @@ class AppRouter {
 }
 
 class RestarauntDetailsArguments {
-  final String title;
-  final String kitchenType;
-  final String? address;
-  final num? rating;
-  final Image image;
-  final String price;
-  final String description;
+  String title;
+  String kitchen;
+  String address;
+  double rating;
+  String imagePath;
+  int averagePrice;
+  String description;
+  String shortDescription;
+  String workingHours;
+  String phone;
 
-  RestarauntDetailsArguments(this.title, this.kitchenType, this.address,
-      this.rating, this.image, this.price, this.description);
+  RestarauntDetailsArguments(
+      this.title,
+      this.kitchen,
+      this.address,
+      this.rating,
+      this.imagePath,
+      this.averagePrice,
+      this.description,
+      this.shortDescription,
+      this.workingHours,
+      this.phone);
 }
 
 class BookingStatusArguments {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lit/presentation/widgets/booking/booking.dart';
 
 class BookingStatusPage extends StatelessWidget {
   final String title;
@@ -51,10 +52,124 @@ class BookingStatusPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              bookingData(
-                  context, title, name, personCount, date, time, comment),
+              BookingWidget(
+                  title: title,
+                  name: name,
+                  personCount: personCount,
+                  date: date,
+                  time: time,
+                  comment: comment),
               const SizedBox(height: 30),
-              bookingStatusNow(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.25),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.call,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.25),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.chat,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.25),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.check_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               const Text(
                   "Звонок в ресторан...", //Бронирование..., Бронирование успешно
@@ -68,195 +183,4 @@ class BookingStatusPage extends StatelessWidget {
       ),
     );
   }
-}
-
-bookingData(context, title, name, personCount, date, time, comment) {
-  return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 250,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blueGrey.withOpacity(0.25),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Text("Название ресторана: "),
-                  Expanded(
-                    child: Text(title,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            overflow: TextOverflow.visible)),
-                  )
-                ],
-              ),
-            ),
-            Row(
-              children: [
-                Text("Имя гостя: "),
-                Text(name,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600))
-              ],
-            ),
-            Row(
-              children: [
-                Text("Количество гостей: "),
-                Text(personCount.toString(),
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600))
-              ],
-            ),
-            Row(
-              children: [
-                Text("Дата: "),
-                Text(date,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600))
-              ],
-            ),
-            Row(
-              children: [
-                Text("Время: "),
-                Text(time,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600))
-              ],
-            ),
-            Row(
-              children: [
-                Text("Комментарий: "),
-                Expanded(
-                  child: Text(comment != "" ? comment : "-",
-                      style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          overflow: TextOverflow.visible)),
-                )
-              ],
-            ),
-          ],
-        ),
-      ));
-}
-
-bookingStatusNow() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blueGrey.withOpacity(0.25),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.call,
-          color: Colors.black,
-        ),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blueGrey.withOpacity(0.25),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.chat,
-          color: Colors.black,
-        ),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 9,
-        width: 9,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(100)),
-      ),
-      Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blueGrey.withOpacity(0.25),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.check_rounded,
-          color: Colors.black,
-        ),
-      ),
-    ],
-  );
 }

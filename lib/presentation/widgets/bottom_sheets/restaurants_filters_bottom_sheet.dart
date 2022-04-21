@@ -109,8 +109,6 @@ class _BottomSheetState extends State<BottomSheet> {
                     Text("Рейтинг"),
                     SizedBox(height: 15),
                     Text("Расстояние"),
-                    SizedBox(height: 15),
-                    Text("Верификация Lit"),
                     SizedBox(height: 30),
                     Text(
                       "Показать сначала",
@@ -171,8 +169,6 @@ class _BottomSheetState extends State<BottomSheet> {
                     //         onChanged: (value) {})),
                     const Text("icon"),
                     const SizedBox(height: 80),
-                    const Text("-"),
-                    const SizedBox(height: 15),
                     const Text("-"),
                     const SizedBox(height: 15),
                     const Text("-"),
