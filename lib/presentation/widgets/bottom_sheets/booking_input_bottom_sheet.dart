@@ -11,7 +11,10 @@ import 'package:lit/data/services/booking/repository.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
+import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:lit/route.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<dynamic> BookingInputBottomSheet(BuildContext context, title) {
   if (getIt.isRegistered<SetBookingCubit>()) {
@@ -44,7 +47,6 @@ class _BottomSheetState extends State<BottomSheet> {
   TextEditingController _nameEditingController = TextEditingController();
   TextEditingController _commentEditingController = TextEditingController();
   int personCount = 1;
-  //late FixedExtentScrollController scrollController;
   DateTime now = DateTime.now();
   DateTime? bookingDate;
   late DateFormat dateFormat;
@@ -58,13 +60,6 @@ class _BottomSheetState extends State<BottomSheet> {
     dateFormat = DateFormat.MMMMd('ru').add_jm();
     dateFormatDM = DateFormat.MMMMd('ru');
     dateFormatT = DateFormat.jm('ru');
-    //scrollController = FixedExtentScrollController(initialItem: kitchenValue);
-  }
-
-  @override
-  void dispose() {
-    //scrollController.dispose();
-    super.dispose();
   }
 
   showDateTimePicker() {
@@ -106,20 +101,28 @@ class _BottomSheetState extends State<BottomSheet> {
   Widget build(BuildContext context) {
     return BlocListener<SetBookingCubit, SetBookingState>(
         listener: (context, state) {
+          print("${state.runtimeType} 1");
           switch (state.runtimeType) {
             case SettingBookingSuccess:
-              log("1");
-              // showTopSnackBar(
-              //   context,
-              //   const SuccessSnackbar(info: "Задача успешно добавлена!"),
-              // );
+              showTopSnackBar(
+                context,
+                const SuccessSnackbar(
+                    info: "Запрос на бронирование отправлен!"),
+              );
+              Navigator.pushNamed(context, BOOKING_STATUS,
+                  arguments: BookingStatusArguments(
+                      widget.title,
+                      _nameEditingController.text,
+                      dateFormatDM.format(bookingDate!),
+                      dateFormatT.format(bookingDate!),
+                      personCount,
+                      _commentEditingController.text));
               return;
             case SettingBookingError:
-              log("0");
-              // showTopSnackBar(
-              //   context,
-              //   const ErrorSnackbar(info: "Не удалось добавить задачу"),
-              // );
+              showTopSnackBar(
+                context,
+                const ErrorSnackbar(info: "Ошибка запроса на бронирование"),
+              );
               return;
           }
         },
@@ -265,39 +268,29 @@ class _BottomSheetState extends State<BottomSheet> {
                                 borderRadius: BorderRadius.circular(50),
                               ))),
                           onPressed: () {
-                            if (context
+                            context
                                 .read<SetBookingCubit>()
-                                .state
-                                .booking
-                                .name
-                                .isEmpty) {
-                              return; //добавить проверку
+                                .updateTitle(widget.title);
+                            context
+                                .read<SetBookingCubit>()
+                                .updateTimeOfBooking(bookingDate);
+                            if ((context
+                                    .read<SetBookingCubit>()
+                                    .state
+                                    .booking
+                                    .name
+                                    .isEmpty) ||
+                                bookingDate == null) {
+                              showTopSnackBar(context,
+                                  const ErrorSnackbar(info: "Введите данные!"));
                             } else {
-                              context
-                                  .read<SetBookingCubit>()
-                                  .updateTitle(widget.title);
-                              context
-                                  .read<SetBookingCubit>()
-                                  .updateTimeOfBooking(bookingDate);
-                              log(context
-                                  .read<SetBookingCubit>()
-                                  .state
-                                  .booking
-                                  .toString());
                               BlocProvider.of<SetBookingCubit>(context)
                                   .setBooking(context
                                       .read<SetBookingCubit>()
                                       .state
                                       .booking);
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, BOOKING_STATUS,
-                                  arguments: BookingStatusArguments(
-                                      widget.title,
-                                      _nameEditingController.text,
-                                      dateFormatDM.format(bookingDate!),
-                                      dateFormatT.format(bookingDate!),
-                                      personCount,
-                                      _commentEditingController.text));
+                              Navigator.pop(context); //?
+
                             }
                           },
                           child: const Text("Подтвердить",

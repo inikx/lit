@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
+import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,13 +18,15 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         switch (state.runtimeType) {
           case LoggedIn:
-            //snackbar
-            log("1");
+            showTopSnackBar(
+              context,
+              const SuccessSnackbar(info: "Вы успешно авторизовались!"),
+            );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
             return;
           case LogInError:
-            //snackbar
-            log("0");
+            showTopSnackBar(context,
+                const ErrorSnackbar(info: "Ошибка входа, попробуйте снова"));
         }
       },
       child: Scaffold(

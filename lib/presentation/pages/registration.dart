@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
+import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -15,13 +18,17 @@ class RegistrationPage extends StatelessWidget {
       listener: (context, state) {
         switch (state.runtimeType) {
           case UserRegistered:
-            //snackbar
-            log("1");
+            showTopSnackBar(
+              context,
+              const SuccessSnackbar(info: "Вы успешно зарегистрировались!"),
+            );
             Navigator.pushNamed(context, LOGIN);
             return;
           case RegisterError:
-            //snackbar
-            log("0");
+            showTopSnackBar(
+                context,
+                const ErrorSnackbar(
+                    info: "Ошибка регистрации, попробуйте снова"));
             return;
         }
       },

@@ -25,6 +25,10 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 1) {
+        var provider = Provider.of<LocationProvider>(context, listen: false);
+        provider.getLocation();
+      } //?
     });
   }
 
