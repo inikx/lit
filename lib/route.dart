@@ -7,7 +7,8 @@ import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
-import 'package:lit/data/provider/location_provider.dart';
+import 'package:lit/data/providers/filters_provider.dart';
+import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/services/authentication/network_service.dart';
 import 'package:lit/data/services/authentication/repository.dart';
 import 'package:lit/data/services/booking/repository.dart';
@@ -45,8 +46,7 @@ class AppRouter {
         );
       case HOME:
         return CupertinoPageRoute(
-          builder: (_) => ChangeNotifierProvider(
-              create: (context) => LocationProvider(), child: HomePage()),
+          builder: (_) => HomePage(),
         );
       case REGISTER:
         return CupertinoPageRoute(
@@ -67,10 +67,10 @@ class AppRouter {
             child: RestarauntDetails(
               restaurant: Restaurant(
                   title: args.title,
-                  kitchen: args.kitchen,
+                  kitchens: args.kitchen,
                   address: args.address,
                   rating: args.rating,
-                  imagePath: args.imagePath,
+                  imagePaths: args.imagePaths,
                   averagePrice: args.averagePrice,
                   description: args.description,
                   shortDescription: args.shortDescription,
@@ -100,10 +100,10 @@ class AppRouter {
 
 class RestarauntDetailsArguments {
   String title;
-  String kitchen;
+  List<String> kitchen;
   String address;
   double rating;
-  String imagePath;
+  List<String> imagePaths;
   int averagePrice;
   String description;
   String shortDescription;
@@ -115,7 +115,7 @@ class RestarauntDetailsArguments {
       this.kitchen,
       this.address,
       this.rating,
-      this.imagePath,
+      this.imagePaths,
       this.averagePrice,
       this.description,
       this.shortDescription,

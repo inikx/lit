@@ -10,7 +10,7 @@ import 'package:lit/presentation/pages/restaurant_details.dart';
 import 'package:lit/route.dart';
 import 'package:provider/provider.dart';
 import 'package:lit/data/models/user_location.dart';
-import 'package:lit/data/provider/location_provider.dart';
+import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/services/location_service.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -203,57 +203,57 @@ class _MapPageState extends State<MapPage> {
               icon: BitmapDescriptor.defaultMarkerWithHue(
                   BitmapDescriptor.hueAzure),
               infoWindow: InfoWindow(
-                  title: result.name,
-                  snippet: "Ratings: " + (result.rating.toString()),
-                  onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
-                      arguments: RestarauntDetailsArguments(
-                          "q", //result.name,
-                          "q", // restaurant.kitchen,
-                          "q", // restaurant.address,
-                          5.0, // restaurant.rating,
-                          "q", // restaurant.imagePath,
-                          1000, // restaurant.averagePrice,
-                          "q", // restaurant.description,
-                          "q", // restaurant.shortDescription,
-                          "q", // restaurant.workingHours,
-                          "q" // restaurant.phone
-                          )) //TODO: FIX
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
+                title: result.name,
+                snippet: "Ratings: " + (result.rating.toString()),
+                // onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
+                //     arguments: RestarauntDetailsArguments(
+                //         "q", //result.name,
+                //         "q", // restaurant.kitchen,
+                //         "q", // restaurant.address,
+                //         5.0, // restaurant.rating,
+                //         "q", // restaurant.imagePath,
+                //         1000, // restaurant.averagePrice,
+                //         "q", // restaurant.description,
+                //         "q", // restaurant.shortDescription,
+                //         "q", // restaurant.workingHours,
+                //         "q" // restaurant.phone
+                //         )) //TODO: FIX
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
 
-                  //         builder: (context) => RestarauntPage(
-                  //             restaurant: Restaurant(
-                  //                 title: "...", //result.name,
-                  //                 kitchen: "...",
-                  //                 address:
-                  //                     "...", //result.formattedAddress.toString(),
-                  //                 rating: 5.0, //result.rating!.toDouble(),
-                  //                 imagePath: "...", //result.photos
-                  //                 averagePrice: 1000,
-                  //                 description: "...",
-                  //                 shortDescription: "...",
-                  //                 workingHours:
-                  //                     "...", //result.openingHours.toString(),
-                  //                 phone: "..."))))
+                //         builder: (context) => RestarauntPage(
+                //             restaurant: Restaurant(
+                //                 title: "...", //result.name,
+                //                 kitchen: "...",
+                //                 address:
+                //                     "...", //result.formattedAddress.toString(),
+                //                 rating: 5.0, //result.rating!.toDouble(),
+                //                 imagePath: "...", //result.photos
+                //                 averagePrice: 1000,
+                //                 description: "...",
+                //                 shortDescription: "...",
+                //                 workingHours:
+                //                     "...", //result.openingHours.toString(),
+                //                 phone: "..."))))
 
 //было
-                  // onTap: () => Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => RestarauntPage(
-                  //               title: result.name,
-                  //               kitchenType: "",
-                  //               address: result.formattedAddress,
-                  //               rating: result.rating,
-                  //               image: Image.network(
-                  //                 "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
-                  //                 fit: BoxFit.cover,
-                  //               ),
-                  //               price: "₽₽₽",
-                  //               description: "",
-                  //             )))),
-                  ),
+                // onTap: () => Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => RestarauntPage(
+                //               title: result.name,
+                //               kitchenType: "",
+                //               address: result.formattedAddress,
+                //               rating: result.rating,
+                //               image: Image.network(
+                //                 "http://c.files.bbci.co.uk/9017/production/_105278863_gettyimages-855098134.jpg",
+                //                 fit: BoxFit.cover,
+                //               ),
+                //               price: "₽₽₽",
+                //               description: "",
+                //             )))),
+              ),
               position: LatLng(
                   result.geometry!.location.lat, result.geometry!.location.lng),
             ))

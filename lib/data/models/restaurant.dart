@@ -2,12 +2,10 @@ import 'dart:convert';
 
 class Restaurant {
   String title;
-  //List<String> kitchen;
-  String kitchen;
+  List<String> kitchens;
   String address;
   double rating;
-  //List<String> imagePaths;
-  String imagePath;
+  List<String> imagePaths;
   int averagePrice;
   String description;
   String shortDescription;
@@ -16,10 +14,10 @@ class Restaurant {
 
   Restaurant(
       {required this.title,
-      required this.kitchen,
+      required this.kitchens,
       required this.address,
       required this.rating,
-      required this.imagePath,
+      required this.imagePaths,
       required this.averagePrice,
       required this.description,
       required this.shortDescription,
@@ -28,10 +26,10 @@ class Restaurant {
 
   Restaurant copyWith({
     String? title,
-    String? kitchen,
+    List<String>? kitchens,
     String? address,
     double? rating,
-    String? imagePath,
+    List<String>? imagePaths,
     int? averagePrice,
     String? description,
     String? shortDescription,
@@ -40,10 +38,10 @@ class Restaurant {
   }) {
     return Restaurant(
       title: title ?? this.title,
-      kitchen: kitchen ?? this.kitchen,
+      kitchens: kitchens ?? this.kitchens,
       address: address ?? this.title,
       rating: rating ?? this.rating,
-      imagePath: imagePath ?? this.imagePath,
+      imagePaths: imagePaths ?? this.imagePaths,
       averagePrice: averagePrice ?? this.averagePrice,
       description: description ?? this.description,
       shortDescription: shortDescription ?? this.shortDescription,
@@ -55,10 +53,10 @@ class Restaurant {
   Map<String, dynamic> toMap() {
     return {
       'title': title,
-      'kitchen': kitchen,
+      'kitchens': kitchens,
       'address': address,
       'rating': rating,
-      'imagePath': imagePath,
+      'imagePaths': imagePaths,
       'averagePrice': averagePrice,
       'description': description,
       'shortDescription': shortDescription,
@@ -70,10 +68,10 @@ class Restaurant {
   factory Restaurant.fromMap(Map<String, dynamic> map) {
     return Restaurant(
       title: map['title'],
-      kitchen: map['kitchen'],
+      kitchens: map['kitchens'],
       address: map['address'],
       rating: map['rating'],
-      imagePath: map['imagePath'],
+      imagePaths: map['imagePaths'],
       averagePrice: map['averagePrice'],
       description: map['description'],
       shortDescription: map['shortDescription'],
@@ -82,6 +80,10 @@ class Restaurant {
     );
   }
 
+  @override
+  String toString() {
+    return 'Restaurant(title: $title, kitchens: $kitchens, address: $address, rating: $rating, imagePaths: $imagePaths, averagePrice: $averagePrice, description: $description, shortDescription: $shortDescription, workingHours: $workingHours, phone: $phone)';
+  }
   // Map<String, dynamic> toMap() {
   //   return {
   //     'title': title,

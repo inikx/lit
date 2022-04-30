@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lit/data/models/restaurant.dart';
+import 'package:lit/data/models/user_location.dart';
+import 'package:lit/data/providers/location_provider.dart';
+import 'package:lit/data/services/location_service.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurant.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantsList extends StatefulWidget {
   List<Restaurant> restaurants;
+
   RestaurantsList({Key? key, required this.restaurants}) : super(key: key);
 
   @override
@@ -21,7 +26,7 @@ class _RestaurantsListState extends State<RestaurantsList> {
     super.initState();
   }
 
-  void searchRestaurants(String query) {
+  void search(String query) {
     List<Restaurant> results = [];
     if (query.isEmpty) {
       setState(() {
@@ -48,7 +53,7 @@ class _RestaurantsListState extends State<RestaurantsList> {
             child: TextField(
                 controller: Tcontroller,
                 onChanged: (value) {
-                  searchRestaurants(value);
+                  search(value);
                 },
                 textCapitalization: TextCapitalization.words,
                 cursorColor: Colors.grey,
@@ -72,41 +77,4 @@ class _RestaurantsListState extends State<RestaurantsList> {
               .toList(),
         ]));
   }
-
-  // void searchRest(String query) {
-  //   List<Restaurant> restaurantsSearchList = widget.restaurants;
-  //   if (query.isNotEmpty) {
-  //     List<Restaurant> restaurantListData = [];
-  //     restaurantsSearchList.forEach((item) {
-  //       if (item.contains(query)) {
-  //         restaurantListData.add(item);
-  //       }
-  //     });
-  //     setState(() {
-  //       items.clear();
-  //       items.addAll(restaurantListData);
-  //     });
-  //     return;
-  //   } else {
-  //     setState(() {
-  //       items.clear();
-  //       items.addAll(duplicateItems);
-  //     });
-  //   }
-  // }
-
-  // void searchRest(String query) {
-  //   if (!query.isEmpty) {
-  //     List<Restaurant> searchList = widget.restaurants;
-  //     searchList.forEach((restaurant) {
-  //       if (restaurant.title.contains(query)) {
-  //         searchList.add(restaurant);
-  //       }
-  //       setState(() {
-  //         widget.restaurants.clear();
-  //         widget.restaurants.addAll(searchList);
-  //       });
-  //     });
-  //   }
-  // }
 }

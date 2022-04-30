@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/set_booking/set_booking_cubit.dart';
 import 'package:lit/constants/locator.dart';
@@ -17,6 +19,14 @@ class RestarauntDetails extends StatelessWidget {
     Key? key,
     required this.restaurant,
   }) : super(key: key);
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +48,34 @@ class RestarauntDetails extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Image.network(restaurant.imagePath), //slider
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: MediaQuery.of(context).size.height / 3.2,
+                    aspectRatio: 2.0,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                  ),
+                  items: restaurant.imagePaths
+                      .map((item) => Container(
+                            child: Center(
+                                child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                item,
+                                fit: BoxFit.cover,
+                                width: 1000,
+                                height: 500,
+                              ),
+                            )),
+                          ))
+                      .toList(),
+                ),
+              ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
+                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
                 child: Column(children: [
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,17 +87,22 @@ class RestarauntDetails extends StatelessWidget {
                             )),
                         const SizedBox(width: 255), //FIX
                         Text(restaurant.rating.toString()),
-                        const Icon(Icons.star, size: 18) //5 rating icons ?
+                        const Icon(Icons.star, size: 18)
                       ]),
                   const SizedBox(height: 5),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(restaurant.kitchen,
+                        Text(restaurant.kitchens.join(", "),
                             style: const TextStyle(fontSize: 15)),
-                        Text(restaurant.averagePrice.toString()) //3 price icons
+                        Text(restaurant.averagePrice.toString() + " ₽")
                       ]),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Text(restaurant.workingHours),
+                    SizedBox(width: 5),
+                    const Icon(Icons.access_time, size: 18)
+                  ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
@@ -83,31 +122,36 @@ class RestarauntDetails extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onPressed: () {
                             //button
                           },
                           icon: const Icon(Icons.location_on, size: 35)),
                       const SizedBox(width: 15),
                       IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onPressed: () {
-                            //button
+                            makePhoneCall(restaurant.phone);
                           },
                           icon: const Icon(Icons.local_phone, size: 35)),
                       const SizedBox(
                         width: 200, //FIX
                       ),
                       IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onPressed: () {
                             //button add in bookmarks
                           },
-                          icon: const Icon(Icons.bookmark_border,
-                              size: 35)), //icon change
+                          icon: const Icon(Icons.bookmark_border, size: 35)),
                     ],
                   ),
                 ]),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+                padding: const EdgeInsets.only(bottom: 10.0, top: 20),
                 child: SizedBox(
                   height: 50,
                   width: 180,
@@ -133,7 +177,6 @@ class RestarauntDetails extends StatelessWidget {
               )
             ],
           ),
-          //),
         ));
   }
 }

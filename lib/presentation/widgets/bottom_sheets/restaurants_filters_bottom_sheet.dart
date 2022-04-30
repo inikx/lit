@@ -1,16 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lit/data/providers/filters_provider.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+import "package:intl/intl.dart";
 
 Future<dynamic> ProjectFiltersBottomSheet(BuildContext context) {
   return showModalBottomSheet(
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      context: context,
-      builder: (context) {
-        return BottomSheet();
-      });
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+    context: context,
+    builder: (_) {
+      return BottomSheet();
+    },
+  );
 }
 
 class BottomSheet extends StatefulWidget {
@@ -21,63 +27,61 @@ class BottomSheet extends StatefulWidget {
 }
 
 class _BottomSheetState extends State<BottomSheet> {
-  late FixedExtentScrollController scrollController;
+  final List<String> kitchenItems = [
+    "Азиатская",
+    "Вегетарианская",
+    "Грузинская",
+    "Европейская",
+    "Итальянская",
+    "Китайская",
+    "Русская",
+    "Японская",
+  ]; //add kitchens after parser
 
-  int kitchenValue = 0;
-  final kitchenItems = [
-    'Любая',
-    'Русская',
-    'Японская',
-    'Грузинская'
-  ]; //add kitchens
-  late String kitchenName = kitchenItems[kitchenValue];
-
-  showKitchenTypePicker() {
-    return showCupertinoModalPopup(
+  void showMultiSelectKitchen(BuildContext context) async {
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         context: context,
-        builder: (context) => CupertinoActionSheet(
-              actions: [
-                SizedBox(
-                    height: 180,
-                    child: CupertinoPicker(
-                        scrollController: scrollController,
-                        backgroundColor: Colors.white,
-                        onSelectedItemChanged: (value) {
-                          setState(() {
-                            kitchenValue = value;
-                            kitchenName = kitchenItems[value];
-                          });
-                        },
-                        itemExtent: 64,
-                        children: kitchenItems
-                            .map((item) => Center(child: Text(item)))
-                            .toList())),
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                  child: Text(
-                    "Применить",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  onPressed: () => Navigator.pop(context)),
-            ));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    scrollController = FixedExtentScrollController(initialItem: kitchenValue);
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
+        builder: (_) {
+          return MultiSelectBottomSheet(
+            items: kitchenItems
+                .map((kitchen) => MultiSelectItem(kitchen, kitchen))
+                .toList(),
+            initialValue: context.watch<FiltersProvider>().selectedKitchens,
+            listType: MultiSelectListType.CHIP,
+            onConfirm: (values) =>
+                Provider.of<FiltersProvider>(context, listen: false)
+                    .changeSelectedKitchens(values),
+            initialChildSize: 0.5,
+            maxChildSize: 0.5,
+            title: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Text(
+                "Кухни",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
+            cancelText: Text(
+              "Отменить",
+              style: TextStyle(color: Colors.black),
+            ),
+            confirmText: Text(
+              "Применить",
+              style: TextStyle(color: Colors.black),
+            ),
+            selectedColor: Colors.black,
+            selectedItemsTextStyle: TextStyle(color: Colors.white),
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.7,
+      heightFactor: 0.6,
       child: Padding(
         padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
         child: Column(
@@ -89,95 +93,197 @@ class _BottomSheetState extends State<BottomSheet> {
                     color: Colors.grey[300],
                     borderRadius: const BorderRadius.all(Radius.circular(8)))),
             const SizedBox(height: 15),
-            Row(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Text(
                       "Фильтры",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(height: 20),
-                    Text("Кухня"),
-                    SizedBox(height: 15),
-                    Text("Средний чек"),
-                    SizedBox(height: 15),
-                    Text("Рейтинг"),
-                    SizedBox(height: 15),
-                    Text("Расстояние"),
-                    SizedBox(height: 30),
-                    Text(
-                      "Показать сначала",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 20),
-                    Text("По расстоянию"),
-                    SizedBox(height: 15),
-                    Text("По рейтингу"),
-                    SizedBox(height: 15),
-                    Text("Недорогие"),
-                    SizedBox(height: 15),
-                    Text("Дорогие")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
                     TextButton(
                         style: TextButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
                         onPressed: () {
-                          //сбросить
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeSelectedKitchens([]);
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changePrice(SfRangeValues(0, 3000));
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeRating(1.0);
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeSort('Рекомендованные');
                           Navigator.pop(context);
                         },
                         child: const Text("Сбросить",
                             style: TextStyle(
-                              height: -0.1,
-                              color: Colors.black,
+                              color: Colors.red,
                               fontSize: 15,
                             ))),
-                    TextButton(
-                        onPressed: () {
-                          scrollController.dispose();
-                          scrollController = FixedExtentScrollController(
-                              initialItem: kitchenValue);
-                          showKitchenTypePicker();
-                        },
-                        child: Text(
-                          kitchenName,
-                          style: TextStyle(color: Colors.black),
-                        )),
-
-                    const SizedBox(height: 15),
-                    const Text("r icons"),
-                    const SizedBox(height: 15),
-                    const Text("star icons"),
-                    const SizedBox(height: 15),
-                    const Text("slider"),
-                    const SizedBox(height: 15),
-                    // Container(
-                    //     width: double.maxFinite,
-                    //     child: CupertinoSlider(
-                    //         min: 0.0,
-                    //         max: 100.0,
-                    //         value: 20,
-                    //         onChanged: (value) {})),
-                    const Text("icon"),
-                    const SizedBox(height: 80),
-                    const Text("-"),
-                    const SizedBox(height: 15),
-                    const Text("-"),
-                    const SizedBox(height: 15),
-                    const Text("-"),
                   ],
-                )
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Кухня"),
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {
+                              showMultiSelectKitchen(context);
+                            },
+                            child: Text(
+                              context
+                                      .watch<FiltersProvider>()
+                                      .selectedKitchens
+                                      .isEmpty
+                                  ? "Любая"
+                                  : context
+                                      .watch<FiltersProvider>()
+                                      .selectedKitchens
+                                      .join(", "),
+                              style: TextStyle(color: Colors.black),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.right,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Средний чек"),
+                    SfRangeSlider(
+                      min: 0.0,
+                      max: 3000.0,
+                      values: context.watch<FiltersProvider>().price,
+                      stepSize: 500,
+                      interval: 1000,
+                      showTicks: true,
+                      showLabels: true,
+                      labelFormatterCallback:
+                          (dynamic actualValue, String formattedText) {
+                        return actualValue == 3000 ? '∞' : '$formattedText';
+                      },
+                      enableTooltip: true,
+                      tooltipTextFormatterCallback:
+                          (dynamic actualValue, String formattedText) {
+                        return actualValue == 3000 ? '∞' : '$formattedText';
+                      },
+                      startThumbIcon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      endThumbIcon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      minorTicksPerInterval: 1,
+                      inactiveColor: Colors.grey[300],
+                      activeColor: Colors.black,
+                      onChanged: (SfRangeValues values) {
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changePrice(values);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Рейтинг"),
+                    SfSlider(
+                      min: 1,
+                      max: 5,
+                      value: context.watch<FiltersProvider>().rating,
+                      stepSize: 1,
+                      interval: 1,
+                      showTicks: true,
+                      showLabels: true,
+                      enableTooltip: true,
+                      thumbIcon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      inactiveColor: Colors.grey[300],
+                      activeColor: Colors.black,
+                      onChanged: (dynamic value) {
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changeRating(value);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Показать сначала",
+                    ),
+                    DropdownButton<String>(
+                      value: context.watch<FiltersProvider>().sort,
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (String? value) {
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changeSort(value);
+                      },
+                      items: <String>[
+                        'Рекомендованные',
+                        'Ближайшие',
+                        'С наибольшим рейтингом',
+                        'Недорогие',
+                        'Дорогие'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: SizedBox(
+                              width: 180.0,
+                              child: Text(value, textAlign: TextAlign.right)),
+                        );
+                      }).toList(),
+                    )
+                  ],
+                ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+              child: SizedBox(
+                height: 50,
+                width: 180,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ))),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Применить",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      )),
+                ),
+              ),
+            )
           ],
         ),
       ),
