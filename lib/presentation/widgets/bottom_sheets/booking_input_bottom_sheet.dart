@@ -281,8 +281,10 @@ class _BottomSheetState extends State<BottomSheet> {
                                     .name
                                     .isEmpty) ||
                                 bookingDate == null) {
-                              showTopSnackBar(context,
-                                  const ErrorSnackbar(info: "Введите данные!"));
+                              showTopSnackBar(
+                                  context,
+                                  const ErrorSnackbar(
+                                      info: "Введите данные бронирования!"));
                             } else {
                               BlocProvider.of<SetBookingCubit>(context)
                                   .setBooking(context

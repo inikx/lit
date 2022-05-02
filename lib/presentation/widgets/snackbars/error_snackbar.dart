@@ -14,32 +14,24 @@ class ErrorSnackbar extends StatelessWidget {
       child: Container(
           height: 65,
           decoration: BoxDecoration(
-              color: const Color(0xffFFF8F8),
-              border: Border.all(
-                color: const Color(0xffF85640),
-                width: 0.5,
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blueGrey.withOpacity(0.25),
+                  spreadRadius: 1,
+                  blurRadius: 8,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+              color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 20),
-                child: ClipOval(
-                  child: Material(
-                    color: const Color(0xffF85640),
-                    child: InkWell(
-                      splashColor: const Color(0xffF85640),
-                      onTap: () {},
-                      child: const SizedBox(
-                          width: 26,
-                          height: 26,
-                          child: Icon(
-                            Icons.dangerous_outlined,
-                            size: 20,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
+                child: Icon(
+                  Icons.error_outline_rounded,
+                  size: 25,
+                  color: Colors.red,
                 ),
               ),
               Container(
@@ -48,16 +40,16 @@ class ErrorSnackbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Что-то пошло не так',
+                      'Ошибка',
                       style: TextStyle(
-                          color: Color(0xffF85640),
+                          color: Colors.red,
                           fontSize: 13,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       info,
                       style: TextStyle(
-                          color: Color(0xff79170A),
+                          color: Colors.red,
                           fontSize: 12,
                           fontWeight: FontWeight.normal),
                     ),

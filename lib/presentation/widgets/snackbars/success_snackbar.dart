@@ -14,32 +14,24 @@ class SuccessSnackbar extends StatelessWidget {
       child: Container(
           height: 65,
           decoration: BoxDecoration(
-              color: const Color(0xffDCF3EB),
-              border: Border.all(
-                color: const Color(0xff34A770),
-                width: 0.5,
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blueGrey.withOpacity(0.25),
+                  spreadRadius: 1,
+                  blurRadius: 8,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+              color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 20),
-                child: ClipOval(
-                  child: Material(
-                    color: const Color(0xff34A770),
-                    child: InkWell(
-                      splashColor: const Color(0xff34A770),
-                      onTap: () {},
-                      child: const SizedBox(
-                          width: 26,
-                          height: 26,
-                          child: Icon(
-                            Icons.check_rounded,
-                            size: 15,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
+                child: Icon(
+                  Icons.check_rounded,
+                  size: 25,
+                  color: Color(0xff34A770),
                 ),
               ),
               Container(
@@ -50,14 +42,14 @@ class SuccessSnackbar extends StatelessWidget {
                     Text(
                       'Успешно',
                       style: TextStyle(
-                          color: Color(0xff13854E),
+                          color: Color(0xff34A770),
                           fontSize: 13,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       info,
                       style: TextStyle(
-                          color: Color(0xff10673E),
+                          color: Color(0xff34A770),
                           fontSize: 12,
                           fontWeight: FontWeight.normal),
                     ),
