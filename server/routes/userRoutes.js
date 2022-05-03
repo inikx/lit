@@ -9,6 +9,7 @@ router.post(
     "/register",
     body("email").isEmail(),
     body("password").isLength({ min: 5, max: 25 }),
+    body("city"),
     userController.register
 );
 router.post("/login", userController.login);

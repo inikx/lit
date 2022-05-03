@@ -12,7 +12,7 @@ const { check, validationResult } = require("express-validator/check");
 const register = async (req, res) => {
     try {
         
-        const {email, password } = req.body;
+        const {email, password, city } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -23,7 +23,7 @@ const register = async (req, res) => {
             return
         }
         var encryptedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({email: email.toLowerCase(), password:encryptedPassword})
+        const user = await User.create({email: email.toLowerCase(), password:encryptedPassword, city: city})
 
         res.status(201).json(user);
     } catch (error) {
@@ -41,9 +41,9 @@ const authenticate = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, city } = req.body;
 
-        if (!(email && password)) {
+        if (!(email && password && city)) {
             res.status(400).json("all inputs is required");
             return;
         }
