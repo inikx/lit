@@ -41,9 +41,9 @@ const authenticate = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { email, password, city } = req.body;
+        const { email, password} = req.body;
 
-        if (!(email && password && city)) {
+        if (!(email && password)) {
             res.status(400).json("all inputs is required");
             return;
         }
