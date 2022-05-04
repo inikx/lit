@@ -4,6 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const userRoutes = require("./routes/userRoutes")
 const bookingRoutes = require("./routes/bookingRoutes")
+const restRoutes = require("./routes/restRoutes")
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use(express.json());
 app.use(morgan("common"));
 app.use(compression());
 app.use(cors({ credentials: true, origin: true }));
-app.use('/api', userRoutes, bookingRoutes)
+app.use('/api', userRoutes, bookingRoutes, restRoutes)
 
 
 // Handle undefined Routes
