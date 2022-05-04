@@ -24,4 +24,6 @@ router.post("/getRest",
     restController.getRest
     );
     
+router.get("/getAllRests", restController.getAllRests);
+
 module.exports = router
