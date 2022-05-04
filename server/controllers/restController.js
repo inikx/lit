@@ -31,8 +31,22 @@ const getRest = async (req, res) => {
     }
 }
 
+const getAllRests = async (req, res) => {
+    try {
+        const rest = await Rest.find().exec()
+        if(rest){
+            res.status(200).json(rest)
+            return
+        }
+        res.status(404).json("Search error")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports = {
     setRest,
-    getRest
+    getRest,
+    getAllRests
 };
