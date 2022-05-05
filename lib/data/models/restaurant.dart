@@ -2,11 +2,11 @@ import 'dart:convert';
 
 class Restaurant {
   String title;
-  List<String> kitchens;
+  List kitchen;
   String address;
-  double rating;
-  List<String> imagePaths;
-  int averagePrice;
+  String rating;
+  List imagePath;
+  String averagePrice;
   String description;
   String shortDescription;
   String workingHours;
@@ -14,10 +14,10 @@ class Restaurant {
 
   Restaurant(
       {required this.title,
-      required this.kitchens,
+      required this.kitchen,
       required this.address,
       required this.rating,
-      required this.imagePaths,
+      required this.imagePath,
       required this.averagePrice,
       required this.description,
       required this.shortDescription,
@@ -26,11 +26,11 @@ class Restaurant {
 
   Restaurant copyWith({
     String? title,
-    List<String>? kitchens,
+    List<String>? kitchen,
     String? address,
-    double? rating,
-    List<String>? imagePaths,
-    int? averagePrice,
+    String? rating,
+    List<String>? imagePath,
+    String? averagePrice,
     String? description,
     String? shortDescription,
     String? workingHours,
@@ -38,10 +38,10 @@ class Restaurant {
   }) {
     return Restaurant(
       title: title ?? this.title,
-      kitchens: kitchens ?? this.kitchens,
+      kitchen: kitchen ?? this.kitchen,
       address: address ?? this.title,
       rating: rating ?? this.rating,
-      imagePaths: imagePaths ?? this.imagePaths,
+      imagePath: imagePath ?? this.imagePath,
       averagePrice: averagePrice ?? this.averagePrice,
       description: description ?? this.description,
       shortDescription: shortDescription ?? this.shortDescription,
@@ -50,58 +50,23 @@ class Restaurant {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'kitchens': kitchens,
-      'address': address,
-      'rating': rating,
-      'imagePaths': imagePaths,
-      'averagePrice': averagePrice,
-      'description': description,
-      'shortDescription': shortDescription,
-      'workingHours': workingHours,
-      'phone': phone,
-    };
-  }
-
-  factory Restaurant.fromMap(Map<String, dynamic> map) {
+  factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
-      title: map['title'],
-      kitchens: map['kitchens'],
-      address: map['address'],
-      rating: map['rating'],
-      imagePaths: map['imagePaths'],
-      averagePrice: map['averagePrice'],
-      description: map['description'],
-      shortDescription: map['shortDescription'],
-      workingHours: map['workingHours'],
-      phone: map['phone'],
+      title: json['title'],
+      kitchen: json['kitchen'],
+      address: json['address'],
+      rating: json['rating'],
+      imagePath: json['imagePath'],
+      averagePrice: json['averagePrice'],
+      description: json['description'],
+      shortDescription: json['shortDescription'],
+      workingHours: json['workingHours'],
+      phone: json['phone'],
     );
   }
 
   @override
   String toString() {
-    return 'Restaurant(title: $title, kitchens: $kitchens, address: $address, rating: $rating, imagePaths: $imagePaths, averagePrice: $averagePrice, description: $description, shortDescription: $shortDescription, workingHours: $workingHours, phone: $phone)';
+    return 'Restaurant(title: $title, kitchen: $kitchen, address: $address, rating: $rating, imagePath: $imagePath, averagePrice: $averagePrice, description: $description, shortDescription: $shortDescription, workingHours: $workingHours, phone: $phone)';
   }
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'title': title,
-  //     'kitchen': kitchen,
-  //     'address': address,
-  //     'rating': rating,
-  //     'imagePaths': imagePaths,
-  //     'averagePrice': averagePrice,
-  //     'description': description,
-  //     'shortDescription': shortDescription,
-  //     'workingHours': workingHours,
-  //     'phone': phone
-  //   };
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory Restaurant.fromJson(String source) =>
-  //     Restaurant.fromMap(json.decode(source));
-
 }

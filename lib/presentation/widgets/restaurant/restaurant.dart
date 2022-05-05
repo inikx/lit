@@ -33,10 +33,10 @@ class RestaurantWidget extends StatelessWidget {
               Navigator.pushNamed(context, RESTAURANT_DETAILS,
                   arguments: RestarauntDetailsArguments(
                       restaurant.title,
-                      restaurant.kitchens,
+                      restaurant.kitchen,
                       restaurant.address,
                       restaurant.rating,
-                      restaurant.imagePaths,
+                      restaurant.imagePath,
                       restaurant.averagePrice,
                       restaurant.description,
                       restaurant.shortDescription,
@@ -104,7 +104,8 @@ class RestaurantWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image.network(
-                            restaurant.imagePaths.first,
+                            //restaurant.imagePath!.first //TODO: fix
+                            "https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg",
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const RestSchema = new mongoose.Schema({
     title: {type: String, required: true},
-    kitchen: {type: Array},
+    kitchen: {type: [String]},
     address: {type: String, required: true},
     rating: {type: String, required: true},
-    imagePath: {type: Array},
+    imagePath: {type: [String]},
     averagePrice: {type: String},
     description: {type: String},
     shortDescription: {type: String},

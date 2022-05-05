@@ -4,6 +4,7 @@ import 'package:lit/bloc/authentication/authentication_cubit.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
+import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
@@ -46,7 +47,10 @@ class AppRouter {
         );
       case HOME:
         return CupertinoPageRoute(
-          builder: (_) => HomePage(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<RestaurantCubit>(),
+            child: const HomePage(),
+          ),
         );
       case REGISTER:
         return CupertinoPageRoute(
@@ -67,10 +71,10 @@ class AppRouter {
             child: RestarauntDetails(
               restaurant: Restaurant(
                   title: args.title,
-                  kitchens: args.kitchen,
+                  kitchen: args.kitchen,
                   address: args.address,
                   rating: args.rating,
-                  imagePaths: args.imagePaths,
+                  imagePath: args.imagePath,
                   averagePrice: args.averagePrice,
                   description: args.description,
                   shortDescription: args.shortDescription,
@@ -100,11 +104,11 @@ class AppRouter {
 
 class RestarauntDetailsArguments {
   String title;
-  List<String> kitchen;
+  List kitchen;
   String address;
-  double rating;
-  List<String> imagePaths;
-  int averagePrice;
+  String rating;
+  List imagePath;
+  String averagePrice;
   String description;
   String shortDescription;
   String workingHours;
@@ -115,7 +119,7 @@ class RestarauntDetailsArguments {
       this.kitchen,
       this.address,
       this.rating,
-      this.imagePaths,
+      this.imagePath,
       this.averagePrice,
       this.description,
       this.shortDescription,

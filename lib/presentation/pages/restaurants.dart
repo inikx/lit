@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/providers/filters_provider.dart';
@@ -20,42 +22,18 @@ class RestaurantsPage extends StatefulWidget {
 }
 
 class _RestaurantsPageState extends State<RestaurantsPage> {
-  List<Restaurant> filteredRestaurants = [];
-  List<Restaurant> allRestaurants = [
-    Restaurant(
-        title: "Пхали-Хинкали",
-        kitchens: ["Грузинская", "Русская"],
-        address: "Большая Морская ул., 27",
-        rating: 4.7,
-        imagePaths: [
-          "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/1/2/8/c/128c1b700e3dd4d63f4dff3b699172d2.jpg",
-          "https://phali-hinkali.ru/pimages/Restorans9/fdd6dcc010-1_1920x.jpg",
-          "https://phali-hinkali.ru/pimages/Restorans5/40e75df9bf-1_1920x.jpg"
-        ],
-        averagePrice: 1000,
-        description:
-            "Грузинская кухня и европейское гостеприимство - семья ресторанов «Пхали Хинкали» - вкусный и душевный проект с новым качественным подходом к кавказской кухне. ",
-        shortDescription: "Ресторан грузинской кухни",
-        workingHours: "10-22",
-        phone: "89955550404"),
-    Restaurant(
-        title: "Umi",
-        kitchens: ["Китайская"],
-        address: "ул. Разъезжая 10",
-        rating: 4.8,
-        imagePaths: [
-          "https://cdn.images.restoclub.ru/uploads/place_thumbnail_big/6/1/d/b/61db7087cede8f68d2cf39f79c249490.jpg",
-          "https://phali-hinkali.ru/pimages/Restorans9/fdd6dcc010-1_1920x.jpg",
-          "https://phali-hinkali.ru/pimages/Restorans5/40e75df9bf-1_1920x.jpg"
-        ],
-        averagePrice: 1200,
-        description:
-            "Ресторан «Юми», открывшийся в начале 2016 года на улице Разъезжей, предлагает гостям аутентичную китайскую кухню в стильном современном интерьере.",
-        shortDescription: "Ресторан китайской кухни",
-        workingHours: "10-21",
-        phone: "89952344404"),
-  ];
+  final Tcontroller = TextEditingController();
+  String query = "";
 
+  @override
+  void initState() {
+    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants(query: "");
+    super.initState();
+  }
+
+  void search(String query) {
+    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants(query: query);
+  }
   // context.watch<FiltersProvider>().selectedKitchens.toString()
   // void filterKitchen(String kitchen) {
   //   List<Restaurant> results = [];
@@ -94,16 +72,56 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                   icon: const Icon(Icons.filter_list, size: 26),
                   onPressed: () {
                     ProjectFiltersBottomSheet(context);
-                  })
+                  }),
             ]),
         body: SafeArea(
-          child: Column(children: [
-            Expanded(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: RestaurantsList(restaurants: allRestaurants)),
+            child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: TextField(
+                controller: Tcontroller,
+                onChanged: (value) {
+                  search(value);
+                },
+                textCapitalization: TextCapitalization.words,
+                cursorColor: Colors.grey,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  hintText: 'Поиск',
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                )),
+          ),
+          Expanded(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: BlocBuilder<RestaurantCubit, RestaurantState>(
+                builder: (context, state) {
+                  if (state is RestaurantsLoaded) {
+                    var restaurants = state.restaurants;
+                    List<Restaurant> allRestaurants = [];
+
+                    for (var restaurant in restaurants) {
+                      allRestaurants.add(restaurant);
+                    }
+                    return RestaurantsList(restaurants: allRestaurants);
+                  } else if (state is RestaurantsLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return Center(child: Text("Ошибка загрузки ресторанов"));
+                  }
+                },
+              ),
             ),
-          ]),
-        ));
+          ),
+        ])));
   }
 }

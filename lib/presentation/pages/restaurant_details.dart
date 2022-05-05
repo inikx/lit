@@ -50,28 +50,29 @@ class RestarauntDetails extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: MediaQuery.of(context).size.height / 3.2,
-                    aspectRatio: 2.0,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                  ),
-                  items: restaurant.imagePaths
-                      .map((item) => Container(
-                            child: Center(
-                                child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                item,
-                                fit: BoxFit.cover,
-                                width: 1000,
-                                height: 500,
-                              ),
-                            )),
-                          ))
-                      .toList(),
-                ),
+                //TODO: remove
+                // child: CarouselSlider(
+                //   options: CarouselOptions(
+                //     height: MediaQuery.of(context).size.height / 3.2,
+                //     aspectRatio: 2.0,
+                //     enlargeCenterPage: true,
+                //     autoPlay: true,
+                //   ),
+                //   items: restaurant.imagePath
+                //       .map((item) => Container(
+                //             child: Center(
+                //                 child: ClipRRect(
+                //               borderRadius: BorderRadius.circular(10.0),
+                //               child: Image.network(
+                //                 item,
+                //                 fit: BoxFit.cover,
+                //                 width: 1000,
+                //                 height: 500,
+                //               ),
+                //             )),
+                //           ))
+                //       .toList(),
+                // ),
               ),
               Padding(
                 padding:
@@ -93,7 +94,7 @@ class RestarauntDetails extends StatelessWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(restaurant.kitchens.join(", "),
+                        Text(restaurant.kitchen.join(", "),
                             style: const TextStyle(fontSize: 15)),
                         Text(restaurant.averagePrice.toString() + " ₽")
                       ]),
