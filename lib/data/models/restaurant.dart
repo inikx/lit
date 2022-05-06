@@ -4,9 +4,9 @@ class Restaurant {
   String title;
   List kitchen;
   String address;
-  String rating;
+  double rating;
   List imagePath;
-  String averagePrice;
+  int averagePrice;
   String description;
   String shortDescription;
   String workingHours;
@@ -28,9 +28,9 @@ class Restaurant {
     String? title,
     List<String>? kitchen,
     String? address,
-    String? rating,
+    double? rating,
     List<String>? imagePath,
-    String? averagePrice,
+    int? averagePrice,
     String? description,
     String? shortDescription,
     String? workingHours,
@@ -55,9 +55,9 @@ class Restaurant {
       title: json['title'],
       kitchen: json['kitchen'],
       address: json['address'],
-      rating: json['rating'],
+      rating: double.parse(json['rating']),
       imagePath: json['imagePath'],
-      averagePrice: json['averagePrice'],
+      averagePrice: int.parse(json['averagePrice']),
       description: json['description'],
       shortDescription: json['shortDescription'],
       workingHours: json['workingHours'],

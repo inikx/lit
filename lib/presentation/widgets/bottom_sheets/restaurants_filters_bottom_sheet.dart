@@ -36,6 +36,7 @@ class _BottomSheetState extends State<BottomSheet> {
     "Китайская",
     "Русская",
     "Японская",
+    "Осетинская",
   ]; //add kitchens after parser
 
   void showMultiSelectKitchen(BuildContext context) async {

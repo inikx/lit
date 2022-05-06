@@ -106,9 +106,9 @@ class RestarauntDetailsArguments {
   String title;
   List kitchen;
   String address;
-  String rating;
+  double rating;
   List imagePath;
-  String averagePrice;
+  int averagePrice;
   String description;
   String shortDescription;
   String workingHours;

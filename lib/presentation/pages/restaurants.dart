@@ -27,29 +27,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
 
   @override
   void initState() {
-    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants(query: "");
+    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants();
     super.initState();
   }
-
-  void search(String query) {
-    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants(query: query);
-  }
-  // context.watch<FiltersProvider>().selectedKitchens.toString()
-  // void filterKitchen(String kitchen) {
-  //   List<Restaurant> results = [];
-  //   if (kitchen == "Любая" || kitchen == null) {
-  //     setState(() {
-  //       results = allRestaurants;
-  //     });
-  //   } else {
-  //     results = allRestaurants.where((restaurant) {
-  //       return restaurant.kitchens.contains(kitchen);
-  //     }).toList();
-  //   }
-  //   setState(() {
-  //     filteredRestaurants = results;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +61,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             child: TextField(
                 controller: Tcontroller,
                 onChanged: (value) {
-                  search(value);
+                  setState(() {
+                    query = value;
+                  });
                 },
                 textCapitalization: TextCapitalization.words,
                 cursorColor: Colors.grey,
@@ -108,9 +90,62 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                   if (state is RestaurantsLoaded) {
                     var restaurants = state.restaurants;
                     List<Restaurant> allRestaurants = [];
-
+                    List kitchen =
+                        context.watch<FiltersProvider>().selectedKitchens;
+                    double rating = context.watch<FiltersProvider>().rating;
+                    int lowPrice = context.watch<FiltersProvider>().lowPrice;
+                    int maxPrice = context.watch<FiltersProvider>().maxPrice;
+                    String sort = context.watch<FiltersProvider>().sort;
+                    if (query != null) {
+                      restaurants = restaurants
+                          .where((restaurant) => restaurant.title
+                              .toLowerCase()
+                              .contains(query.toLowerCase()))
+                          .toList();
+                    }
+                    if (kitchen.isNotEmpty) {
+                      restaurants = restaurants.where((restaurant) {
+                        return restaurant.kitchen
+                            .any((element) => kitchen.contains(element));
+                      }).toList();
+                    }
+                    if (rating > 1) {
+                      restaurants = restaurants.where((restaurant) {
+                        return restaurant.rating >= rating;
+                      }).toList();
+                    }
+                    if (lowPrice > 0) {
+                      restaurants = restaurants.where((restaurant) {
+                        return restaurant.averagePrice >= lowPrice;
+                      }).toList();
+                    }
+                    if (maxPrice < 3000) {
+                      restaurants = restaurants.where((restaurant) {
+                        return restaurant.averagePrice <= maxPrice;
+                      }).toList();
+                    }
+                    if (sort != "Рекомендованные") {
+                      if (sort == "Ближайшие") {
+                        //TODO: geoposition
+                      } else if (sort == "С наибольшим рейтингом") {
+                        restaurants
+                            .sort((a, b) => b.rating.compareTo(a.rating));
+                      } else if (sort == "Недорогие") {
+                        (restaurants
+                              ..sort((a, b) =>
+                                  a.averagePrice.compareTo(b.averagePrice)))
+                            .reversed
+                            .toList();
+                      } else if (sort == "Дорогие") {
+                        restaurants.sort(
+                            (a, b) => b.averagePrice.compareTo(a.averagePrice));
+                      }
+                    }
                     for (var restaurant in restaurants) {
                       allRestaurants.add(restaurant);
+                    }
+                    if (allRestaurants.isEmpty) {
+                      return Center(child: Text("Рестораны не найдены"));
                     }
                     return RestaurantsList(restaurants: allRestaurants);
                   } else if (state is RestaurantsLoading) {
