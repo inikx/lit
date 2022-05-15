@@ -1,14 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'booking_cubit.dart';
 
 @immutable
 abstract class BookingState {
   late List<Booking> bookings;
+  late Booking booking;
+  late String? previousStatus;
 }
 
 class BookingInitial extends BookingState {}
 
-//! Booking load States
-class BookingsLoading extends BookingState {}
+class BookingsLoading extends BookingState {
+  final String? previousStatus;
+
+  BookingsLoading({this.previousStatus});
+}
 
 class BookingsLoaded extends BookingState {
   final List<Booking> bookings;
@@ -18,27 +24,31 @@ class BookingsLoaded extends BookingState {
 
 class BookingsLoadingError extends BookingState {}
 
-//! Booking create States
-class BookingCreating extends BookingState {}
+class BookingLoaded extends BookingState {
+  final Booking booking;
 
-class BookingCreated extends BookingState {}
-
-class BookingsCreatingError extends BookingState {}
-
-//! Booking update States
-class BookingUpdating extends BookingState {}
-
-class BookingUpdated extends BookingState {
-  final List<Booking> bookings;
-
-  BookingUpdated({required this.bookings});
+  BookingLoaded({
+    required this.booking,
+  });
 }
 
-class BookingUpdatingError extends BookingState {}
+class BookingConfirmed extends BookingState {
+  final Booking booking;
+  BookingConfirmed({
+    required this.booking,
+  });
+}
 
-//! Booking remove States
-class BookingRemoving extends BookingState {}
+class BookingCreated extends BookingState {
+  final Booking booking;
+  BookingCreated({
+    required this.booking,
+  });
+}
 
-class BookingRemoved extends BookingState {}
-
-class BookingRemovingError extends BookingState {}
+class BookingCanceled extends BookingState {
+  final Booking booking;
+  BookingCanceled({
+    required this.booking,
+  });
+}

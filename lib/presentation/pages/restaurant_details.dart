@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
-import 'package:lit/data/services/preferences_service.dart';
+import 'package:lit/constants/strings.dart';
+import 'package:lit/route.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -134,7 +135,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onPressed: () {
-                            //button
+                            //
                           },
                           icon: const Icon(Icons.location_on, size: 35)),
                       const SizedBox(width: 15),

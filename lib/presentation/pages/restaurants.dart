@@ -149,7 +149,10 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                     }
                     return RestaurantsList(restaurants: allRestaurants);
                   } else if (state is RestaurantsLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.blueGrey)));
                   } else {
                     return Center(child: Text("Ошибка загрузки ресторанов"));
                   }

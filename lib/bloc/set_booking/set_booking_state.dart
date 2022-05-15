@@ -17,7 +17,10 @@ class SettingBookingDataChanged extends SetBookingState {
 
 class SettingBooking extends SetBookingState {}
 
-class SettingBookingSuccess extends SetBookingState {}
+class SettingBookingSuccess extends SetBookingState {
+  final Booking booking;
+  SettingBookingSuccess({required this.booking});
+}
 
 class SettingBookingError extends SetBookingState {
   final Booking booking;

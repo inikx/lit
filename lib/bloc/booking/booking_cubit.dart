@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -25,46 +26,34 @@ class BookingCubit extends Cubit<BookingState> {
     });
   }
 
-  // void update_task(Booking task) {
-  //   var currentBookings = state.bookings;
-  //   repository.update_task(task).then((response) {
-  //     if (response.statusCode == 200) {
-  //       if (state is BookingsLoaded || state is BookingUpdated) {
-  //         currentBookings
-  //             .removeWhere((stateBooking) => stateBooking.id == task.id);
-  //         currentBookings.add(task);
-  //         emit(BookingUpdated(bookings: currentBookings));
-  //       }
-  //     } else {
-  //       emit(BookingUpdatingError());
-  //     }
-  //   });
-  // }
+  void getLastBooking(Booking userBooking) {
+    repository.getBooking().then((response) {
+      if (response.statusCode == 200) {
+        var rawBookings = jsonDecode(response.body) as List;
+        List<Booking> bookings =
+            rawBookings.map((bookin) => Booking.fromJson((bookin))).toList();
 
-  // updateBookingInState(Booking task) {
-  //   var currentBookings = state.bookings;
-  //   currentBookings.removeWhere((stateBooking) => stateBooking.id == task.id);
-  //   currentBookings.add(task);
-  //   emit(BookingUpdated(bookings: currentBookings));
-  // }
-
-  setBookingToState(Booking booking) {
-    final currentState = state;
-    final bookings = currentState.bookings;
-    bookings.add(booking);
-    emit(BookingsLoaded(bookings: bookings));
+        Booking booking = bookings
+            .where((element) => element.id == userBooking.id)
+            .toList()[0];
+        if (booking.status == "created") {
+          emit(BookingCreated(booking: booking));
+        } else if (booking.status == "confirmed") {
+          emit(BookingConfirmed(booking: booking));
+        } else if (booking.status == "canceled") {
+          emit(BookingCanceled(booking: booking));
+        } else {
+          emit(BookingsLoadingError());
+        }
+      }
+    });
   }
 
-  // void remove_task(int id) {
-  //   final bookings = state.bookings;
-  //   repository.delete_boobking(id).then((response) {
-  //     if (response.statusCode == 200) {
-  //       bookings.removeWhere((element) => element.id == id);
-  //       emit(BookingsLoaded(bookings: bookings));
-  //     } else {
-  //       emit(BookingRemovingError());
-  //       emit(BookingsLoaded(bookings: bookings));
-  //     }
-  //   });
-  // }
+  setBookingToState(Booking booking) {
+    if (state is BookingsLoaded) {
+      final bookings = state.bookings;
+      bookings.add(booking);
+      emit(BookingsLoaded(bookings: bookings));
+    }
+  }
 }

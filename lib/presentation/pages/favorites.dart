@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/models/restaurant.dart';
-import 'package:lit/data/services/preferences_service.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
 
 class FavoritesPage extends StatefulWidget {

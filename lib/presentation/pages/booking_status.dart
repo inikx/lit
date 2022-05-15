@@ -1,190 +1,200 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/data/models/booking.dart';
 import 'package:lit/presentation/widgets/booking/booking.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
-class BookingStatusPage extends StatelessWidget {
+class BookingStatusPage extends StatefulWidget {
   Booking booking;
-  // final String title;
-  // final String name;
-  // final String date;
-  // final String time;
-  // final int personCount;
-  // final String comment;
 
-  BookingStatusPage({Key? key, required this.booking
-      // required this.title,
-      // required this.name,
-      // required this.personCount,
-      // required this.date,
-      // required this.time,
-      // required this.comment,
-      })
-      : super(key: key);
+  BookingStatusPage({Key? key, required this.booking}) : super(key: key);
+
+  @override
+  State<BookingStatusPage> createState() => _BookingStatusPageState();
+}
+
+class _BookingStatusPageState extends State<BookingStatusPage> {
+  Timer? timer;
+
+  @override
+  void initState() {
+    timer = Timer.periodic(
+        Duration(seconds: 1),
+        (Timer t) => BlocProvider.of<BookingCubit>(context)
+            .getLastBooking(widget.booking));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var bookingStatus = widget.booking.status;
     return Material(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          iconTheme: const IconThemeData(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white,
-          toolbarHeight: 48,
-          title: Text(
-            "Бронирование",
-            style: TextStyle(color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
-          actions: <Widget>[
-            IconButton(
-                onPressed: () {
-                  //cancel booking
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.red,
-                ))
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BookingWidget(
-                booking: Booking(
-                    title: booking.title,
-                    name: booking.name,
-                    personCount: booking.personCount,
-                    timeOfBooking: booking.timeOfBooking,
-                    timeOfOrder: DateTime.now(),
-                    comment: booking.comment),
+        child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              iconTheme: const IconThemeData(
+                color: Colors.black,
               ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              backgroundColor: Colors.white,
+              toolbarHeight: 48,
+              title: Text(
+                "Бронирование",
+                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+              // actions: <Widget>[
+              //   IconButton(
+              //       onPressed: () {
+              //         //cancel booking
+              //       },
+              //       icon: Icon(
+              //         Icons.close,
+              //         color: Colors.red,
+              //       ))
+              // ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.call,
-                      color: Colors.black,
-                    ),
+                  BookingWidget(
+                    booking: Booking(
+                        title: widget.booking.title,
+                        name: widget.booking.name,
+                        personCount: widget.booking.personCount,
+                        timeOfBooking: widget.booking.timeOfBooking,
+                        timeOfOrder: DateTime.now(),
+                        comment: widget.booking.comment,
+                        status: widget.booking.status),
+                    open: false,
                   ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.chat,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 9,
-                    width: 9,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(100)),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.check_rounded,
-                      color: Colors.black,
-                    ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      BlocBuilder<BookingCubit, BookingState>(
+                          builder: (context, state) {
+                        if (state is BookingCreated) {
+                          Booking booking = state.booking;
+                          return Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blueGrey.withOpacity(0.25),
+                                      spreadRadius: 1,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.call,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              JumpingText('Звонок в ресторан...',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ))
+                            ],
+                          );
+                        } else if (state is BookingConfirmed) {
+                          return Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.greenAccent[700],
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blueGrey.withOpacity(0.25),
+                                      spreadRadius: 1,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.check_rounded,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              const Text("Бронирование успешно!",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          );
+                        } else if (state is BookingCanceled) {
+                          return Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: //Color(0xff34A770),
+                                      Colors.red,
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blueGrey.withOpacity(0.25),
+                                      spreadRadius: 1,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              const Text("Отмена бронирования",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          );
+                        } else {
+                          return JumpingDotsProgressIndicator(
+                            dotSpacing: 8,
+                            fontSize: 80.0,
+                          );
+                        }
+                      }),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              const Text(
-                  "Звонок в ресторан...", //Бронирование..., Бронирование успешно
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  )),
-            ],
-          ),
-        ),
-      ),
-    );
+            )));
   }
 }

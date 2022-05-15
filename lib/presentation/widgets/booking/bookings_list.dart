@@ -15,7 +15,10 @@ class BookingsList extends StatelessWidget {
         controller: controller,
         child: Column(children: [
           ...bookings
-              .map((booking) => BookingWidget(booking: booking))
+              .map((booking) => BookingWidget(
+                    booking: booking,
+                    open: true,
+                  ))
               .toList(),
         ]));
   }

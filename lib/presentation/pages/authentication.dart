@@ -42,7 +42,9 @@ class AuthenticationPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          CircularProgressIndicator()
+                          CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.blueGrey))
                         ],
                       );
                     } else {

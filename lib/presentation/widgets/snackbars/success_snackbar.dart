@@ -31,7 +31,7 @@ class SuccessSnackbar extends StatelessWidget {
                 child: Icon(
                   Icons.check_rounded,
                   size: 25,
-                  color: Color(0xff34A770),
+                  color: Colors.greenAccent[700],
                 ),
               ),
               Container(
@@ -42,14 +42,14 @@ class SuccessSnackbar extends StatelessWidget {
                     Text(
                       'Успешно',
                       style: TextStyle(
-                          color: Color(0xff34A770),
+                          color: Colors.greenAccent[700],
                           fontSize: 13,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       info,
                       style: TextStyle(
-                          color: Color(0xff34A770),
+                          color: Colors.greenAccent[700],
                           fontSize: 12,
                           fontWeight: FontWeight.normal),
                     ),

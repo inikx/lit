@@ -18,6 +18,7 @@ import 'package:lit/data/services/login/network_service.dart';
 import 'package:lit/data/services/login/repository.dart';
 import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
+import 'package:lit/data/services/restaurant/repository.dart';
 import 'package:lit/presentation/pages/authentication.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/pages/bookings.dart';
@@ -49,6 +50,10 @@ class AppRouter {
           ),
         );
       case HOME:
+        if (getIt.isRegistered<RestaurantCubit>()) {
+          getIt.unregister<RestaurantCubit>();
+        }
+        getIt.registerSingleton(RestaurantCubit(getIt<RestaurantRepository>()));
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<RestaurantCubit>(),
@@ -94,18 +99,14 @@ class AppRouter {
         return CupertinoPageRoute(builder: (_) => FavoritesPage());
       case BOOKING_STATUS:
         final args = settings.arguments as BookingStatusArguments;
+        if (getIt.isRegistered<BookingCubit>()) {
+          getIt.unregister<BookingCubit>();
+        }
+        getIt.registerSingleton(BookingCubit(getIt<BookingRepository>()));
         return CupertinoPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => BookingCubit(getIt<BookingRepository>()),
-                  child: BookingStatusPage(
-                      booking: Booking(
-                    title: args.title,
-                    name: args.name,
-                    timeOfBooking: args.timeOfBooking,
-                    timeOfOrder: DateTime.now(),
-                    personCount: args.personCount,
-                    comment: args.comment,
-                  )),
+                  create: (context) => getIt<BookingCubit>(),
+                  child: BookingStatusPage(booking: args.booking),
                 ));
       case BOOKINGS:
         return CupertinoPageRoute(
@@ -143,12 +144,7 @@ class RestarauntDetailsArguments {
 }
 
 class BookingStatusArguments {
-  final String title;
-  final String name;
-  final DateTime? timeOfBooking;
-  final int personCount;
-  final String comment;
+  final Booking booking;
 
-  BookingStatusArguments(this.title, this.name, this.timeOfBooking,
-      this.personCount, this.comment);
+  BookingStatusArguments(this.booking);
 }

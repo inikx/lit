@@ -124,7 +124,10 @@ class _MapPageState extends State<MapPage> {
         body: Consumer(builder: (context, LocationProvider provider, _) {
           if (provider.status == LocationProviderStatus.Loading ||
               provider.status == LocationProviderStatus.Initial) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.blueGrey)));
           } else if (provider.status == LocationProviderStatus.Success) {
             var locationProvider = Provider.of<UserLocation>(context);
 

@@ -52,7 +52,7 @@ const cancelBooking = async (req, res) => {
         var current_time = new Date()
         const booking = await Booking.findById(_id).exec()
         if(booking){
-            var cancel_time = {status : 'canceled at ' + current_time}
+            var cancel_time = {status : 'canceled'}
             await booking.updateOne(cancel_time)
             res.status(201).json("Booking canceled at " + current_time)
         }

@@ -51,9 +51,13 @@ class _BookingsPageState extends State<BookingsPage> {
                       if (allBookings.isEmpty) {
                         return Center(child: Text("Бронирования не найдены"));
                       }
-                      return BookingsList(bookings: allBookings);
+                      return BookingsList(
+                          bookings: allBookings.reversed.toList());
                     } else if (state is BookingsLoading) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(
+                          child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.blueGrey)));
                     } else {
                       return Center(
                           child: Text("Ошибка загрузки бронирований"));

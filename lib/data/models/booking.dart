@@ -1,6 +1,8 @@
-class Booking {
+import 'package:equatable/equatable.dart';
+
+class Booking extends Equatable {
+  String id;
   String user_id;
-  //int booking_id;
   String title;
   String name;
   DateTime? timeOfBooking;
@@ -10,8 +12,8 @@ class Booking {
   String status;
 
   Booking(
-      {this.user_id = "",
-      //this.booking_id = -1,
+      {this.id = "",
+      this.user_id = "",
       this.title = "",
       this.name = "",
       required this.timeOfBooking,
@@ -21,8 +23,8 @@ class Booking {
       this.status = ""});
 
   Booking copyWith(
-      {String? user_id,
-      //int? booking_id,
+      {String? id,
+      String? user_id,
       String? title,
       String? name,
       DateTime? timeOfBooking,
@@ -32,7 +34,7 @@ class Booking {
       String? status}) {
     return Booking(
         user_id: user_id ?? this.user_id,
-        //booking_id: booking_id ?? this.booking_id,
+        id: id ?? this.id,
         title: title ?? this.title,
         name: name ?? this.name,
         timeOfBooking: timeOfBooking ?? this.timeOfBooking,
@@ -44,8 +46,8 @@ class Booking {
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
+        id: json["_id"] ?? null,
         user_id: json["user_id"] ?? null,
-        //booking_id: json["id"] ?? null,
         title: json["title"],
         name: json["name"],
         timeOfBooking: json["timeOfBooking"] != null
@@ -62,5 +64,8 @@ class Booking {
   @override
   String toString() {
     return 'Booking(user_id: $user_id, title: $title, name: $name, timeOfBooking: $timeOfBooking, timeOfOrder: $timeOfOrder, personCount: $personCount, comment: $comment, status: $status)';
-  } //booking_id: $booking_id,
+  }
+
+  @override
+  List<Object?> get props => [title, name, timeOfBooking, personCount, comment];
 }
