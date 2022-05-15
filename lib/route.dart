@@ -7,6 +7,7 @@ import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/data/models/booking.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/providers/filters_provider.dart';
 import 'package:lit/data/providers/location_provider.dart';
@@ -19,6 +20,8 @@ import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
 import 'package:lit/presentation/pages/authentication.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
+import 'package:lit/presentation/pages/bookings.dart';
+import 'package:lit/presentation/pages/favorites.dart';
 import 'package:lit/presentation/pages/home.dart';
 import 'package:lit/presentation/pages/login.dart';
 import 'package:lit/presentation/pages/profile.dart';
@@ -66,48 +69,60 @@ class AppRouter {
       case RESTAURANT_DETAILS:
         final args = settings.arguments as RestarauntDetailsArguments;
         return CupertinoPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => BookingCubit(getIt<BookingRepository>()),
-            child: RestarauntDetails(
-              restaurant: Restaurant(
-                  title: args.title,
-                  kitchen: args.kitchen,
-                  address: args.address,
-                  rating: args.rating,
-                  imagePath: args.imagePath,
-                  averagePrice: args.averagePrice,
-                  description: args.description,
-                  shortDescription: args.shortDescription,
-                  workingHours: args.workingHours,
-                  phone: args.phone),
-            ),
-          ),
-        );
+            builder: (_) => MultiProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          BookingCubit(getIt<BookingRepository>()),
+                    ),
+                  ],
+                  child: RestarauntDetails(
+                    restaurant: Restaurant(
+                        title: args.title,
+                        kitchen: args.kitchen,
+                        address: args.address,
+                        rating: args.rating,
+                        imagePath: args.imagePath,
+                        averagePrice: args.averagePrice,
+                        description: args.description,
+                        shortDescription: args.shortDescription,
+                        workingHours: args.workingHours,
+                        phone: args.phone),
+                  ),
+                ));
+      case FAVORITES:
+        return CupertinoPageRoute(builder: (_) => FavoritesPage());
       case BOOKING_STATUS:
         final args = settings.arguments as BookingStatusArguments;
         return CupertinoPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => BookingCubit(getIt<BookingRepository>()),
-            child: BookingStatusPage(
-              title: args.title,
-              name: args.name,
-              date: args.date,
-              time: args.time,
-              personCount: args.personCount,
-              comment: args.comment,
-            ),
-          ),
-        );
+            builder: (_) => BlocProvider(
+                  create: (context) => BookingCubit(getIt<BookingRepository>()),
+                  child: BookingStatusPage(
+                      booking: Booking(
+                    title: args.title,
+                    name: args.name,
+                    timeOfBooking: args.timeOfBooking,
+                    timeOfOrder: DateTime.now(),
+                    personCount: args.personCount,
+                    comment: args.comment,
+                  )),
+                ));
+      case BOOKINGS:
+        return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => BookingCubit(getIt<BookingRepository>()),
+                  child: BookingsPage(),
+                ));
     }
   }
 }
 
 class RestarauntDetailsArguments {
   String title;
-  List kitchen;
+  List<String> kitchen;
   String address;
   double rating;
-  List imagePath;
+  List<String> imagePath;
   int averagePrice;
   String description;
   String shortDescription;
@@ -130,11 +145,10 @@ class RestarauntDetailsArguments {
 class BookingStatusArguments {
   final String title;
   final String name;
-  final String date;
-  final String time;
+  final DateTime? timeOfBooking;
   final int personCount;
   final String comment;
 
-  BookingStatusArguments(this.title, this.name, this.date, this.time,
+  BookingStatusArguments(this.title, this.name, this.timeOfBooking,
       this.personCount, this.comment);
 }

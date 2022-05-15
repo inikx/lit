@@ -57,7 +57,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
         body: SafeArea(
             child: Column(children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
             child: TextField(
                 controller: Tcontroller,
                 onChanged: (value) {
@@ -96,7 +96,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                     int lowPrice = context.watch<FiltersProvider>().lowPrice;
                     int maxPrice = context.watch<FiltersProvider>().maxPrice;
                     String sort = context.watch<FiltersProvider>().sort;
-                    if (query != null) {
+                    if (query != "") {
                       restaurants = restaurants
                           .where((restaurant) => restaurant.title
                               .toLowerCase()

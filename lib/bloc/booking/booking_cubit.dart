@@ -11,19 +11,19 @@ class BookingCubit extends Cubit<BookingState> {
   final BookingRepository repository;
   BookingCubit(this.repository) : super(BookingInitial());
 
-  // void fetchBookings() {
-  //   emit(BookingsLoading());
-  //   repository.get_all_bookings().then((response) {
-  //     if (response.statusCode == 200) {
-  //       var rawBookings = jsonDecode(response.body) as List;
-  //       List<Booking> bookings =
-  //           rawBookings.map((task) => Booking.fromJson((task))).toList();
-  //       emit(BookingsLoaded(bookings: bookings));
-  //     } else {
-  //       emit(BookingsLoadingError());
-  //     }
-  //   });
-  // }
+  void fetchBookings() {
+    emit(BookingsLoading());
+    repository.getBooking().then((response) {
+      if (response.statusCode == 200) {
+        var rawBookings = jsonDecode(response.body) as List;
+        List<Booking> bookings =
+            rawBookings.map((task) => Booking.fromJson((task))).toList();
+        emit(BookingsLoaded(bookings: bookings));
+      } else {
+        emit(BookingsLoadingError());
+      }
+    });
+  }
 
   // void update_task(Booking task) {
   //   var currentBookings = state.bookings;

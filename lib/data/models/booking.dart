@@ -1,5 +1,5 @@
 class Booking {
-  int user_id;
+  String user_id;
   //int booking_id;
   String title;
   String name;
@@ -10,7 +10,7 @@ class Booking {
   String status;
 
   Booking(
-      {this.user_id = -1,
+      {this.user_id = "",
       //this.booking_id = -1,
       this.title = "",
       this.name = "",
@@ -21,7 +21,7 @@ class Booking {
       this.status = ""});
 
   Booking copyWith(
-      {int? user_id,
+      {String? user_id,
       //int? booking_id,
       String? title,
       String? name,

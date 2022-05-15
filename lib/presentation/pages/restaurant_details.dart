@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
+import 'package:lit/data/services/preferences_service.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
@@ -12,7 +15,7 @@ import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/services/booking/repository.dart';
 import 'package:lit/presentation/widgets/bottom_sheets/booking_input_bottom_sheet.dart';
 
-class RestarauntDetails extends StatelessWidget {
+class RestarauntDetails extends StatefulWidget {
   Restaurant restaurant;
 
   RestarauntDetails({
@@ -20,6 +23,11 @@ class RestarauntDetails extends StatelessWidget {
     required this.restaurant,
   }) : super(key: key);
 
+  @override
+  State<RestarauntDetails> createState() => _RestarauntDetailsState();
+}
+
+class _RestarauntDetailsState extends State<RestarauntDetails> {
   Future<void> makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
       scheme: 'tel',
@@ -40,7 +48,7 @@ class RestarauntDetails extends StatelessWidget {
           backgroundColor: Colors.white,
           toolbarHeight: 48,
           title: Text(
-            restaurant.title,
+            widget.restaurant.title,
             style: const TextStyle(color: Colors.black),
             textAlign: TextAlign.center,
           ),
@@ -87,20 +95,20 @@ class RestarauntDetails extends StatelessWidget {
                               //fontWeight: FontWeight.w600 ?
                             )),
                         const SizedBox(width: 255), //FIX
-                        Text(restaurant.rating.toString()),
+                        Text(widget.restaurant.rating.toString()),
                         const Icon(Icons.star, size: 18)
                       ]),
                   const SizedBox(height: 5),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(restaurant.kitchen.join(", "),
+                        Text(widget.restaurant.kitchen.join(", "),
                             style: const TextStyle(fontSize: 15)),
-                        Text(restaurant.averagePrice.toString() + " ₽")
+                        Text(widget.restaurant.averagePrice.toString() + " ₽")
                       ]),
                   const SizedBox(height: 10),
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    Text(restaurant.workingHours),
+                    Text(widget.restaurant.workingHours),
                     SizedBox(width: 5),
                     const Icon(Icons.access_time, size: 18)
                   ]),
@@ -115,7 +123,7 @@ class RestarauntDetails extends StatelessWidget {
                       ]),
                   const SizedBox(height: 5),
                   Text(
-                    restaurant.description,
+                    widget.restaurant.description,
                     style: const TextStyle(fontSize: 15),
                     textAlign: TextAlign.justify,
                   ),
@@ -134,7 +142,7 @@ class RestarauntDetails extends StatelessWidget {
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onPressed: () {
-                            makePhoneCall(restaurant.phone);
+                            makePhoneCall(widget.restaurant.phone);
                           },
                           icon: const Icon(Icons.local_phone, size: 35)),
                       const SizedBox(
@@ -143,10 +151,8 @@ class RestarauntDetails extends StatelessWidget {
                       IconButton(
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
-                          onPressed: () {
-                            //button add in bookmarks
-                          },
-                          icon: const Icon(Icons.bookmark_border, size: 35)),
+                          onPressed: () async {},
+                          icon: Icon(Icons.bookmark_border, size: 35))
                     ],
                   ),
                 ]),
@@ -166,7 +172,7 @@ class RestarauntDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                         ))),
                     onPressed: () {
-                      BookingInputBottomSheet(context, restaurant.title);
+                      BookingInputBottomSheet(context, widget.restaurant.title);
                     },
                     child: const Text("Забронировать",
                         style: TextStyle(

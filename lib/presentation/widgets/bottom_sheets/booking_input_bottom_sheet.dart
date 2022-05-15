@@ -113,8 +113,7 @@ class _BottomSheetState extends State<BottomSheet> {
                   arguments: BookingStatusArguments(
                       widget.title,
                       _nameEditingController.text,
-                      dateFormatDM.format(bookingDate!),
-                      dateFormatT.format(bookingDate!),
+                      bookingDate,
                       personCount,
                       _commentEditingController.text));
               return;

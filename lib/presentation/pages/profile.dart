@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
-import 'package:lit/presentation/pages/profile_bookings.dart';
+import 'package:lit/presentation/pages/bookings.dart';
 import 'package:lit/presentation/pages/profile_data.dart';
-import 'package:lit/presentation/pages/profile_favorites.dart';
-import 'package:lit/presentation/pages/profile_notifications.dart';
+import 'package:lit/presentation/pages/favorites.dart';
+import 'package:lit/presentation/pages/notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -48,10 +48,7 @@ class ProfilePage extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
       onPressed: () {
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => const ProfileBookingsPage()));
+        Navigator.pushNamed(context, BOOKINGS);
       },
       icon: const Icon(
         Icons.book,
@@ -69,10 +66,7 @@ class ProfilePage extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
       onPressed: () {
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => const ProfileFavoritesPage()));
+        Navigator.pushNamed(context, FAVORITES);
       },
       icon: const Icon(
         Icons.bookmark,

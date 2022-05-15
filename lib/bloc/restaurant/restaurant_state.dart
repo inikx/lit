@@ -7,7 +7,6 @@ abstract class RestaurantState {
 
 class RestaurantInitial extends RestaurantState {}
 
-//! Restaurant load states
 class RestaurantsLoading extends RestaurantState {}
 
 class RestaurantsLoaded extends RestaurantState {

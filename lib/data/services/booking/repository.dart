@@ -9,4 +9,8 @@ class BookingRepository {
   Future<Response> setBooking(Booking booking) async {
     return await networkService.setBooking(booking);
   }
+
+  Future<Response> getBooking() async {
+    return await networkService.getBooking();
+  }
 }

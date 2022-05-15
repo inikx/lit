@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lit/data/models/booking.dart';
 import 'package:lit/presentation/widgets/booking/booking.dart';
 
 class BookingStatusPage extends StatelessWidget {
-  final String title;
-  final String name;
-  final String date;
-  final String time;
-  final int personCount;
-  final String comment;
+  Booking booking;
+  // final String title;
+  // final String name;
+  // final String date;
+  // final String time;
+  // final int personCount;
+  // final String comment;
 
-  const BookingStatusPage({
-    Key? key,
-    required this.title,
-    required this.name,
-    required this.personCount,
-    required this.date,
-    required this.time,
-    required this.comment,
-  }) : super(key: key);
+  BookingStatusPage({Key? key, required this.booking
+      // required this.title,
+      // required this.name,
+      // required this.personCount,
+      // required this.date,
+      // required this.time,
+      // required this.comment,
+      })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +55,14 @@ class BookingStatusPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BookingWidget(
-                  title: title,
-                  name: name,
-                  personCount: personCount,
-                  date: date,
-                  time: time,
-                  comment: comment),
+                booking: Booking(
+                    title: booking.title,
+                    name: booking.name,
+                    personCount: booking.personCount,
+                    timeOfBooking: booking.timeOfBooking,
+                    timeOfOrder: DateTime.now(),
+                    comment: booking.comment),
+              ),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
