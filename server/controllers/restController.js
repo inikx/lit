@@ -33,7 +33,7 @@ const getRest = async (req, res) => {
 
 const getAllRests = async (req, res) => {
     try {
-        const rest = await Rest.find().exec()
+        const rest = await Rest.find ().exec()
         if(rest){
             res.status(200).json(rest)
             return
