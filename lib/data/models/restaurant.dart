@@ -12,6 +12,8 @@ class Restaurant extends Equatable {
   String shortDescription;
   String workingHours;
   String phone;
+  double? latitude;
+  double? longitude;
 
   Restaurant(
       {required this.title,
@@ -23,7 +25,9 @@ class Restaurant extends Equatable {
       required this.description,
       required this.shortDescription,
       required this.workingHours,
-      required this.phone});
+      required this.phone,
+      this.latitude,
+      this.longitude});
 
   Restaurant copyWith(
       {String? title,

@@ -174,15 +174,20 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 15),
                 profileFavorites(context),
                 const SizedBox(height: 15),
-                profileNotifications(context),
-                const SizedBox(height: 15),
+                // profileNotifications(context),
+                // const SizedBox(height: 15),
                 TextButton(
+                  style: TextButton.styleFrom(
+                      splashFactory: NoSplash.splashFactory),
                   onPressed: () async {
                     await storage.deleteAll();
                     Navigator.pushNamedAndRemoveUntil(
                         context, LOGIN, (r) => false);
                   },
-                  child: Text("Выйти", style: TextStyle(color: Colors.red)),
+                  child: Text("Выйти",
+                      style: TextStyle(
+                        color: Colors.red,
+                      )),
                 ),
                 const SizedBox(height: 130), //?
                 Expanded(

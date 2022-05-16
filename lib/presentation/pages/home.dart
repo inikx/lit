@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/profile.dart';
@@ -18,23 +19,13 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     RestaurantsPage(),
-    Maps(),
     ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (index == 1) {
-        var provider = Provider.of<LocationProvider>(context, listen: false);
-        provider.getLocation();
-      } //?
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -59,10 +50,6 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                 label: "Рестораны",
                 icon: Icon(Icons.restaurant_outlined),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.map),
-                label: 'Карта',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

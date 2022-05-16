@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/authentication/authentication_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class AuthenticationPage extends StatelessWidget {
                     if (state is AuthenticationChecking) {
                       log(state.runtimeType.toString());
                       return Column(
-                        children: const [
+                        children: [
                           Text(
                             'Lit',
                             style: TextStyle(
@@ -42,9 +43,10 @@ class AuthenticationPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.blueGrey))
+                          JumpingDotsProgressIndicator(
+                            dotSpacing: 8,
+                            fontSize: 80.0,
+                          )
                         ],
                       );
                     } else {

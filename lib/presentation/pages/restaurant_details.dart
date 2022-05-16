@@ -1,12 +1,20 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart' as geo;
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/data/models/user_location.dart';
+import 'package:lit/data/providers/location_provider.dart';
+import 'package:lit/presentation/pages/map.dart';
+import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/route.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
@@ -134,8 +142,33 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                       IconButton(
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
-                          onPressed: () {
-                            //
+                          onPressed: () async {
+                            try {
+                              List<geo.Location> locations =
+                                  await locationFromAddress(
+                                      widget.restaurant.address +
+                                          ", Санкт-Петербург"); //add city
+                              widget.restaurant.latitude =
+                                  locations[0].latitude;
+                              widget.restaurant.longitude =
+                                  locations[0].longitude;
+                              var provider = Provider.of<LocationProvider>(
+                                  context,
+                                  listen: false);
+                              provider.getLocation();
+                              List<Restaurant> restaurants = [];
+                              restaurants.add(widget.restaurant);
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: ((context) =>
+                                          GMap(restaurants: restaurants))));
+                            } catch (e) {
+                              showTopSnackBar(
+                                  context,
+                                  const ErrorSnackbar(
+                                      info: "Данный адрес не найден"));
+                            }
                           },
                           icon: const Icon(Icons.location_on, size: 35)),
                       const SizedBox(width: 15),

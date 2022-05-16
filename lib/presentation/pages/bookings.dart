@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/data/models/booking.dart';
 import 'package:lit/presentation/widgets/booking/bookings_list.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class BookingsPage extends StatefulWidget {
   const BookingsPage({Key? key}) : super(key: key);
@@ -55,9 +56,10 @@ class _BookingsPageState extends State<BookingsPage> {
                           bookings: allBookings.reversed.toList());
                     } else if (state is BookingsLoading) {
                       return Center(
-                          child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.blueGrey)));
+                          child: JumpingDotsProgressIndicator(
+                        dotSpacing: 8,
+                        fontSize: 80.0,
+                      ));
                     } else {
                       return Center(
                           child: Text("Ошибка загрузки бронирований"));

@@ -50,16 +50,12 @@ class _BottomSheetState extends State<BottomSheet> {
   DateTime now = DateTime.now();
   DateTime? bookingDate;
   late DateFormat dateFormat;
-  late DateFormat dateFormatDM;
-  late DateFormat dateFormatT;
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting();
     dateFormat = DateFormat.MMMMd('ru').add_jm();
-    dateFormatDM = DateFormat.MMMMd('ru');
-    dateFormatT = DateFormat.jm('ru');
   }
 
   showDateTimePicker() {

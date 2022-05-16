@@ -27,6 +27,7 @@ class LoginPage extends StatelessWidget {
           case LogInError:
             showTopSnackBar(context,
                 const ErrorSnackbar(info: "Ошибка входа, попробуйте снова"));
+            return;
         }
       },
       child: Scaffold(

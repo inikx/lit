@@ -245,7 +245,6 @@ class _BottomSheetState extends State<BottomSheet> {
                       },
                       items: <String>[
                         'Рекомендованные',
-                        'Ближайшие',
                         'С наибольшим рейтингом',
                         'Недорогие',
                         'Дорогие'

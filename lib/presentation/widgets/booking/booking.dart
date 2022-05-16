@@ -105,29 +105,24 @@ class _BookingWidgetState extends State<BookingWidget> {
                                 fontSize: 15, fontWeight: FontWeight.w600))
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text("Комментарий: "),
-                        Expanded(
-                          child: Text(
-                              widget.booking.comment != ""
-                                  ? widget.booking.comment
-                                  : "-",
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  overflow: TextOverflow.visible)),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("Статус: "),
-                        Text(widget.booking.status,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600))
-                      ],
-                    ),
+                    Builder(builder: (context) {
+                      if (widget.booking.comment != "") {
+                        return Row(
+                          children: [
+                            Text("Комментарий: "),
+                            Expanded(
+                              child: Text(widget.booking.comment,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.visible)),
+                            )
+                          ],
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ],
                 ),
               )),

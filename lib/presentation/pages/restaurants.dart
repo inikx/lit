@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/providers/location_provider.dart';
@@ -11,6 +14,7 @@ import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:lit/presentation/widgets/bottom_sheets/restaurants_filters_bottom_sheet.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -56,32 +60,6 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             ]),
         body: SafeArea(
             child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child: TextField(
-                controller: Tcontroller,
-                onChanged: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-                textCapitalization: TextCapitalization.words,
-                cursorColor: Colors.grey,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  hintText: 'Поиск',
-                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                )),
-          ),
           Expanded(
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -90,6 +68,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                   if (state is RestaurantsLoaded) {
                     var restaurants = state.restaurants;
                     List<Restaurant> allRestaurants = [];
+                    List<Restaurant> geoRestaurants = [];
                     List kitchen =
                         context.watch<FiltersProvider>().selectedKitchens;
                     double rating = context.watch<FiltersProvider>().rating;
@@ -145,14 +124,136 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                       allRestaurants.add(restaurant);
                     }
                     if (allRestaurants.isEmpty) {
-                      return Center(child: Text("Рестораны не найдены"));
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                                  child: TextField(
+                                      autofocus: true,
+                                      controller: Tcontroller,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          query = value;
+                                        });
+                                      },
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      cursorColor: Colors.grey,
+                                      decoration: InputDecoration(
+                                        prefixIcon: Icon(
+                                          Icons.search,
+                                          color: Colors.grey,
+                                        ),
+                                        hintText: 'Поиск',
+                                        hintStyle: TextStyle(
+                                            fontSize: 15, color: Colors.grey),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.grey),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Center(child: Text("Рестораны не найдены.")),
+                        ],
+                      );
                     }
-                    return RestaurantsList(restaurants: allRestaurants);
+                    return Column(
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 60,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                                child: TextField(
+                                    controller: Tcontroller,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        query = value;
+                                      });
+                                    },
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    cursorColor: Colors.grey,
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: Colors.grey,
+                                      ),
+                                      hintText: 'Поиск',
+                                      hintStyle: TextStyle(
+                                          fontSize: 15, color: Colors.grey),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10.0),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                    )),
+                              ),
+                            ),
+                            IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                icon: Image.asset('assets/icons/map.png'),
+                                onPressed: () async {
+                                  for (Restaurant restaurant
+                                      in allRestaurants) {
+                                    try {
+                                      List<geo.Location> locations =
+                                          await locationFromAddress(restaurant
+                                                  .address +
+                                              ", Санкт-Петербург"); //add city
+                                      restaurant.latitude =
+                                          locations[0].latitude;
+                                      restaurant.longitude =
+                                          locations[0].longitude;
+                                      geoRestaurants.add(restaurant);
+                                    } catch (e) {}
+                                  }
+                                  var provider = Provider.of<LocationProvider>(
+                                      context,
+                                      listen: false);
+                                  provider.getLocation();
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: ((context) => GMap(
+                                              restaurants: geoRestaurants))));
+                                }),
+                          ],
+                        ),
+                        RestaurantsList(restaurants: allRestaurants),
+                      ],
+                    );
                   } else if (state is RestaurantsLoading) {
                     return Center(
-                        child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.blueGrey)));
+                        child: JumpingDotsProgressIndicator(
+                      dotSpacing: 8,
+                      fontSize: 80.0,
+                    ));
                   } else {
                     return Center(child: Text("Ошибка загрузки ресторанов"));
                   }
