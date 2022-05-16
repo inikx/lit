@@ -60,7 +60,7 @@ const parse = async () => {
                     description: null,
                     shortDescription: shortDescription,
                     //workingHours: null,
-                    phone: null,
+                    //phone: null,
                     url: subpageUrl,
                 });
             }
@@ -90,16 +90,17 @@ const parseSubPage = async (rest) => {
         parentAddress = $('h2.place-info__item')
         var  childAddress = 'span.t-dotted'
         imagePath = $('.slider__content')
-        .find(".slide").toArray().map(child => $(child).find('img').attr('alt'));
-        console.log(imagePath)
+        .find(".slide").toArray().map(child => $(child).find('img').attr('data-src'));
+        //console.log(imagePath)
         address = parentAddress.find(childAddress).text()
         parentData = $('div.place-info__item')
         var  childData = 'div.info__content.d_t-t-b'
+        var phone = $('a.place-phone__number').attr('content')
         var data = parentData.find(childData).toArray().map(child => $(child).text());
         //workingHours = data.split('    ')[0]
 
         rest[rest.indexOf(res)]= Object.assign({}, res, {address: address,
-            workingHours: data[0]})
+            workingHours: data[0], phone: phone})
 
         
         //console.log(parentPaths)
@@ -123,7 +124,7 @@ const parseSubPage = async (rest) => {
     // workingHours = data.split('    ')[0]
 
     //console.log(description + '\n', address + '\n', workingHours + '\n')
-    //console.log(rest)
+    console.log(rest)
 };
 
 (async () => {
