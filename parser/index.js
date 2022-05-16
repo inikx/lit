@@ -55,7 +55,7 @@ const parse = async () => {
                     kitchen: kitchen,
                     //address: null,
                     rating: rating,
-                    imagePath: null,
+                    //imagePath: null,
                     averagePrice: averagePrice,
                     description: null,
                     shortDescription: shortDescription,
@@ -90,17 +90,20 @@ const parseSubPage = async (rest) => {
         parentAddress = $('h2.place-info__item')
         var  childAddress = 'span.t-dotted'
         imagePath = $('.slider__content')
-        .find(".slide").toArray().map(child => $(child).find('img').attr('data-src'));
+        .find(".slide").toArray().map(child => $(child).find('a').attr('data-src'));
+        imagePath[0] = $('.slider__content')
+        .find("img").attr('src');
         //console.log(imagePath)
         address = parentAddress.find(childAddress).text()
         parentData = $('div.place-info__item')
         var  childData = 'div.info__content.d_t-t-b'
         var phone = $('a.place-phone__number').attr('content')
         var data = parentData.find(childData).toArray().map(child => $(child).text());
+        
         //workingHours = data.split('    ')[0]
 
         rest[rest.indexOf(res)]= Object.assign({}, res, {address: address,
-            workingHours: data[0], phone: phone})
+            workingHours: data[0], phone: phone, imagePath: imagePath})
 
         
         //console.log(parentPaths)

@@ -12,7 +12,6 @@ router.post(
     body("rating"),
     body("imagePath"),
     body("averagePrice"),
-    body("description"),
     body("shortDescription"),
     body("workingHours"),
     body("phone"),
