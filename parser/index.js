@@ -1,7 +1,10 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+//const fetch = require("node-fetch")
 const { get, add } = require("cheerio/lib/api/traversing");
 var rest = [];
+
+
 
 
 const parse = async () => {
@@ -52,6 +55,7 @@ const parse = async () => {
             if (title) {
                 rest.push({
                     title: title,
+                    city: "Санкт-Петербург",
                     kitchen: kitchen,
                     //address: null,
                     rating: rating,
@@ -106,8 +110,25 @@ const parseSubPage = async (rest) => {
             workingHours: data[0], phone: phone, imagePath: imagePath})
 
         
-        //console.log(parentPaths)
         
+        
+        // let datas = JSON.stringify({
+        //     "title": res.title,
+        //     "kitchen": res.kitchen,
+        //     "address": res.address,
+        //     "rating": res.rating,
+        //     "imagePath": res.imagePath,
+        //     "averagePrice": res.averagePrice,
+        //     "shortDescription": res.shortDescription,
+        //     "workingHours": res.workingHours,
+        //     "phone": res.phone
+        //   });
+        //   axios.post('http://localhost:3000/setRest', datas)
+        //   .then((response) => {
+        //     console.log(response);
+        //   }, (error) => {
+        //     console.log(error);
+        //   });
      }
      
     
@@ -127,7 +148,29 @@ const parseSubPage = async (rest) => {
     // workingHours = data.split('    ')[0]
 
     //console.log(description + '\n', address + '\n', workingHours + '\n')
-    console.log(rest)
+    for(var r of rest){
+        let datas = {
+                "title": r.title,
+                "city": r.city,
+                "kitchen": r.kitchen,
+                "address": r.address,
+                "rating": r.rating,
+                "imagePath": r.imagePath,
+                "averagePrice": r.averagePrice,
+                "shortDescription": r.shortDescription,
+                "workingHours": r.workingHours,
+                "phone": r.phone
+              };
+        let result = JSON.stringify(datas)
+              console.log(result)
+              await axios.post('http://localhost:3000/api/setRest', datas)
+              .then((response) => {
+                console.log(response);
+              }, (error) => {
+                console.log(error);
+              });
+            
+    }
 };
 
 (async () => {

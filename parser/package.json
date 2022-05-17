@@ -14,10 +14,12 @@
     "cheerio": "^1.0.0-rc.10",
     "fetch": "^1.1.0",
     "got": "^11.3.0",
+    "node-fetch": "^3.2.4",
     "pretty": "^2.0.0",
     "puppeteer": "^13.7.0",
     "xhr": "^2.6.0",
     "xmldom": "^0.6.0",
+    "xmlhttprequest": "^1.8.0",
     "xpath": "0.0.32"
   }
 }
