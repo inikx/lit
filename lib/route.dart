@@ -84,12 +84,12 @@ class AppRouter {
                   child: RestarauntDetails(
                     restaurant: Restaurant(
                         title: args.title,
+                        city: args.city,
                         kitchen: args.kitchen,
                         address: args.address,
                         rating: args.rating,
                         imagePath: args.imagePath,
                         averagePrice: args.averagePrice,
-                        description: args.description,
                         shortDescription: args.shortDescription,
                         workingHours: args.workingHours,
                         phone: args.phone),
@@ -120,24 +120,24 @@ class AppRouter {
 
 class RestarauntDetailsArguments {
   String title;
+  String city;
   List<String> kitchen;
   String address;
   double rating;
   List<String> imagePath;
   int averagePrice;
-  String description;
   String shortDescription;
   String workingHours;
   String phone;
 
   RestarauntDetailsArguments(
       this.title,
+      this.city,
       this.kitchen,
       this.address,
       this.rating,
       this.imagePath,
       this.averagePrice,
-      this.description,
       this.shortDescription,
       this.workingHours,
       this.phone);

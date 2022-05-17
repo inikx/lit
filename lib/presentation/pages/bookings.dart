@@ -50,7 +50,7 @@ class _BookingsPageState extends State<BookingsPage> {
                         allBookings.add(booking);
                       }
                       if (allBookings.isEmpty) {
-                        return Center(child: Text("Бронирования не найдены"));
+                        return Center(child: Text("Бронирования не найдены."));
                       }
                       return BookingsList(
                           bookings: allBookings.reversed.toList());
@@ -62,7 +62,7 @@ class _BookingsPageState extends State<BookingsPage> {
                       ));
                     } else {
                       return Center(
-                          child: Text("Ошибка загрузки бронирований"));
+                          child: Text("Ошибка загрузки бронирований."));
                     }
                   },
                 ),

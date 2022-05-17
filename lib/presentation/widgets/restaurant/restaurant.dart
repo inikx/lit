@@ -33,12 +33,12 @@ class RestaurantWidget extends StatelessWidget {
               Navigator.pushNamed(context, RESTAURANT_DETAILS,
                   arguments: RestarauntDetailsArguments(
                       restaurant.title,
+                      restaurant.city,
                       restaurant.kitchen,
                       restaurant.address,
                       restaurant.rating,
                       restaurant.imagePath,
                       restaurant.averagePrice,
-                      restaurant.description,
                       restaurant.shortDescription,
                       restaurant.workingHours,
                       restaurant.phone));
@@ -49,50 +49,90 @@ class RestaurantWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-                    child: SizedBox(
-                      height: 135,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          SizedBox(
-                            height: 38,
-                            child: Icon(
-                              Icons.location_on,
-                              size: 18,
-                            ),
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(
-                          restaurant.title,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: Text(restaurant.shortDescription,
-                              style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w400)),
-                        ),
-                        Text(restaurant.address.toString(),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 0, 0, 0),
+                          child: Text(
+                            restaurant.title,
                             style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w400)),
-                        Text(restaurant.rating.toString(),
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w400)),
+                                fontSize: 15, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Icon(
+                                Icons.restaurant_menu,
+                                size: 18,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(restaurant.kitchen.join(", "),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      overflow: TextOverflow.ellipsis)),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Icon(
+                                Icons.location_on,
+                                size: 18,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(restaurant.address.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      overflow: TextOverflow.ellipsis)),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 8, 0),
+                                child: Text(
+                                  "₽",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                            Text(
+                                restaurant.averagePrice != 0
+                                    ? restaurant.averagePrice.toString()
+                                    : "Нет данных",
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Icon(
+                                Icons.star,
+                                size: 18,
+                              ),
+                            ),
+                            Text(
+                                restaurant.rating != 0
+                                    ? restaurant.rating.toString()
+                                    : "Нет оценок",
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -104,8 +144,7 @@ class RestaurantWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image.network(
-                            //restaurant.imagePath!.first //TODO: fix
-                            "https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg",
+                            restaurant.imagePath.first,
                             fit: BoxFit.cover,
                           ),
                         ),

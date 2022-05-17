@@ -156,7 +156,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             borderRadius: BorderRadius.circular(50),
                           ))),
                       onPressed: () async {
-                        log(city);
                         context.read<RegisterCubit>().updateCity(city);
                         BlocProvider.of<RegisterCubit>(context).registerUser(
                             context.read<RegisterCubit>().state.data);

@@ -91,7 +91,8 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                     }
                     if (rating > 1) {
                       restaurants = restaurants.where((restaurant) {
-                        return restaurant.rating >= rating;
+                        return restaurant.rating >= rating ||
+                            restaurant.rating == 0.0;
                       }).toList();
                     }
                     if (lowPrice > 0) {
@@ -151,7 +152,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                         ),
                                         hintText: 'Поиск',
                                         hintStyle: TextStyle(
-                                            fontSize: 15, color: Colors.black),
+                                            fontSize: 15, color: Colors.grey),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                                 vertical: 10.0),
@@ -221,21 +222,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 icon: Image.asset('assets/icons/map.png'),
-                                onPressed: () async {
-                                  for (Restaurant restaurant
-                                      in allRestaurants) {
-                                    try {
-                                      List<geo.Location> locations =
-                                          await locationFromAddress(restaurant
-                                                  .address +
-                                              ", Санкт-Петербург"); //add city
-                                      restaurant.latitude =
-                                          locations[0].latitude;
-                                      restaurant.longitude =
-                                          locations[0].longitude;
-                                      geoRestaurants.add(restaurant);
-                                    } catch (e) {}
-                                  }
+                                onPressed: () {
                                   var provider = Provider.of<LocationProvider>(
                                       context,
                                       listen: false);
@@ -244,7 +231,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                       context,
                                       CupertinoPageRoute(
                                           builder: ((context) => GMap(
-                                              restaurants: geoRestaurants))));
+                                              restaurants: allRestaurants))));
                                 }),
                           ],
                         ),

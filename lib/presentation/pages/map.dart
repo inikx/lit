@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -60,33 +61,50 @@ class _MapPageState extends State<MapPage> {
   static const googleApiKey = "AIzaSyC9rwCAKSPVSibz8vHHFT4bCdBCVgj8C1M";
   final places = GoogleMapsPlaces(apiKey: googleApiKey);
 
+  List<Restaurant> geoRestaurants = [];
   List<Marker> restMarkers = [];
 
   @override
   void initState() {
-    for (var restaurant in widget.restaurants) {
-      restMarkers.add(Marker(
-          markerId: MarkerId(restaurant.title),
-          position: LatLng(restaurant.latitude!, restaurant.longitude!),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          infoWindow: InfoWindow(
-              title: restaurant.title,
-              snippet: "Рейтинг: " + (restaurant.rating.toString()),
-              onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
-                  arguments: RestarauntDetailsArguments(
-                      restaurant.title,
-                      restaurant.kitchen,
-                      restaurant.address,
-                      restaurant.rating,
-                      restaurant.imagePath,
-                      restaurant.averagePrice,
-                      restaurant.description,
-                      restaurant.shortDescription,
-                      restaurant.workingHours,
-                      restaurant.phone)))));
-    }
+    addMarkers();
     super.initState();
+  }
+
+  addMarkers() async {
+    BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(),
+      "assets/icons/pin.png",
+    );
+
+    for (var restaurant in widget.restaurants) {
+      try {
+        List<geo.Location> locations = await locationFromAddress(
+            restaurant.address + ", " + restaurant.city);
+        restaurant.latitude = locations[0].latitude;
+        restaurant.longitude = locations[0].longitude;
+        geoRestaurants.add(restaurant);
+
+        restMarkers.add(Marker(
+            markerId: MarkerId(restaurant.title),
+            position: LatLng(restaurant.latitude!, restaurant.longitude!),
+            icon: markerbitmap,
+            infoWindow: InfoWindow(
+                title: restaurant.title,
+                snippet: restaurant.address,
+                onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
+                    arguments: RestarauntDetailsArguments(
+                        restaurant.title,
+                        restaurant.city,
+                        restaurant.kitchen,
+                        restaurant.address,
+                        restaurant.rating,
+                        restaurant.imagePath,
+                        restaurant.averagePrice,
+                        restaurant.shortDescription,
+                        restaurant.workingHours,
+                        restaurant.phone)))));
+      } catch (e) {}
+    }
   }
 
   @override
@@ -116,15 +134,15 @@ class _MapPageState extends State<MapPage> {
                 child: SizedBox(
                   child: GoogleMap(
                     markers: Set.from(restMarkers),
-                    initialCameraPosition: restMarkers.length > 1
+                    initialCameraPosition: restMarkers.length == 1
                         ? CameraPosition(
-                            zoom: 12,
-                            target: LatLng(locationProvider.latitude,
-                                locationProvider.longitude))
-                        : CameraPosition(
                             zoom: 15,
                             target: LatLng(widget.restaurants[0].latitude!,
-                                widget.restaurants[0].longitude!)),
+                                widget.restaurants[0].longitude!))
+                        : CameraPosition(
+                            zoom: 12,
+                            target: LatLng(locationProvider.latitude,
+                                locationProvider.longitude)),
                     myLocationEnabled: true,
                     mapToolbarEnabled: true,
                     mapType: MapType.normal,
@@ -135,8 +153,8 @@ class _MapPageState extends State<MapPage> {
             ]);
           } else {
             return Center(
-                child:
-                    Text("Ошибка. Мы не можем получить ваше местоположение"));
+                child: Text(
+                    "Ошибка. Мы не можем получить ваше местоположение")); //fix to city
           }
         }));
   }

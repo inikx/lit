@@ -28,16 +28,41 @@ class BottomSheet extends StatefulWidget {
 
 class _BottomSheetState extends State<BottomSheet> {
   final List<String> kitchenItems = [
-    "Азиатская",
-    "Вегетарианская",
-    "Грузинская",
-    "Европейская",
-    "Итальянская",
-    "Китайская",
-    "Русская",
-    "Японская",
-    "Осетинская",
-  ]; //add kitchens after parser
+    "азиатская",
+    "вегетарианская",
+    "грузинская",
+    "европейская",
+    "итальянская",
+    "китайская",
+    "русская",
+    "японская",
+    "авторская",
+    "азербайджанская",
+    "американская",
+    "армянская",
+    "бельгийская",
+    "восточная",
+    "вьетнамская",
+    "греческая",
+    "израильская",
+    "индийская",
+    "испанская",
+    "кавказская",
+    "корейская",
+    //"латиноамериканская",
+    "мексиканская",
+    "немецкая",
+    "сербская",
+    "скандинавская",
+    "смешанная",
+    "средиземноморская",
+    "стритфуд",
+    "тайская",
+    "узбекская",
+    "украинская",
+    "французская",
+    "чешская",
+  ];
 
   void showMultiSelectKitchen(BuildContext context) async {
     await showModalBottomSheet(
@@ -56,8 +81,8 @@ class _BottomSheetState extends State<BottomSheet> {
             onConfirm: (values) =>
                 Provider.of<FiltersProvider>(context, listen: false)
                     .changeSelectedKitchens(values),
-            initialChildSize: 0.5,
-            maxChildSize: 0.5,
+            initialChildSize: 0.4,
+            maxChildSize: 0.95,
             title: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Text(
@@ -208,7 +233,7 @@ class _BottomSheetState extends State<BottomSheet> {
                     Text("Рейтинг"),
                     SfSlider(
                       min: 1,
-                      max: 5,
+                      max: 10,
                       value: context.watch<FiltersProvider>().rating,
                       stepSize: 1,
                       interval: 1,

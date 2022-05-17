@@ -60,7 +60,6 @@ class _BottomSheetState extends State<BottomSheet> {
   }
 
   showDateTimePicker() {
-    log(now.toString());
     return showCupertinoModalPopup(
         context: context,
         builder: (context) => BlocProvider(
@@ -70,8 +69,12 @@ class _BottomSheetState extends State<BottomSheet> {
                   SizedBox(
                       height: 180,
                       child: CupertinoDatePicker(
-                        initialDateTime: DateTime(now.year, now.month, now.day,
-                            now.hour, (now.minute < 30 ? 30 : 0)),
+                        initialDateTime: DateTime(
+                            now.year,
+                            now.month,
+                            now.day,
+                            (now.minute < 30 ? now.hour : now.hour + 1),
+                            (now.minute < 30 ? 30 : 0)),
                         onDateTimeChanged: (value) {
                           setState(() {
                             bookingDate = value;
@@ -80,8 +83,12 @@ class _BottomSheetState extends State<BottomSheet> {
                         use24hFormat: true,
                         maximumDate: DateTime(now.year, now.month + 1, now.day,
                             now.hour, (now.minute < 30 ? 30 : 0)),
-                        minimumDate: DateTime(now.year, now.month, now.day,
-                            now.hour, (now.minute < 30 ? 30 : 0)),
+                        minimumDate: DateTime(
+                            now.year,
+                            now.month,
+                            now.day,
+                            (now.minute < 30 ? now.hour : now.hour + 1),
+                            (now.minute < 30 ? 30 : 0)),
                         minuteInterval: 30,
                         mode: CupertinoDatePickerMode.dateAndTime,
                         backgroundColor: Colors.white,
@@ -137,7 +144,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Ваше имя"),
+                            Text("Ваше имя:"),
                             SizedBox(width: 150),
                             Flexible(
                                 child: TextField(
@@ -162,7 +169,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Количество персон"),
+                          const Text("Количество персон:"),
                           const SizedBox(width: 100),
                           SizedBox(
                             height: 30,
@@ -205,7 +212,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Дата и время"),
+                            Text("Дата и время:"),
                             TextButton(
                                 style: TextButton.styleFrom(
                                     splashFactory: NoSplash.splashFactory),
