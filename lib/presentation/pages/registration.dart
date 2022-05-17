@@ -8,12 +8,20 @@ import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
 
   @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  var _controller = TextEditingController();
+  final cities = ['Санкт-Петербург', 'Москва'];
+  String city = 'Санкт-Петербург';
+
+  @override
   Widget build(BuildContext context) {
-    var _controller = TextEditingController();
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         switch (state.runtimeType) {
@@ -108,7 +116,33 @@ class RegistrationPage extends StatelessWidget {
                           filled: true,
                         )),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton<String>(
+                      value: city,
+                      onChanged: (newCity) {
+                        setState(() => city = newCity!);
+                      },
+                      items: cities
+                          .map<DropdownMenuItem<String>>(
+                              (String value) => DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  ))
+                          .toList(),
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black,
+                      ),
+                      iconSize: 26,
+                      underline: SizedBox(),
+                    ),
+                  ),
+                  const SizedBox(height: 70),
                   Container(
                     width: 300,
                     height: 50,
@@ -122,6 +156,8 @@ class RegistrationPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(50),
                           ))),
                       onPressed: () async {
+                        log(city);
+                        context.read<RegisterCubit>().updateCity(city);
                         BlocProvider.of<RegisterCubit>(context).registerUser(
                             context.read<RegisterCubit>().state.data);
                       },

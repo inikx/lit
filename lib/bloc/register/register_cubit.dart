@@ -27,16 +27,25 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
   }
 
+  void updateCity(String city) {
+    final currentState = state;
+    if (currentState is RegisterChanged || currentState is RegisterInitial) {
+      emit(RegisterChanged(data: currentState.data.copyWith(city: city)));
+    }
+  }
+
   void registerUser(RegisterData data) {
-    repository!.registerUser(data.email, data.password).then((response) => {
-          if (response.statusCode == 200 || response.statusCode == 201)
-            {emit(UserRegistered())}
-          else
-            {
-              emit(RegisterError(
-                  errors: [response.body], data: state.data.copyWith()))
-            }
-        });
+    repository!
+        .registerUser(data.email, data.password, data.city)
+        .then((response) => {
+              if (response.statusCode == 200 || response.statusCode == 201)
+                {emit(UserRegistered())}
+              else
+                {
+                  emit(RegisterError(
+                      errors: [response.body], data: state.data.copyWith()))
+                }
+            });
   }
 
   void okWithError() {

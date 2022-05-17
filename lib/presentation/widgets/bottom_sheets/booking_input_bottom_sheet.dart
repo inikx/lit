@@ -47,7 +47,8 @@ class _BottomSheetState extends State<BottomSheet> {
   TextEditingController _nameEditingController = TextEditingController();
   TextEditingController _commentEditingController = TextEditingController();
   int personCount = 1;
-  DateTime now = DateTime.now();
+  DateTime now = DateTime.now().toLocal();
+
   DateTime? bookingDate;
   late DateFormat dateFormat;
 
@@ -59,6 +60,7 @@ class _BottomSheetState extends State<BottomSheet> {
   }
 
   showDateTimePicker() {
+    log(now.toString());
     return showCupertinoModalPopup(
         context: context,
         builder: (context) => BlocProvider(
@@ -69,7 +71,7 @@ class _BottomSheetState extends State<BottomSheet> {
                       height: 180,
                       child: CupertinoDatePicker(
                         initialDateTime: DateTime(now.year, now.month, now.day,
-                            now.hour + 4, (now.minute < 30 ? 30 : 0)),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         onDateTimeChanged: (value) {
                           setState(() {
                             bookingDate = value;
@@ -77,9 +79,9 @@ class _BottomSheetState extends State<BottomSheet> {
                         },
                         use24hFormat: true,
                         maximumDate: DateTime(now.year, now.month + 1, now.day,
-                            now.hour + 4, (now.minute < 30 ? 30 : 0)),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         minimumDate: DateTime(now.year, now.month, now.day,
-                            now.hour + 4, (now.minute < 30 ? 30 : 0)),
+                            now.hour, (now.minute < 30 ? 30 : 0)),
                         minuteInterval: 30,
                         mode: CupertinoDatePickerMode.dateAndTime,
                         backgroundColor: Colors.white,

@@ -75,6 +75,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                     int lowPrice = context.watch<FiltersProvider>().lowPrice;
                     int maxPrice = context.watch<FiltersProvider>().maxPrice;
                     String sort = context.watch<FiltersProvider>().sort;
+                    //Filters
                     if (query != "") {
                       restaurants = restaurants
                           .where((restaurant) => restaurant.title
@@ -104,9 +105,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                       }).toList();
                     }
                     if (sort != "Рекомендованные") {
-                      if (sort == "Ближайшие") {
-                        //TODO: geoposition
-                      } else if (sort == "С наибольшим рейтингом") {
+                      if (sort == "С наибольшим рейтингом") {
                         restaurants
                             .sort((a, b) => b.rating.compareTo(a.rating));
                       } else if (sort == "Недорогие") {
@@ -144,7 +143,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                       },
                                       textCapitalization:
                                           TextCapitalization.words,
-                                      cursorColor: Colors.grey,
+                                      cursorColor: Colors.black,
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(
                                           Icons.search,
@@ -152,16 +151,18 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                         ),
                                         hintText: 'Поиск',
                                         hintStyle: TextStyle(
-                                            fontSize: 15, color: Colors.grey),
+                                            fontSize: 15, color: Colors.black),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                                 vertical: 10.0),
                                         focusedBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
-                                                color: Colors.grey),
+                                                color: Colors.black),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0))),
                                         border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.black),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0))),
                                       )),
@@ -191,7 +192,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                     },
                                     textCapitalization:
                                         TextCapitalization.words,
-                                    cursorColor: Colors.grey,
+                                    cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                         Icons.search,
@@ -205,10 +206,12 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                               vertical: 10.0),
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
-                                              color: Colors.grey),
+                                              color: Colors.black),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10.0))),
                                       border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.black),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10.0))),
                                     )),

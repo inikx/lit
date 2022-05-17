@@ -7,7 +7,8 @@ class RegisterRepository {
   final RegisterNetworkService networkService;
   RegisterRepository(this.networkService);
 
-  Future<Response> registerUser(String email, String password) async {
-    return await networkService.register(email, password);
+  Future<Response> registerUser(
+      String email, String password, String city) async {
+    return await networkService.register(email, password, city);
   }
 }
