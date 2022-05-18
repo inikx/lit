@@ -68,7 +68,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         onChanged: (String value) {
                           context.read<RegisterCubit>().updateEmail(value);
                         },
-                        //keyboardType: TextInputType.number,
                         autofocus: false,
                         decoration: InputDecoration(
                           hintText: 'Email',

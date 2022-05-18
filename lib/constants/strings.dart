@@ -8,3 +8,4 @@ const RESTAURANT_DETAILS = "/restaurant_details";
 const BOOKING_STATUS = "/booking_status";
 const FAVORITES = "/favorites";
 const BOOKINGS = "/bookings";
+const USER_DATA = "/user_data";

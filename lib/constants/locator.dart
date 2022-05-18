@@ -5,6 +5,7 @@ import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/bloc/set_booking/set_booking_cubit.dart';
+import 'package:lit/bloc/user/user_cubit.dart';
 
 import 'package:lit/data/services/authentication/network_service.dart';
 import 'package:lit/data/services/authentication/repository.dart';
@@ -16,6 +17,8 @@ import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
 import 'package:lit/data/services/restaurant/network_service.dart';
 import 'package:lit/data/services/restaurant/repository.dart';
+import 'package:lit/data/services/user/network_service.dart';
+import 'package:lit/data/services/user/repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -51,4 +54,9 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(
       RestaurantRepository(getIt<RestaurantNetworkService>()));
   getIt.registerSingleton(RestaurantCubit(getIt<RestaurantRepository>()));
+
+  //User
+  getIt.registerSingleton(UserNetworkService());
+  getIt.registerSingleton(UserRepository(getIt<UserNetworkService>()));
+  getIt.registerSingleton(UserCubit(getIt<UserRepository>()));
 }

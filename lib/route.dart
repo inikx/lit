@@ -5,6 +5,7 @@ import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
+import 'package:lit/bloc/user/user_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/booking.dart';
@@ -19,6 +20,7 @@ import 'package:lit/data/services/login/repository.dart';
 import 'package:lit/data/services/register/network_service.dart';
 import 'package:lit/data/services/register/repository.dart';
 import 'package:lit/data/services/restaurant/repository.dart';
+import 'package:lit/data/services/user/repository.dart';
 import 'package:lit/presentation/pages/authentication.dart';
 import 'package:lit/presentation/pages/booking_status.dart';
 import 'package:lit/presentation/pages/bookings.dart';
@@ -29,6 +31,7 @@ import 'package:lit/presentation/pages/profile.dart';
 import 'package:lit/presentation/pages/registration.dart';
 import 'package:lit/presentation/pages/restaurant_details.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
+import 'package:lit/presentation/pages/user_data.dart';
 import 'package:provider/provider.dart';
 
 class AppRouter {
@@ -114,6 +117,18 @@ class AppRouter {
                   create: (context) => BookingCubit(getIt<BookingRepository>()),
                   child: BookingsPage(),
                 ));
+
+      case USER_DATA:
+        if (getIt.isRegistered<UserCubit>()) {
+          getIt.unregister<UserCubit>();
+        }
+        getIt.registerSingleton(UserCubit(getIt<UserRepository>()));
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<UserCubit>(),
+            child: const UserDataPage(),
+          ),
+        );
     }
   }
 }

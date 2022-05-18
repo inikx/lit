@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/presentation/pages/bookings.dart';
-import 'package:lit/presentation/pages/profile_data.dart';
+import 'package:lit/presentation/pages/user_data.dart';
 import 'package:lit/presentation/pages/favorites.dart';
 import 'package:lit/presentation/pages/notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,8 +29,7 @@ class ProfilePage extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
       onPressed: () {
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => const ProfileDataPage()));
+        Navigator.pushNamed(context, USER_DATA);
       },
       icon: const Icon(
         Icons.person,
@@ -166,35 +165,22 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                profileData(context),
-                const SizedBox(height: 15),
-                profileBooking(context),
-                const SizedBox(height: 15),
-                profileFavorites(context),
-                const SizedBox(height: 15),
-                // profileNotifications(context),
-                // const SizedBox(height: 15),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      splashFactory: NoSplash.splashFactory),
-                  onPressed: () async {
-                    await storage.deleteAll();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LOGIN, (r) => false);
-                  },
-                  child: Text("Выйти",
-                      style: TextStyle(
-                        color: Colors.red,
-                      )),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    profileData(context),
+                    const SizedBox(height: 15),
+                    profileBooking(context),
+                    const SizedBox(height: 15),
+                    profileFavorites(context),
+                    const SizedBox(height: 15),
+                  ],
                 ),
-                const SizedBox(height: 130), //?
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: profileSupport(context),
-                  ),
+                Container(
+                  alignment: Alignment.center,
+                  child: profileSupport(context),
                 ),
               ],
             ),

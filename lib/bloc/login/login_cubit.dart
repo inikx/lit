@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:lit/data/models/login.dart';
 import 'package:lit/data/services/login/repository.dart';
@@ -23,6 +25,7 @@ class LogInCubit extends Cubit<LogInState> {
   }
 
   void loginUser(LogInData data) {
+    //log(data.toString());
     final currentState = state;
     repository.loginUser(data.email, data.password).then((response) => {
           if (response.statusCode == 200 || response.statusCode == 201)
