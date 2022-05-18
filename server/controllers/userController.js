@@ -39,6 +39,20 @@ const authenticate = async (req, res) => {
     }
 };
 
+const showUser = async (req, res) => {
+    try {
+        const _id = req.body
+        const user = await User.findOne({_id: _id}).exec()
+        if(user){
+            res.status(200).json(user)
+            return
+        }
+        res.status(404).json("User data not found")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const login = async (req, res) => {
     try {
         const { email, password} = req.body;
@@ -76,6 +90,7 @@ module.exports = {
     register,
     login,
     authenticate,
+    showUser
 };
 
 
