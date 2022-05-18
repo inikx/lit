@@ -63,8 +63,8 @@ const updateCity = async (req, res) => {
                 { where: { _id } }
             );
 
-            var updatedUser = await User.findOne({ where: { _id } });
-            res.status(200).json(updatedUser);
+            
+            res.status(200).json(user);
         } else {
             res.status(404).json("User not found");
         }
