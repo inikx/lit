@@ -58,13 +58,8 @@ const updateCity = async (req, res) => {
         const { _id, city} = req.body;
         const user = await User.findOne({_id: _id}).exec()
         if (user) {
-            await User.update(
-                { city },
-                { where: { _id } }
-            );
-
-            
-            res.status(200).json(user);
+            await User.updateOne({_id: _id}, {$set: {city : city}});
+            res.status(200).json("City changed!");
         } else {
             res.status(404).json("User not found");
         }
