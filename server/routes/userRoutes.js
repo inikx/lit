@@ -18,4 +18,5 @@ router.post("/showUser",
     body("user_id"),
     userController.showUser
     );
+router.post("/updateCity", body("user_id"), body("city"), userController.showUser); 
 module.exports = router

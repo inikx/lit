@@ -53,6 +53,26 @@ const showUser = async (req, res) => {
     }
 }
 
+const updateCity = async (req, res) => {
+    try {
+        const { _id, city} = req.body;
+        const user = await User.findOne({_id: _id}).exec()
+        if (user) {
+            await User.update(
+                { city },
+                { where: { _id } }
+            );
+
+            var updatedUser = await User.findOne({ where: { _id } });
+            res.status(200).json(updatedUser);
+        } else {
+            res.status(404).json("User not found");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const login = async (req, res) => {
     try {
         const { email, password} = req.body;
@@ -90,7 +110,8 @@ module.exports = {
     register,
     login,
     authenticate,
-    showUser
+    showUser,
+    updateCity
 };
 
 
