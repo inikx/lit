@@ -150,6 +150,10 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           return Text(widget.restaurant.workingHours,
                               style: TextStyle(fontStyle: FontStyle.italic));
                         } else if (widget.restaurant.workingHours.length ==
+                            24) {
+                          return Text("Нет данных",
+                              style: TextStyle(fontStyle: FontStyle.italic));
+                        } else if (widget.restaurant.workingHours.length ==
                             36) {
                           return Text(widget.restaurant.workingHours,
                               style: TextStyle(fontStyle: FontStyle.italic));

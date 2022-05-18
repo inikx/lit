@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const RestSchema = new mongoose.Schema({
     title: {type: String, required: true},
+    city: {type: String, required: true},
     kitchen: {type: [String]},
     address: {type: String},
     rating: {type: String},

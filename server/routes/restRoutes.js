@@ -7,6 +7,7 @@ const { body } = require("express-validator");
 router.post(
     "/setRest",
     body("title"),
+    body("city"),
     body("kitchen"),
     body("address"),
     body("rating"),

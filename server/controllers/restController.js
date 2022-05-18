@@ -3,13 +3,13 @@ const { check, validationResult } = require("express-validator/check");
 
 const setRest = async (req, res) => {
     try {
-        const {title, kitchen, address, rating, imagePath, averagePrice, shortDescription, workingHours, phone} = req.body;
+        const {title, city, kitchen, address, rating, imagePath, averagePrice, shortDescription, workingHours, phone} = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         
-        const rest = await Rest.create({title: title, kitchen: kitchen, address: address, rating: rating, imagePath: imagePath, averagePrice: averagePrice, shortDescription: shortDescription, workingHours: workingHours, phone:phone})
+        const rest = await Rest.create({title: title, city: city, kitchen: kitchen, address: address, rating: rating, imagePath: imagePath, averagePrice: averagePrice, shortDescription: shortDescription, workingHours: workingHours, phone:phone})
 
         res.status(201).json(rest);
     } catch (error) {
