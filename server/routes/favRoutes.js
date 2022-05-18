@@ -11,5 +11,17 @@ router.post(
     favController.addFav
 );
 
+router.post(
+    "/deleteFav",
+    body("user_id"),
+    body("rest_id"),
+    favController.deleteFav
+);
+
+router.post(
+    "/showFav",
+    body("user_id"),
+    favController.showFav
+);
 
 module.exports = router
