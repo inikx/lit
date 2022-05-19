@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RestaurantWidget extends StatelessWidget {
   Restaurant restaurant;
@@ -32,6 +33,7 @@ class RestaurantWidget extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, RESTAURANT_DETAILS,
                   arguments: RestarauntDetailsArguments(
+                      restaurant.id,
                       restaurant.title,
                       restaurant.city,
                       restaurant.kitchen,
@@ -143,10 +145,9 @@ class RestaurantWidget extends StatelessWidget {
                         height: 120,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
-                          child: Image.network(
-                            restaurant.imagePath.first,
-                            fit: BoxFit.cover,
-                          ),
+                          child: CachedNetworkImage(
+                              imageUrl: restaurant.imagePath.first,
+                              fit: BoxFit.cover),
                         ),
                       )),
                 ],

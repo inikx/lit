@@ -141,12 +141,12 @@ class _BottomSheetState extends State<BottomSheet> {
                           Provider.of<FiltersProvider>(context, listen: false)
                               .changeRating(1.0);
                           Provider.of<FiltersProvider>(context, listen: false)
-                              .changeSort('Рекомендованные');
+                              .changeSort('С наибольшим рейтингом');
                           Navigator.pop(context);
                         },
                         child: const Text("Сбросить",
                             style: TextStyle(
-                              color: Colors.red,
+                              color: Colors.grey,
                               fontSize: 15,
                             ))),
                   ],
@@ -269,7 +269,6 @@ class _BottomSheetState extends State<BottomSheet> {
                             .changeSort(value);
                       },
                       items: <String>[
-                        'Рекомендованные',
                         'С наибольшим рейтингом',
                         'Недорогие',
                         'Дорогие'

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 
 class Restaurant extends Equatable {
+  String id;
   String title;
   String city;
   List<String> kitchen;
@@ -17,7 +18,8 @@ class Restaurant extends Equatable {
   double? longitude;
 
   Restaurant(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.city,
       required this.kitchen,
       required this.address,
@@ -31,7 +33,8 @@ class Restaurant extends Equatable {
       this.longitude});
 
   Restaurant copyWith(
-      {String? title,
+      {String? id,
+      String? title,
       String? city,
       List<String>? kitchen,
       String? address,
@@ -42,6 +45,7 @@ class Restaurant extends Equatable {
       String? workingHours,
       String? phone}) {
     return Restaurant(
+        id: id ?? this.id,
         title: title ?? this.title,
         city: city ?? this.city,
         kitchen: kitchen ?? this.kitchen,
@@ -56,6 +60,7 @@ class Restaurant extends Equatable {
 
   static Map<String, dynamic> toMap(Restaurant restaurant) {
     return {
+      'id': restaurant.id,
       'title': restaurant.title,
       'city': restaurant.city,
       'kitchen': restaurant.kitchen,
@@ -90,6 +95,7 @@ class Restaurant extends Equatable {
     }
 
     return Restaurant(
+      id: json['_id'] ?? "",
       title: json['title'] ?? "",
       city: json['city'] ?? "",
       kitchen: List<String>.from(json['kitchen']),
@@ -105,6 +111,7 @@ class Restaurant extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['title'] = this.title;
     data['city'] = this.city;
     data['kitchen'] = this.kitchen;
@@ -123,6 +130,7 @@ class Restaurant extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         title,
         city,
         kitchen,

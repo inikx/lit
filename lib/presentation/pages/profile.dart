@@ -5,7 +5,6 @@ import 'package:lit/constants/strings.dart';
 import 'package:lit/presentation/pages/bookings.dart';
 import 'package:lit/presentation/pages/user_data.dart';
 import 'package:lit/presentation/pages/favorites.dart';
-import 'package:lit/presentation/pages/notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -74,27 +73,6 @@ class ProfilePage extends StatelessWidget {
       ),
       label: const Text(
         "Избранное",
-        style: TextStyle(fontSize: 15, color: Colors.black),
-      ),
-    );
-  }
-
-  profileNotifications(BuildContext context) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
-      onPressed: () {
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => const ProfileNotificationsPage()));
-      },
-      icon: const Icon(
-        Icons.notifications,
-        size: 18,
-        color: Colors.black,
-      ),
-      label: const Text(
-        "Уведомления",
         style: TextStyle(fontSize: 15, color: Colors.black),
       ),
     );

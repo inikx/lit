@@ -93,6 +93,7 @@ class _MapPageState extends State<MapPage> {
                 snippet: restaurant.address,
                 onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
                     arguments: RestarauntDetailsArguments(
+                        restaurant.id,
                         restaurant.title,
                         restaurant.city,
                         restaurant.kitchen,

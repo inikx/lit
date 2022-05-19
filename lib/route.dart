@@ -76,6 +76,10 @@ class AppRouter {
         );
       case RESTAURANT_DETAILS:
         final args = settings.arguments as RestarauntDetailsArguments;
+        if (getIt.isRegistered<RestaurantCubit>()) {
+          getIt.unregister<RestaurantCubit>();
+        }
+        getIt.registerSingleton(RestaurantCubit(getIt<RestaurantRepository>()));
         return CupertinoPageRoute(
             builder: (_) => MultiProvider(
                   providers: [
@@ -83,9 +87,11 @@ class AppRouter {
                       create: (context) =>
                           BookingCubit(getIt<BookingRepository>()),
                     ),
+                    BlocProvider(create: (context) => getIt<RestaurantCubit>())
                   ],
                   child: RestarauntDetails(
                     restaurant: Restaurant(
+                        id: args.id,
                         title: args.title,
                         city: args.city,
                         kitchen: args.kitchen,
@@ -99,7 +105,16 @@ class AppRouter {
                   ),
                 ));
       case FAVORITES:
-        return CupertinoPageRoute(builder: (_) => FavoritesPage());
+        if (getIt.isRegistered<RestaurantCubit>()) {
+          getIt.unregister<RestaurantCubit>();
+        }
+        getIt.registerSingleton(RestaurantCubit(getIt<RestaurantRepository>()));
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<RestaurantCubit>(),
+            child: const FavoritesPage(),
+          ),
+        );
       case BOOKING_STATUS:
         final args = settings.arguments as BookingStatusArguments;
         if (getIt.isRegistered<BookingCubit>()) {
@@ -134,6 +149,7 @@ class AppRouter {
 }
 
 class RestarauntDetailsArguments {
+  String id;
   String title;
   String city;
   List<String> kitchen;
@@ -146,6 +162,7 @@ class RestarauntDetailsArguments {
   String phone;
 
   RestarauntDetailsArguments(
+      this.id,
       this.title,
       this.city,
       this.kitchen,

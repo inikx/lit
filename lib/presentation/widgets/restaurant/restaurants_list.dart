@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geocoding/geocoding.dart' as geo;
+import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
+import 'package:lit/constants/locator.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/models/user_location.dart';
 import 'package:lit/data/providers/location_provider.dart';
@@ -22,20 +24,18 @@ class RestaurantsList extends StatefulWidget {
 }
 
 class _RestaurantsListState extends State<RestaurantsList> {
-  final Scontroller = ScrollController();
-  final Tcontroller = TextEditingController();
+  final _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          controller: Scontroller,
-          child: Column(children: [
-            ...widget.restaurants
-                .map((restaurant) => RestaurantWidget(restaurant: restaurant))
-                .toList(),
-          ])),
-    );
+        child: ListView.builder(
+            itemCount: widget.restaurants.length,
+            physics: const BouncingScrollPhysics(),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            controller: _controller,
+            itemBuilder: (context, index) {
+              return RestaurantWidget(restaurant: widget.restaurants[index]);
+            }));
   }
 }

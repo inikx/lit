@@ -10,4 +10,16 @@ class RestaurantRepository {
   Future<Response> getAllRests() async {
     return await networkService.getAllRests();
   }
+
+  Future<Response> showFav() async {
+    return await networkService.showFav();
+  }
+
+  Future<Response> addFav(String rest_id) async {
+    return await networkService.addFav(rest_id);
+  }
+
+  Future<Response> deleteFav(String rest_id) async {
+    return await networkService.deleteFav(rest_id);
+  }
 }

@@ -32,22 +32,11 @@ class AuthenticationPage extends StatelessWidget {
                   builder: (context, state) {
                     if (state is AuthenticationChecking) {
                       log(state.runtimeType.toString());
-                      return Column(
-                        children: [
-                          Text(
-                            'Lit',
-                            style: TextStyle(
-                              fontFamily: 'Rubik',
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          JumpingDotsProgressIndicator(
-                            dotSpacing: 8,
-                            fontSize: 80.0,
-                          )
-                        ],
+                      return Center(
+                        child: JumpingDotsProgressIndicator(
+                          dotSpacing: 8,
+                          fontSize: 80.0,
+                        ),
                       );
                     } else {
                       return Container();

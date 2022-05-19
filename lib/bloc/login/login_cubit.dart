@@ -25,7 +25,6 @@ class LogInCubit extends Cubit<LogInState> {
   }
 
   void loginUser(LogInData data) {
-    //log(data.toString());
     final currentState = state;
     repository.loginUser(data.email, data.password).then((response) => {
           if (response.statusCode == 200 || response.statusCode == 201)

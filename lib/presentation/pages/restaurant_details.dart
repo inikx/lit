@@ -46,6 +46,13 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
   }
 
   @override
+  void initState() {
+    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants();
+    //BlocProvider.of<RestaurantCubit>(context).showFav();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -117,9 +124,12 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(widget.restaurant.kitchen.join(", "),
-                                style: const TextStyle(
-                                    fontSize: 15, fontStyle: FontStyle.italic)),
+                            Flexible(
+                              child: Text(widget.restaurant.kitchen.join(", "),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.italic)),
+                            ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
                               child: Text(widget.restaurant.averagePrice != 0
@@ -145,68 +155,64 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                             fontSize: 20,
                           )),
                       const SizedBox(height: 5),
+                      //workingHours fixies
                       Builder(builder: (context) {
+                        String text = "";
                         if (widget.restaurant.workingHours.length == 20) {
-                          return Text(widget.restaurant.workingHours,
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = widget.restaurant.workingHours;
                         } else if (widget.restaurant.workingHours.length ==
                             24) {
-                          return Text("Нет данных",
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = "Нет данных";
                         } else if (widget.restaurant.workingHours.length ==
                             36) {
-                          return Text(widget.restaurant.workingHours,
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = widget.restaurant.workingHours;
                         } else if (widget.restaurant.workingHours.length ==
                             40) {
-                          return Text(
-                              widget.restaurant.workingHours.substring(0, 20) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(20, 40),
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = widget.restaurant.workingHours
+                                  .substring(0, 20) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(20, 40);
                         } else if (widget.restaurant.workingHours.length ==
                             57) {
-                          return Text(
-                              widget.restaurant.workingHours.substring(0, 20) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(20, 40) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(40, 57),
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = widget.restaurant.workingHours
+                                  .substring(0, 20) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(20, 40) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(40, 57);
                         } else if (widget.restaurant.workingHours.length ==
                             71) {
-                          return Text(
-                              widget.restaurant.workingHours.substring(0, 20) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(20, 37) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(37, 54) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(54, 71),
-                              style: TextStyle(fontStyle: FontStyle.italic));
-                        } else {
-                          return Text(
-                              widget.restaurant.workingHours.substring(0, 17) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(17, 34) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(34, 54) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(54, 71) +
-                                  "\n" +
-                                  widget.restaurant.workingHours
-                                      .substring(71, 91),
-                              style: TextStyle(fontStyle: FontStyle.italic));
+                          text = widget.restaurant.workingHours
+                                  .substring(0, 20) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(20, 37) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(37, 54) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(54, 71);
+                        } else if (widget.restaurant.workingHours.length ==
+                            73) {
+                          text = widget.restaurant.workingHours
+                                  .substring(0, 20) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(20, 56) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(56, 73);
+                        } else if (widget.restaurant.workingHours.length ==
+                            91) {
+                          text = widget.restaurant.workingHours
+                                  .substring(0, 17) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(17, 34) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(34, 54) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(54, 71) +
+                              "\n" +
+                              widget.restaurant.workingHours.substring(71, 91);
                         }
+                        return Text(text,
+                            style: TextStyle(fontStyle: FontStyle.italic));
                       }),
                       const SizedBox(height: 10),
                       Row(
@@ -255,11 +261,20 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           const SizedBox(
                             width: 200, //FIX
                           ),
-                          IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () async {},
-                              icon: Icon(Icons.bookmark_border, size: 35))
+                          //TODO: fix
+                          BlocBuilder<RestaurantCubit, RestaurantState>(
+                              builder: (context, state) {
+                            log(state.runtimeType.toString());
+                            //if(state)
+                            return IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onPressed: () {
+                                  BlocProvider.of<RestaurantCubit>(context)
+                                      .addFav(widget.restaurant.id);
+                                },
+                                icon: Icon(Icons.bookmark_border, size: 35));
+                          })
                         ],
                       ),
                     ]),

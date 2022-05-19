@@ -49,12 +49,11 @@ class _UserDataPageState extends State<UserDataPage> {
                     children: [
                       Text(
                         "Email: ",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 18),
                       ),
                       Text(
                         user.email,
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
@@ -92,7 +91,7 @@ class _UserDataPageState extends State<UserDataPage> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.red),
+                              MaterialStateProperty.all(Colors.black),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(

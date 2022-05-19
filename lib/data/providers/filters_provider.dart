@@ -13,7 +13,7 @@ class FiltersProvider extends ChangeNotifier {
   double _rating = 1;
   double get rating => _rating;
 
-  String _sort = 'Рекомендованные';
+  String _sort = 'С наибольшим рейтингом';
   String get sort => _sort;
 
   void changeSelectedKitchens(newSelectedKitchens) {
