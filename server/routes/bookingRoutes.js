@@ -13,6 +13,7 @@ router.post(
     body("personCount"),
     body("comment"),
     body("status"),
+    body("phone"),
     bookingController.setBooking
 );
 
