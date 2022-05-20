@@ -105,7 +105,7 @@ class _BottomSheetState extends State<BottomSheet> {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.6,
+      heightFactor: 0.63,
       child: Padding(
         padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 15),
         child: Column(
@@ -257,7 +257,7 @@ class _BottomSheetState extends State<BottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Показать сначала",
+                      "Сортировать",
                     ),
                     DropdownButton<String>(
                       value: context.watch<FiltersProvider>().sort,
@@ -284,7 +284,7 @@ class _BottomSheetState extends State<BottomSheet> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
               child: SizedBox(
                 height: 50,
                 width: 180,

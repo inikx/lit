@@ -147,16 +147,37 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                     //workingHours fixies
                     Builder(builder: (context) {
                       String text = "";
-                      if (widget.restaurant.workingHours.length == 20) {
+                      if (widget.restaurant.workingHours.length == 20 ||
+                          widget.restaurant.workingHours.length == 16) {
                         text = widget.restaurant.workingHours;
                       } else if (widget.restaurant.workingHours.length == 24) {
                         text = "Нет данных";
+                      } else if (widget.restaurant.workingHours.length == 35) {
+                        text = widget.restaurant.workingHours.substring(0, 15) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(15, 35);
                       } else if (widget.restaurant.workingHours.length == 36) {
                         text = widget.restaurant.workingHours;
                       } else if (widget.restaurant.workingHours.length == 40) {
                         text = widget.restaurant.workingHours.substring(0, 20) +
                             "\n" +
                             widget.restaurant.workingHours.substring(20, 40);
+                      } else if (widget.restaurant.workingHours.length == 50) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 33) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(33, 50);
+                      } else if (widget.restaurant.workingHours.length == 54) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 37) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(37, 54);
+                      } else if (widget.restaurant.workingHours.length == 56) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 56);
                       } else if (widget.restaurant.workingHours.length == 57) {
                         text = widget.restaurant.workingHours.substring(0, 20) +
                             "\n" +
@@ -189,63 +210,90 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                             widget.restaurant.workingHours.substring(71, 91);
                       }
                       return Text(text,
-                          style: TextStyle(fontStyle: FontStyle.italic));
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              overflow: TextOverflow.ellipsis));
                     }),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onPressed: () async {
-                                  try {
-                                    List<geo.Location> locations =
-                                        await locationFromAddress(
-                                            widget.restaurant.address +
-                                                ", " +
-                                                widget.restaurant.city);
-                                    widget.restaurant.latitude =
-                                        locations[0].latitude;
-                                    widget.restaurant.longitude =
-                                        locations[0].longitude;
-                                    var provider =
-                                        Provider.of<LocationProvider>(context,
-                                            listen: false);
-                                    provider.getLocation();
-                                    List<Restaurant> restaurants = [];
-                                    restaurants.add(widget.restaurant);
-                                    Navigator.push(
+                        SizedBox(
+                          height: 40,
+                          width: 140,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.black),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ))),
+                              onPressed: () {
+                                widget.restaurant.phone != ""
+                                    ? BookingInputBottomSheet(
                                         context,
-                                        CupertinoPageRoute(
-                                            builder: ((context) => GMap(
-                                                restaurants: restaurants))));
-                                  } catch (e) {
-                                    showTopSnackBar(
+                                        widget.restaurant.title,
+                                        widget.restaurant.phone)
+                                    : showTopSnackBar(
                                         context,
                                         const ErrorSnackbar(
-                                            info: "Данный адрес не найден"));
-                                  }
-                                },
-                                icon: const Icon(Icons.location_on, size: 35)),
-                            const SizedBox(width: 15),
-                            IconButton(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onPressed: () {
-                                  widget.restaurant.phone != ""
-                                      ? makePhoneCall(widget.restaurant.phone)
-                                      : showTopSnackBar(
-                                          context,
-                                          const ErrorSnackbar(
-                                              info:
-                                                  "Номер телефона ресторана не найден"));
-                                },
-                                icon: const Icon(Icons.local_phone, size: 35)),
-                          ],
+                                            info:
+                                                "Номер телефона ресторана не найден"));
+                              },
+                              child: Text("Забронировать",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ))),
                         ),
+                        IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () async {
+                              try {
+                                List<geo.Location> locations =
+                                    await locationFromAddress(
+                                        widget.restaurant.address +
+                                            ", " +
+                                            widget.restaurant.city);
+                                widget.restaurant.latitude =
+                                    locations[0].latitude;
+                                widget.restaurant.longitude =
+                                    locations[0].longitude;
+                                var provider = Provider.of<LocationProvider>(
+                                    context,
+                                    listen: false);
+                                provider.getLocation();
+                                List<Restaurant> restaurants = [];
+                                restaurants.add(widget.restaurant);
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: ((context) =>
+                                            GMap(restaurants: restaurants))));
+                              } catch (e) {
+                                showTopSnackBar(
+                                    context,
+                                    const ErrorSnackbar(
+                                        info: "Данный адрес не найден"));
+                              }
+                            },
+                            icon: const Icon(Icons.location_on, size: 35)),
+                        IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () {
+                              widget.restaurant.phone != ""
+                                  ? makePhoneCall(widget.restaurant.phone)
+                                  : showTopSnackBar(
+                                      context,
+                                      const ErrorSnackbar(
+                                          info:
+                                              "Номер телефона ресторана не найден"));
+                            },
+                            icon: const Icon(Icons.local_phone, size: 35)),
                         BlocBuilder<RestaurantCubit, RestaurantState>(
                             builder: (context, state) {
                           if (state is RestaurantsLoaded) {
@@ -268,41 +316,11 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           } else {
                             return SizedBox();
                           }
-                        })
+                        }),
                       ],
                     ),
                   ]),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
-              child: SizedBox(
-                height: 50,
-                width: 180,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ))),
-                    onPressed: () {
-                      widget.restaurant.phone != ""
-                          ? BookingInputBottomSheet(context,
-                              widget.restaurant.title, widget.restaurant.phone)
-                          : showTopSnackBar(
-                              context,
-                              const ErrorSnackbar(
-                                  info: "Номер телефона ресторана не найден"));
-                    },
-                    child: Text("Забронировать",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ))),
-              ),
-            )
           ]),
         ));
   }

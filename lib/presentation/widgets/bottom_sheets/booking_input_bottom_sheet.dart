@@ -127,7 +127,7 @@ class _BottomSheetState extends State<BottomSheet> {
           }
         },
         child: FractionallySizedBox(
-            heightFactor: 0.8, //keyboard on other devices?
+            heightFactor: 0.85, //keyboard on other devices?
             child: Column(
               children: <Widget>[
                 Padding(
@@ -147,7 +147,6 @@ class _BottomSheetState extends State<BottomSheet> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text("Ваше имя:"),
-                            SizedBox(width: 150),
                             Flexible(
                                 child: TextField(
                                     onChanged: (String value) async {
@@ -172,43 +171,48 @@ class _BottomSheetState extends State<BottomSheet> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text("Количество персон:"),
-                          const SizedBox(width: 100),
-                          SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: FloatingActionButton(
-                              child: const Icon(Icons.remove,
-                                  color: Colors.black, size: 15),
-                              backgroundColor: Colors.white,
-                              onPressed: () {
-                                setState(() {
-                                  if (personCount > 1) {
-                                    personCount--;
-                                    context
-                                        .read<SetBookingCubit>()
-                                        .updatePersonCount(personCount);
-                                  }
-                                });
-                              },
-                            ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: FloatingActionButton(
+                                  child: const Icon(Icons.remove,
+                                      color: Colors.black, size: 15),
+                                  backgroundColor: Colors.white,
+                                  onPressed: () {
+                                    setState(() {
+                                      if (personCount > 1) {
+                                        personCount--;
+                                        context
+                                            .read<SetBookingCubit>()
+                                            .updatePersonCount(personCount);
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(personCount.toString()),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: FloatingActionButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        personCount++;
+                                        context
+                                            .read<SetBookingCubit>()
+                                            .updatePersonCount(personCount);
+                                      });
+                                    },
+                                    child: const Icon(Icons.add,
+                                        color: Colors.black, size: 15),
+                                    backgroundColor: Colors.white),
+                              )
+                            ],
                           ),
-                          Text(personCount.toString()),
-                          SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: FloatingActionButton(
-                                onPressed: () {
-                                  setState(() {
-                                    personCount++;
-                                    context
-                                        .read<SetBookingCubit>()
-                                        .updatePersonCount(personCount);
-                                  });
-                                },
-                                child: const Icon(Icons.add,
-                                    color: Colors.black, size: 15),
-                                backgroundColor: Colors.white),
-                          )
                         ],
                       ),
                       Row(

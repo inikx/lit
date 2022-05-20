@@ -64,6 +64,7 @@ dependencies:
   progress_indicators: ^1.0.0
   equatable: ^2.0.3
   cached_network_image: ^3.2.1
+  device_preview: ^1.0.0
   
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
