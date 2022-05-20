@@ -24,60 +24,6 @@ class ProfilePage extends StatelessWidget {
     await launchUrl(launchUri);
   }
 
-  profileData(BuildContext context) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
-      onPressed: () {
-        Navigator.pushNamed(context, USER_DATA);
-      },
-      icon: const Icon(
-        Icons.person,
-        size: 18,
-        color: Colors.black,
-      ),
-      label: const Text(
-        "Мои данные",
-        style: TextStyle(fontSize: 15, color: Colors.black),
-      ),
-    );
-  }
-
-  profileBooking(BuildContext context) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
-      onPressed: () {
-        Navigator.pushNamed(context, BOOKINGS);
-      },
-      icon: const Icon(
-        Icons.book,
-        size: 18,
-        color: Colors.black,
-      ),
-      label: const Text(
-        "Мои бронирования",
-        style: TextStyle(fontSize: 15, color: Colors.black),
-      ),
-    );
-  }
-
-  profileFavorites(BuildContext context) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
-      onPressed: () {
-        Navigator.pushNamed(context, FAVORITES);
-      },
-      icon: const Icon(
-        Icons.bookmark,
-        size: 18,
-        color: Colors.black,
-      ),
-      label: const Text(
-        "Избранное",
-        style: TextStyle(fontSize: 15, color: Colors.black),
-      ),
-    );
-  }
-
   profileSupport(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -148,11 +94,62 @@ class ProfilePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    profileData(context),
+                    TextButton.icon(
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.grey.withOpacity(0.1)),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, USER_DATA);
+                      },
+                      icon: const Icon(
+                        Icons.person,
+                        size: 18,
+                        color: Colors.black,
+                      ),
+                      label: const Text(
+                        "Мои данные",
+                        style: TextStyle(fontSize: 15, color: Colors.black),
+                      ),
+                    ),
                     const SizedBox(height: 15),
-                    profileBooking(context),
+                    TextButton.icon(
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.grey.withOpacity(0.1)),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, BOOKINGS);
+                      },
+                      icon: const Icon(
+                        Icons.book,
+                        size: 18,
+                        color: Colors.black,
+                      ),
+                      label: const Text(
+                        "Мои бронирования",
+                        style: TextStyle(fontSize: 15, color: Colors.black),
+                      ),
+                    ),
                     const SizedBox(height: 15),
-                    profileFavorites(context),
+                    TextButton.icon(
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.grey.withOpacity(0.1)),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, FAVORITES);
+                      },
+                      icon: const Icon(
+                        Icons.bookmark,
+                        size: 18,
+                        color: Colors.black,
+                      ),
+                      label: const Text(
+                        "Избранное",
+                        style: TextStyle(fontSize: 15, color: Colors.black),
+                      ),
+                    ),
                     const SizedBox(height: 15),
                   ],
                 ),

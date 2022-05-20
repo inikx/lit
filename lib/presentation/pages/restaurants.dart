@@ -170,6 +170,23 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                       )),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        icon: Image.asset(
+                                          'assets/icons/map.png',
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {}),
+                                    Text("0")
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           Center(child: Text("Рестораны не найдены.")),

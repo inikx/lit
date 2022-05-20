@@ -63,7 +63,7 @@ class Booking extends Equatable {
         personCount: json["personCount"] ?? null,
         comment: json["comment"] ?? null,
         status: json["status"] ?? null,
-        phone: json["phone"] ?? null);
+        phone: json["phone"] ?? "");
   }
 
   @override

@@ -71,231 +71,225 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: MediaQuery.of(context).size.height / 3.4,
-                    aspectRatio: 2.0,
-                    enableInfiniteScroll: false,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                  ),
-                  items: widget.restaurant.imagePath
-                      .map((item) => Container(
-                            child: Center(
-                                child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                item,
-                                fit: BoxFit.cover,
-                                width: 1000,
-                                height: 500,
-                              ),
-                            )),
-                          ))
-                      .toList(),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height / 3.4,
+                  aspectRatio: 2.0,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
                 ),
+                items: widget.restaurant.imagePath
+                    .map((item) => Container(
+                          child: Center(
+                              child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(
+                              item,
+                              fit: BoxFit.cover,
+                              width: 1000,
+                              height: 500,
+                            ),
+                          )),
+                        ))
+                    .toList(),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Кухня",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )),
-                            Row(
-                              children: [
-                                Text(widget.restaurant.rating != 0
-                                    ? widget.restaurant.rating.toString()
-                                    : "Нет оценок"),
-                                Icon(Icons.star, size: 18)
-                              ],
-                            ),
-                          ]),
-                      const SizedBox(height: 5),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(widget.restaurant.kitchen.join(", "),
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
-                              child: Text(widget.restaurant.averagePrice != 0
-                                  ? widget.restaurant.averagePrice.toString() +
-                                      " ₽"
-                                  : "Нет данных ₽"),
-                            )
-                          ]),
-                      const SizedBox(height: 10),
-                      Text("Описание",
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      const SizedBox(height: 5),
-                      Text(
-                        widget.restaurant.shortDescription,
-                        style: const TextStyle(
-                            fontSize: 15, fontStyle: FontStyle.italic),
-                      ),
-                      const SizedBox(height: 10),
-                      Text("Время работы",
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      const SizedBox(height: 5),
-                      //workingHours fixies
-                      Builder(builder: (context) {
-                        String text = "";
-                        if (widget.restaurant.workingHours.length == 20) {
-                          text = widget.restaurant.workingHours;
-                        } else if (widget.restaurant.workingHours.length ==
-                            24) {
-                          text = "Нет данных";
-                        } else if (widget.restaurant.workingHours.length ==
-                            36) {
-                          text = widget.restaurant.workingHours;
-                        } else if (widget.restaurant.workingHours.length ==
-                            40) {
-                          text = widget.restaurant.workingHours
-                                  .substring(0, 20) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(20, 40);
-                        } else if (widget.restaurant.workingHours.length ==
-                            57) {
-                          text = widget.restaurant.workingHours
-                                  .substring(0, 20) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(20, 40) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(40, 57);
-                        } else if (widget.restaurant.workingHours.length ==
-                            71) {
-                          text = widget.restaurant.workingHours
-                                  .substring(0, 20) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(20, 37) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(37, 54) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(54, 71);
-                        } else if (widget.restaurant.workingHours.length ==
-                            73) {
-                          text = widget.restaurant.workingHours
-                                  .substring(0, 20) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(20, 56) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(56, 73);
-                        } else if (widget.restaurant.workingHours.length ==
-                            91) {
-                          text = widget.restaurant.workingHours
-                                  .substring(0, 17) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(17, 34) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(34, 54) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(54, 71) +
-                              "\n" +
-                              widget.restaurant.workingHours.substring(71, 91);
-                        }
-                        return Text(text,
-                            style: TextStyle(fontStyle: FontStyle.italic));
-                      }),
-                      const SizedBox(height: 10),
-                      Row(
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () async {
-                                try {
-                                  List<geo.Location> locations =
-                                      await locationFromAddress(
-                                          widget.restaurant.address +
-                                              ", " +
-                                              widget.restaurant.city);
-                                  widget.restaurant.latitude =
-                                      locations[0].latitude;
-                                  widget.restaurant.longitude =
-                                      locations[0].longitude;
-                                  var provider = Provider.of<LocationProvider>(
-                                      context,
-                                      listen: false);
-                                  provider.getLocation();
-                                  List<Restaurant> restaurants = [];
-                                  restaurants.add(widget.restaurant);
-                                  Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: ((context) =>
-                                              GMap(restaurants: restaurants))));
-                                } catch (e) {
-                                  showTopSnackBar(
-                                      context,
-                                      const ErrorSnackbar(
-                                          info: "Данный адрес не найден"));
-                                }
-                              },
-                              icon: const Icon(Icons.location_on, size: 35)),
-                          const SizedBox(width: 15),
-                          IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
-                                makePhoneCall(widget.restaurant.phone);
-                              },
-                              icon: const Icon(Icons.local_phone, size: 35)),
-                          const SizedBox(
-                            width: 200, //FIX
+                          Text("Кухня",
+                              style: TextStyle(
+                                fontSize: 20,
+                              )),
+                          Row(
+                            children: [
+                              Text(widget.restaurant.rating != 0
+                                  ? widget.restaurant.rating.toString()
+                                  : "Нет оценок"),
+                              Icon(Icons.star, size: 18)
+                            ],
                           ),
-                          BlocBuilder<RestaurantCubit, RestaurantState>(
-                              builder: (context, state) {
-                            if (state is RestaurantsLoaded) {
-                              var restaurants = state.restaurants;
-                              var fav = state.fav;
-                              return IconButton(
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onPressed: () {
-                                    fav == true
-                                        ? BlocProvider.of<RestaurantCubit>(
-                                                context)
-                                            .deleteFav(widget.restaurant.id)
-                                        : BlocProvider.of<RestaurantCubit>(
-                                                context)
-                                            .addFav(widget.restaurant.id);
-                                  },
-                                  icon: fav == true
-                                      ? Icon(Icons.bookmark, size: 35)
-                                      : Icon(Icons.bookmark_border, size: 35));
-                            } else {
-                              return SizedBox();
-                            }
-                          })
-                        ],
-                      ),
-                    ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10.0, top: 10),
-                child: SizedBox(
-                  height: 50,
-                  width: 180,
-                  child: ElevatedButton(
+                        ]),
+                    const SizedBox(height: 5),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(widget.restaurant.kitchen.join(", "),
+                                style: const TextStyle(
+                                    fontSize: 15, fontStyle: FontStyle.italic)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
+                            child: Text(widget.restaurant.averagePrice != 0
+                                ? widget.restaurant.averagePrice.toString() +
+                                    " ₽"
+                                : "Нет данных ₽"),
+                          )
+                        ]),
+                    const SizedBox(height: 10),
+                    Text("Описание",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    const SizedBox(height: 5),
+                    Text(
+                      widget.restaurant.shortDescription,
+                      style: const TextStyle(
+                          fontSize: 15, fontStyle: FontStyle.italic),
+                    ),
+                    const SizedBox(height: 10),
+                    Text("Время работы",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    const SizedBox(height: 5),
+                    //workingHours fixies
+                    Builder(builder: (context) {
+                      String text = "";
+                      if (widget.restaurant.workingHours.length == 20) {
+                        text = widget.restaurant.workingHours;
+                      } else if (widget.restaurant.workingHours.length == 24) {
+                        text = "Нет данных";
+                      } else if (widget.restaurant.workingHours.length == 36) {
+                        text = widget.restaurant.workingHours;
+                      } else if (widget.restaurant.workingHours.length == 40) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 40);
+                      } else if (widget.restaurant.workingHours.length == 57) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 40) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(40, 57);
+                      } else if (widget.restaurant.workingHours.length == 71) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 37) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(37, 54) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(54, 71);
+                      } else if (widget.restaurant.workingHours.length == 73) {
+                        text = widget.restaurant.workingHours.substring(0, 20) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(20, 56) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(56, 73);
+                      } else if (widget.restaurant.workingHours.length == 91) {
+                        text = widget.restaurant.workingHours.substring(0, 17) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(17, 34) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(34, 54) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(54, 71) +
+                            "\n" +
+                            widget.restaurant.workingHours.substring(71, 91);
+                      }
+                      return Text(text,
+                          style: TextStyle(fontStyle: FontStyle.italic));
+                    }),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onPressed: () async {
+                                  try {
+                                    List<geo.Location> locations =
+                                        await locationFromAddress(
+                                            widget.restaurant.address +
+                                                ", " +
+                                                widget.restaurant.city);
+                                    widget.restaurant.latitude =
+                                        locations[0].latitude;
+                                    widget.restaurant.longitude =
+                                        locations[0].longitude;
+                                    var provider =
+                                        Provider.of<LocationProvider>(context,
+                                            listen: false);
+                                    provider.getLocation();
+                                    List<Restaurant> restaurants = [];
+                                    restaurants.add(widget.restaurant);
+                                    Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: ((context) => GMap(
+                                                restaurants: restaurants))));
+                                  } catch (e) {
+                                    showTopSnackBar(
+                                        context,
+                                        const ErrorSnackbar(
+                                            info: "Данный адрес не найден"));
+                                  }
+                                },
+                                icon: const Icon(Icons.location_on, size: 35)),
+                            const SizedBox(width: 15),
+                            IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onPressed: () {
+                                  widget.restaurant.phone != ""
+                                      ? makePhoneCall(widget.restaurant.phone)
+                                      : showTopSnackBar(
+                                          context,
+                                          const ErrorSnackbar(
+                                              info:
+                                                  "Номер телефона ресторана не найден"));
+                                },
+                                icon: const Icon(Icons.local_phone, size: 35)),
+                          ],
+                        ),
+                        BlocBuilder<RestaurantCubit, RestaurantState>(
+                            builder: (context, state) {
+                          if (state is RestaurantsLoaded) {
+                            var restaurants = state.restaurants;
+                            var fav = state.fav;
+                            return IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onPressed: () {
+                                  fav == true
+                                      ? BlocProvider.of<RestaurantCubit>(
+                                              context)
+                                          .deleteFav(widget.restaurant.id)
+                                      : BlocProvider.of<RestaurantCubit>(
+                                              context)
+                                          .addFav(widget.restaurant.id);
+                                },
+                                icon: fav == true
+                                    ? Icon(Icons.bookmark, size: 35)
+                                    : Icon(Icons.bookmark_border, size: 35));
+                          } else {
+                            return SizedBox();
+                          }
+                        })
+                      ],
+                    ),
+                  ]),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
+              child: SizedBox(
+                height: 50,
+                width: 180,
+                child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.black),
@@ -305,25 +299,22 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           borderRadius: BorderRadius.circular(50),
                         ))),
                     onPressed: () {
-                      BookingInputBottomSheet(context, widget.restaurant.title,
-                          widget.restaurant.phone);
+                      widget.restaurant.phone != ""
+                          ? BookingInputBottomSheet(context,
+                              widget.restaurant.title, widget.restaurant.phone)
+                          : showTopSnackBar(
+                              context,
+                              const ErrorSnackbar(
+                                  info: "Номер телефона ресторана не найден"));
                     },
-                    child: Builder(builder: (context) {
-                      if (widget.restaurant.phone != "") {
-                        return Text("Забронировать",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ));
-                      } else {
-                        return SizedBox();
-                      }
-                    }),
-                  ),
-                ),
-              )
-            ],
-          ),
+                    child: Text("Забронировать",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ))),
+              ),
+            )
+          ]),
         ));
   }
 }
