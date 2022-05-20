@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/user/user_cubit.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/data/providers/filters_provider.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class UserDataPage extends StatefulWidget {
   const UserDataPage({Key? key}) : super(key: key);
@@ -65,9 +68,10 @@ class _UserDataPageState extends State<UserDataPage> {
                         borderRadius: BorderRadius.circular(10)),
                     child: DropdownButton<String>(
                       value: user.city,
-                      onChanged: (newCity) {
+                      onChanged: (newCity) async {
                         setState(() => user.city = newCity!);
                         context.read<UserCubit>().updateCity(user);
+                        await storage.write(key: 'city', value: newCity);
                       },
                       items: cities
                           .map<DropdownMenuItem<String>>(
@@ -99,6 +103,14 @@ class _UserDataPageState extends State<UserDataPage> {
                           ))),
                       onPressed: () async {
                         await storage.deleteAll();
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changeSelectedKitchens([]);
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changePrice(SfRangeValues(0, 3000));
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changeRating(1.0);
+                        Provider.of<FiltersProvider>(context, listen: false)
+                            .changeSort('С наибольшим рейтингом');
                         Navigator.pushNamedAndRemoveUntil(
                             context, LOGIN, (r) => false);
                       },

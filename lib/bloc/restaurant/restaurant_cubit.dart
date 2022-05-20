@@ -14,7 +14,7 @@ class RestaurantCubit extends Cubit<RestaurantState> {
 
   void fetchRestaurants() {
     emit(RestaurantsLoading());
-    repository.getAllRests().then((response) {
+    repository.getAllRestsByCity().then((response) {
       if (response.statusCode == 200) {
         List<Restaurant> restaurants = (json.decode(response.body) as List)
             .map((restaurant) => Restaurant.fromJson(restaurant))
@@ -29,9 +29,7 @@ class RestaurantCubit extends Cubit<RestaurantState> {
   void showFav() {
     emit(RestaurantsLoading());
     repository.showFav().then((response) {
-      if (response.statusCode == 200) {
-        //log(json.decode(response.body).toString());
-        //TODO:fix
+      if (response.statusCode == 201) {
         List<Restaurant> restaurants = (json.decode(response.body) as List)
             .map((restaurant) => Restaurant.fromJson(restaurant))
             .toList();
@@ -42,19 +40,31 @@ class RestaurantCubit extends Cubit<RestaurantState> {
     });
   }
 
-  void addFav(String id) {
-    var restaurants = state.restaurants;
-    repository.addFav(id).then((response) {
-      if (response.statusCode == 200) {
+  void isFav(Restaurant restaurant) {
+    emit(RestaurantsLoading());
+    repository.showFav().then((response) {
+      if (response.statusCode == 201) {
         List<Restaurant> restaurants = (json.decode(response.body) as List)
             .map((restaurant) => Restaurant.fromJson(restaurant))
             .toList();
-        emit(RestaurantsLoaded(restaurants: restaurants));
+        if (restaurants.contains(restaurant)) {
+          emit(RestaurantsLoaded(restaurants: restaurants, fav: true));
+        } else {
+          emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
+        }
       } else {
-        //emit(RestaurantsLoadingError());
-        emit(RestaurantsLoaded(restaurants: restaurants));
+        emit(RestaurantsLoadingError());
+      }
+    });
+  }
 
-        //
+  void addFav(String id) {
+    var restaurants = state.restaurants;
+    repository.addFav(id).then((response) {
+      if (response.statusCode == 201) {
+        emit(RestaurantsLoaded(restaurants: state.restaurants, fav: true));
+      } else {
+        emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
       }
     });
   }
@@ -62,12 +72,11 @@ class RestaurantCubit extends Cubit<RestaurantState> {
   void deleteFav(String id) {
     var restaurants = state.restaurants;
     repository.deleteFav(id).then((response) {
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         restaurants.removeWhere((element) => element.id == id);
-        emit(RestaurantsLoaded(restaurants: restaurants));
+        emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
       } else {
-        //emit(RestaurantsLoadingError());
-        emit(RestaurantsLoaded(restaurants: restaurants));
+        emit(RestaurantsLoaded(restaurants: restaurants, fav: true));
       }
     });
   }

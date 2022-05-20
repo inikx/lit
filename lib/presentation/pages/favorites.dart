@@ -41,31 +41,32 @@ class _FavoritesPageState extends State<FavoritesPage> {
           child: Column(
             children: [
               Expanded(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  //TODO: fix
-                  child: BlocBuilder<RestaurantCubit, RestaurantState>(
-                    builder: (context, state) {
-                      log(state.runtimeType.toString());
-                      if (state is RestaurantsLoaded) {
-                        var restaurants = state.restaurants;
-                        List<Restaurant> allRestaurants = [];
-                        for (var restaurant in restaurants) {
-                          allRestaurants.add(restaurant);
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: BlocBuilder<RestaurantCubit, RestaurantState>(
+                      builder: (context, state) {
+                        if (state is RestaurantsLoaded) {
+                          var restaurants = state.restaurants;
+                          if (restaurants.isEmpty) {
+                            return Center(
+                                child: Text("Избранные рестораны не найдены."));
+                          }
+                          return RestaurantsList(restaurants: restaurants);
+                        } else if (state is RestaurantsLoading) {
+                          return Center(
+                              child: JumpingDotsProgressIndicator(
+                            dotSpacing: 8,
+                            fontSize: 80.0,
+                          ));
+                        } else {
+                          return Center(
+                              child:
+                                  Text("Ошибка загрузки избранных ресторанов"));
                         }
-                        return RestaurantsList(restaurants: allRestaurants);
-                      } else if (state is RestaurantsLoading) {
-                        return Center(
-                            child: JumpingDotsProgressIndicator(
-                          dotSpacing: 8,
-                          fontSize: 80.0,
-                        ));
-                      } else {
-                        return Center(
-                            child:
-                                Text("Ошибка загрузки избранных ресторанов"));
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),

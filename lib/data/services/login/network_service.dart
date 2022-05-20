@@ -15,6 +15,7 @@ class LoginNetworkService {
       await storage.write(key: 'token', value: jsonResponse['token']);
       await storage.write(key: 'email', value: jsonResponse['email']);
       await storage.write(key: '_id', value: jsonResponse['_id']);
+      await storage.write(key: 'city', value: jsonResponse['city']);
     }
     return response;
   }

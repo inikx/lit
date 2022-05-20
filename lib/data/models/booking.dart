@@ -10,6 +10,7 @@ class Booking extends Equatable {
   int personCount;
   String comment;
   String status;
+  String phone;
 
   Booking(
       {this.id = "",
@@ -20,7 +21,8 @@ class Booking extends Equatable {
       required this.timeOfOrder,
       this.personCount = 0,
       this.comment = "",
-      this.status = ""});
+      this.status = "",
+      this.phone = ""});
 
   Booking copyWith(
       {String? id,
@@ -31,7 +33,8 @@ class Booking extends Equatable {
       DateTime? timeOfOrder,
       int? personCount,
       String? comment,
-      String? status}) {
+      String? status,
+      String? phone}) {
     return Booking(
         user_id: user_id ?? this.user_id,
         id: id ?? this.id,
@@ -41,7 +44,8 @@ class Booking extends Equatable {
         timeOfOrder: timeOfOrder ?? this.timeOfOrder,
         personCount: personCount ?? this.personCount,
         comment: comment ?? this.comment,
-        status: status ?? this.status);
+        status: status ?? this.status,
+        phone: phone ?? this.phone);
   }
 
   factory Booking.fromJson(Map<String, dynamic> json) {
@@ -58,14 +62,16 @@ class Booking extends Equatable {
             : null,
         personCount: json["personCount"] ?? null,
         comment: json["comment"] ?? null,
-        status: json["status"] ?? null);
+        status: json["status"] ?? null,
+        phone: json["phone"] ?? null);
   }
 
   @override
   String toString() {
-    return 'Booking(user_id: $user_id, title: $title, name: $name, timeOfBooking: $timeOfBooking, timeOfOrder: $timeOfOrder, personCount: $personCount, comment: $comment, status: $status)';
+    return 'Booking(user_id: $user_id, title: $title, name: $name, timeOfBooking: $timeOfBooking, timeOfOrder: $timeOfOrder, personCount: $personCount, comment: $comment, status: $status, phone: $phone)';
   }
 
   @override
-  List<Object?> get props => [title, name, timeOfBooking, personCount, comment];
+  List<Object?> get props =>
+      [title, name, timeOfBooking, personCount, comment, phone];
 }

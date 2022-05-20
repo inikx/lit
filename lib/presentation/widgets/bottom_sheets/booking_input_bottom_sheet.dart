@@ -16,7 +16,7 @@ import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:lit/route.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-Future<dynamic> BookingInputBottomSheet(BuildContext context, title) {
+Future<dynamic> BookingInputBottomSheet(BuildContext context, title, phone) {
   if (getIt.isRegistered<SetBookingCubit>()) {
     getIt.unregister<SetBookingCubit>();
   }
@@ -30,14 +30,19 @@ Future<dynamic> BookingInputBottomSheet(BuildContext context, title) {
       context: context,
       builder: (context) => BlocProvider(
             create: (context) => getIt<SetBookingCubit>(),
-            child: BottomSheet(title: title),
+            child: BottomSheet(
+              title: title,
+              phone: phone,
+            ),
           ));
 }
 
 class BottomSheet extends StatefulWidget {
   String title;
+  String phone;
 
-  BottomSheet({Key? key, required this.title}) : super(key: key);
+  BottomSheet({Key? key, required this.title, required this.phone})
+      : super(key: key);
 
   @override
   State<BottomSheet> createState() => _BottomSheetState();
@@ -269,6 +274,9 @@ class _BottomSheetState extends State<BottomSheet> {
                             context
                                 .read<SetBookingCubit>()
                                 .updateTitle(widget.title);
+                            context
+                                .read<SetBookingCubit>()
+                                .updatePhone(widget.phone);
                             context
                                 .read<SetBookingCubit>()
                                 .updateTimeOfBooking(bookingDate);

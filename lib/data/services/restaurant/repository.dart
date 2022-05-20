@@ -7,8 +7,8 @@ class RestaurantRepository {
   final RestaurantNetworkService networkService;
   RestaurantRepository(this.networkService);
 
-  Future<Response> getAllRests() async {
-    return await networkService.getAllRests();
+  Future<Response> getAllRestsByCity() async {
+    return await networkService.getAllRestsByCity();
   }
 
   Future<Response> showFav() async {

@@ -117,7 +117,6 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                       restaurants.sort(
                           (a, b) => a.averagePrice.compareTo(b.averagePrice));
                     } else if (sort == "Дорогие") {
-                      log("2");
                       restaurants.sort(
                           (a, b) => b.averagePrice.compareTo(a.averagePrice));
                     }
@@ -250,7 +249,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                             ),
                           ],
                         ),
-                        RestaurantsList(restaurants: allRestaurants),
+                        Expanded(
+                            child:
+                                RestaurantsList(restaurants: allRestaurants)),
                       ],
                     );
                   } else if (state is RestaurantsLoading) {

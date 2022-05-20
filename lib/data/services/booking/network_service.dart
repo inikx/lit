@@ -33,6 +33,7 @@ class BookingNetworkService {
           "timeOfBooking": booking.timeOfBooking.toString(),
           "personCount": booking.personCount,
           "comment": booking.comment,
+          "phone": booking.phone
         }));
 
     return response;

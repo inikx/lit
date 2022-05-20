@@ -7,16 +7,16 @@ import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
 
 class RestaurantNetworkService {
-  getAllRests() async {
+  getAllRestsByCity() async {
     String? token = await storage.read(key: 'token');
-    final response = await http.get(
-      Uri.parse('$BASE_URL/api/getAllRests'),
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token.toString()
-      },
-    );
-
+    String? city = await storage.read(key: 'city');
+    final response = await http.post(
+        Uri.parse('$BASE_URL/api/getAllRestsByCity'),
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token.toString()
+        },
+        body: jsonEncode({"city": city}));
     return response;
   }
 
@@ -29,7 +29,6 @@ class RestaurantNetworkService {
           "x-access-token": token.toString()
         },
         body: jsonEncode({"user_id": _id}));
-
     return response;
   }
 

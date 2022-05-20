@@ -37,6 +37,8 @@ class RestarauntDetails extends StatefulWidget {
 }
 
 class _RestarauntDetailsState extends State<RestarauntDetails> {
+  late bool addFav;
+
   Future<void> makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
       scheme: 'tel',
@@ -47,8 +49,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
 
   @override
   void initState() {
-    BlocProvider.of<RestaurantCubit>(context).fetchRestaurants();
-    //BlocProvider.of<RestaurantCubit>(context).showFav();
+    BlocProvider.of<RestaurantCubit>(context).isFav(widget.restaurant);
     super.initState();
   }
 
@@ -261,19 +262,29 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           const SizedBox(
                             width: 200, //FIX
                           ),
-                          //TODO: fix
                           BlocBuilder<RestaurantCubit, RestaurantState>(
                               builder: (context, state) {
-                            log(state.runtimeType.toString());
-                            //if(state)
-                            return IconButton(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onPressed: () {
-                                  BlocProvider.of<RestaurantCubit>(context)
-                                      .addFav(widget.restaurant.id);
-                                },
-                                icon: Icon(Icons.bookmark_border, size: 35));
+                            if (state is RestaurantsLoaded) {
+                              var restaurants = state.restaurants;
+                              var fav = state.fav;
+                              return IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onPressed: () {
+                                    fav == true
+                                        ? BlocProvider.of<RestaurantCubit>(
+                                                context)
+                                            .deleteFav(widget.restaurant.id)
+                                        : BlocProvider.of<RestaurantCubit>(
+                                                context)
+                                            .addFav(widget.restaurant.id);
+                                  },
+                                  icon: fav == true
+                                      ? Icon(Icons.bookmark, size: 35)
+                                      : Icon(Icons.bookmark_border, size: 35));
+                            } else {
+                              return SizedBox();
+                            }
                           })
                         ],
                       ),
@@ -294,13 +305,20 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           borderRadius: BorderRadius.circular(50),
                         ))),
                     onPressed: () {
-                      BookingInputBottomSheet(context, widget.restaurant.title);
+                      BookingInputBottomSheet(context, widget.restaurant.title,
+                          widget.restaurant.phone);
                     },
-                    child: const Text("Забронировать",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        )),
+                    child: Builder(builder: (context) {
+                      if (widget.restaurant.phone != "") {
+                        return Text("Забронировать",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ));
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
                 ),
               )

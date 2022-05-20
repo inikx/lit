@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/presentation/pages/restaurant_details.dart';
@@ -63,10 +64,13 @@ class _MapPageState extends State<MapPage> {
 
   List<Restaurant> geoRestaurants = [];
   List<Marker> restMarkers = [];
+  double cityLatitude = 0;
+  double cityLongitude = 0;
 
   @override
   void initState() {
     addMarkers();
+    geoCity();
     super.initState();
   }
 
@@ -106,6 +110,13 @@ class _MapPageState extends State<MapPage> {
                         restaurant.phone)))));
       } catch (e) {}
     }
+  }
+
+  void geoCity() async {
+    String? city = await storage.read(key: 'city');
+    List<geo.Location> locations = await locationFromAddress(city!);
+    cityLatitude = locations[0].latitude;
+    cityLongitude = locations[0].longitude;
   }
 
   @override
@@ -153,9 +164,27 @@ class _MapPageState extends State<MapPage> {
               ),
             ]);
           } else {
-            return Center(
-                child: Text(
-                    "Ошибка. Мы не можем получить ваше местоположение")); //fix to city
+            return Column(children: [
+              Expanded(
+                child: SizedBox(
+                  child: GoogleMap(
+                    markers: Set.from(restMarkers),
+                    initialCameraPosition: restMarkers.length == 1
+                        ? CameraPosition(
+                            zoom: 15,
+                            target: LatLng(widget.restaurants[0].latitude!,
+                                widget.restaurants[0].longitude!))
+                        : CameraPosition(
+                            zoom: 12,
+                            target: LatLng(cityLatitude, cityLongitude)),
+                    myLocationEnabled: true,
+                    mapToolbarEnabled: true,
+                    mapType: MapType.normal,
+                    myLocationButtonEnabled: true,
+                  ),
+                ),
+              ),
+            ]);
           }
         }));
   }

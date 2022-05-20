@@ -24,6 +24,15 @@ class SetBookingCubit extends Cubit<SetBookingState> {
     }
   }
 
+  void updatePhone(String phone) {
+    final currentState = state;
+    if (currentState is SettingBookingDataChanged ||
+        currentState is SetBookingInitial) {
+      emit(SettingBookingDataChanged(
+          booking: currentState.booking.copyWith(phone: phone)));
+    }
+  }
+
   void updateName(String name) {
     final currentState = state;
     if (currentState is SettingBookingDataChanged ||

@@ -28,14 +28,13 @@ class _RestaurantsListState extends State<RestaurantsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: ListView.builder(
-            itemCount: widget.restaurants.length,
-            physics: const BouncingScrollPhysics(),
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            controller: _controller,
-            itemBuilder: (context, index) {
-              return RestaurantWidget(restaurant: widget.restaurants[index]);
-            }));
+    return ListView.builder(
+        itemCount: widget.restaurants.length,
+        physics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        controller: _controller,
+        itemBuilder: (context, index) {
+          return RestaurantWidget(restaurant: widget.restaurants[index]);
+        });
   }
 }
