@@ -9,6 +9,7 @@ const BookingSchema = new mongoose.Schema({
     personCount: {type: Number, required: true},
     comment: {type: String},
     status: {type: String, required: true},
+    phone: {type: String, required: true},
 })
 var Booking = mongoose.model('Booking', BookingSchema)
 module.exports = Booking

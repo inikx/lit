@@ -25,5 +25,6 @@ router.post("/getRest",
     );
     
 router.get("/getAllRests", restController.getAllRests);
+router.post("/getAllRestsByCity", body("city"), restController.getAllRestsByCity);
 
 module.exports = router

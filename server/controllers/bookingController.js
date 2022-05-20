@@ -5,13 +5,13 @@ const setBooking = async (req, res) => {
     try {
         var current_status = "created"
         var current_time = new Date()
-        const {title, name, timeOfBooking, personCount, comment} = req.body;
+        const {title, name, timeOfBooking, personCount, comment, phone} = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         
-        const booking = await Booking.create({user_id: req.user.user_id, title: title, name:name, timeOfBooking: timeOfBooking, timeOfOrder: current_time, personCount: personCount, comment: comment, status: current_status})
+        const booking = await Booking.create({user_id: req.user.user_id, title: title, name:name, timeOfBooking: timeOfBooking, timeOfOrder: current_time, personCount: personCount, comment: comment, status: current_status, phone: phone})
 
         res.status(201).json(booking);
     } catch (error) {

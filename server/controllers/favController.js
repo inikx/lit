@@ -1,4 +1,5 @@
 const Fav = require('../models/favModel');
+const Rest = require('../models/restModel');
 const { check, validationResult } = require("express-validator/check");
 
 const addFav = async (req, res) => {
@@ -41,8 +42,13 @@ const showFav = async (req, res) => {
     try {
         const {user_id} = req.body
         const favList = await Fav.findOne({user_id: user_id}).exec()
+        const restList = []
         if(favList){
-            res.status(200).json(favList)
+            for(var fav of favList.rest_id){
+                const rest = await Rest.findOne({_id: fav._id}).exec()
+                restList.push(rest)
+            }
+            res.status(201).json(restList);
             return
         }
         res.status(404).json("Favs not found")

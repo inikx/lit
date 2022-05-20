@@ -44,9 +44,23 @@ const getAllRests = async (req, res) => {
     }
 }
 
+const getAllRestsByCity = async (req, res) => {
+    try {
+        const {city} = req.body
+        const rest = await Rest.find({city: city}).exec()
+        if(rest){
+            res.status(200).json(rest)
+            return
+        }
+        res.status(404).json("Search error")
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
     setRest,
     getRest,
-    getAllRests
+    getAllRests,
+    getAllRestsByCity
 };
