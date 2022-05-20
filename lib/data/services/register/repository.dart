@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:http/http.dart';
 import 'package:lit/data/services/register/network_service.dart';
 

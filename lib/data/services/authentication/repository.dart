@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import 'package:lit/data/services/authentication/network_service.dart';
 
 class AuthenticationRepository {

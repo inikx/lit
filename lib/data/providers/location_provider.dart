@@ -5,7 +5,6 @@ import 'dart:developer' as developer;
 
 import 'package:lit/data/models/user_location.dart';
 import 'package:lit/data/services/location_service.dart';
-import 'package:lit/data/providers/location_provider.dart';
 
 enum LocationProviderStatus {
   Initial,

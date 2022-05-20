@@ -1,22 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geocoding/geocoding.dart' as geo;
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/providers/filters_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
-import 'package:lit/presentation/pages/profile.dart';
 import 'package:lit/presentation/widgets/bottom_sheets/restaurants_filters_bottom_sheet.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class RestaurantsPage extends StatefulWidget {
   const RestaurantsPage({Key? key}) : super(key: key);
@@ -67,9 +60,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                 builder: (context, state) {
                   if (state is RestaurantsLoaded) {
                     var restaurants = state.restaurants;
-                    var clearRestaurants = state.restaurants;
                     List<Restaurant> allRestaurants = [];
-                    List<Restaurant> geoRestaurants = [];
                     List kitchen =
                         context.watch<FiltersProvider>().selectedKitchens;
                     double rating = context.watch<FiltersProvider>().rating;

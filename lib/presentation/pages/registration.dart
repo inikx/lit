@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
@@ -16,7 +14,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  var _controller = TextEditingController();
   final cities = ['Санкт-Петербург', 'Москва'];
   String city = 'Санкт-Петербург';
 

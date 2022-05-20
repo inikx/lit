@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
-import 'package:lit/data/models/restaurant.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 

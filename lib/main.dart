@@ -1,21 +1,9 @@
-import 'dart:async';
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/providers/filters_provider.dart';
 import 'package:lit/data/providers/location_provider.dart';
-import 'package:lit/presentation/pages/booking_status.dart';
-import 'package:lit/presentation/pages/home.dart';
-import 'package:lit/presentation/pages/login.dart';
-import 'package:lit/presentation/pages/map.dart';
-import 'package:lit/presentation/pages/restaurants.dart';
-import 'package:lit/presentation/pages/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lit/presentation/pages/home.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/route.dart';
 

@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lit/constants/strings.dart';
-import 'package:lit/data/models/restaurant.dart';
-import 'package:lit/data/providers/location_provider.dart';
-import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/pages/profile.dart';
 import 'package:lit/presentation/pages/restaurants.dart';
-import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

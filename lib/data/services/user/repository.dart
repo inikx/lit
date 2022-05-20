@@ -1,5 +1,4 @@
 import 'package:http/http.dart';
-import 'package:lit/data/models/user.dart';
 
 import 'package:lit/data/services/user/network_service.dart';
 

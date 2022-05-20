@@ -1,27 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
-import 'package:lit/constants/strings.dart';
-import 'package:lit/data/models/user_location.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
-import 'package:lit/route.dart';
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:lit/bloc/booking/booking_cubit.dart';
-import 'package:lit/bloc/set_booking/set_booking_cubit.dart';
-import 'package:lit/constants/locator.dart';
 import 'package:lit/data/models/restaurant.dart';
-import 'package:lit/data/services/booking/repository.dart';
 import 'package:lit/presentation/widgets/bottom_sheets/booking_input_bottom_sheet.dart';
 
 class RestarauntDetails extends StatefulWidget {
@@ -259,7 +249,6 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                         BlocBuilder<RestaurantCubit, RestaurantState>(
                             builder: (context, state) {
                           if (state is RestaurantsLoaded) {
-                            var restaurants = state.restaurants;
                             var fav = state.fav;
                             return IconButton(
                                 splashColor: Colors.transparent,

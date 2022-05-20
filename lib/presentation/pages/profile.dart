@@ -1,10 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
-import 'package:lit/presentation/pages/bookings.dart';
-import 'package:lit/presentation/pages/user_data.dart';
-import 'package:lit/presentation/pages/favorites.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {

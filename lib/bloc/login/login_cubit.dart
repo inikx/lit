@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:lit/data/models/login.dart';
 import 'package:lit/data/services/login/repository.dart';

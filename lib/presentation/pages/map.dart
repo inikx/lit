@@ -1,25 +1,17 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
-import 'package:lit/presentation/pages/restaurant_details.dart';
 import 'package:lit/route.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:lit/data/models/user_location.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/services/location_service.dart';
-import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class GMap extends StatefulWidget {
   List<Restaurant> restaurants;

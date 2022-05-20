@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
-import 'package:lit/data/models/restaurant.dart';
 
 class RestaurantNetworkService {
   getAllRestsByCity() async {

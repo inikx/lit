@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:lit/data/services/authentication/network_service.dart';
 import 'package:lit/data/services/authentication/repository.dart';
 
 part 'authentication_state.dart';

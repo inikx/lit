@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/data/models/booking.dart';
 import 'package:lit/presentation/widgets/booking/booking.dart';
@@ -38,7 +36,6 @@ class _BookingStatusPageState extends State<BookingStatusPage> {
 
   @override
   Widget build(BuildContext context) {
-    var bookingStatus = widget.booking.status;
     return Material(
         child: Scaffold(
             appBar: AppBar(
@@ -87,7 +84,6 @@ class _BookingStatusPageState extends State<BookingStatusPage> {
                       BlocBuilder<BookingCubit, BookingState>(
                           builder: (context, state) {
                         if (state is BookingCreated) {
-                          Booking booking = state.booking;
                           return Row(
                             children: [
                               Container(
