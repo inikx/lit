@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/route.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   await setupLocator();
@@ -29,6 +30,14 @@ class LitApp extends StatelessWidget {
         ],
         builder: (context, child) {
           return MaterialApp(
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('ru'),
+            ],
             onGenerateRoute: router.generateRoute,
             initialRoute: AUTH,
             title: "Lit",

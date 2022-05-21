@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/models/restaurant.dart';
@@ -52,7 +51,6 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   static const googleApiKey = "AIzaSyC9rwCAKSPVSibz8vHHFT4bCdBCVgj8C1M";
-  final places = GoogleMapsPlaces(apiKey: googleApiKey);
 
   List<Restaurant> geoRestaurants = [];
   List<Marker> restMarkers = [];
