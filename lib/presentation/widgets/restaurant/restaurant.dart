@@ -146,7 +146,11 @@ class RestaurantWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: CachedNetworkImage(
-                              imageUrl: restaurant.imagePath.first,
+                              imageUrl:
+                                  restaurant.imagePath.first.startsWith("h")
+                                      ? restaurant.imagePath.first
+                                      : "https://cdn.images.restoclub.ru" +
+                                          restaurant.imagePath.first,
                               fit: BoxFit.cover),
                         ),
                       )),

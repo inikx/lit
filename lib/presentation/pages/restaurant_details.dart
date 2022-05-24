@@ -28,6 +28,7 @@ class RestarauntDetails extends StatefulWidget {
 
 class _RestarauntDetailsState extends State<RestarauntDetails> {
   late bool addFav;
+  List<String> fixedImages = [];
 
   Future<void> makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
@@ -45,6 +46,9 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
 
   @override
   Widget build(BuildContext context) {
+    for (var image in widget.restaurant.imagePath) {
+      fixedImages.add("https://cdn.images.restoclub.ru" + image);
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -72,20 +76,35 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                   enlargeCenterPage: true,
                   autoPlay: true,
                 ),
-                items: widget.restaurant.imagePath
-                    .map((item) => Container(
-                          child: Center(
-                              child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              item,
-                              fit: BoxFit.cover,
-                              width: 1000,
-                              height: 500,
-                            ),
-                          )),
-                        ))
-                    .toList(),
+                items: widget.restaurant.imagePath.first.startsWith("h")
+                    ? widget.restaurant.imagePath
+                        .map((item) => Container(
+                              child: Center(
+                                  child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: 1000,
+                                  height: 500,
+                                ),
+                              )),
+                            ))
+                        .toList()
+                    : fixedImages
+                        .map((item) => Container(
+                              child: Center(
+                                  child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: 1000,
+                                  height: 500,
+                                ),
+                              )),
+                            ))
+                        .toList(),
               ),
             ),
             Padding(
