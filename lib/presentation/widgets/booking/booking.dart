@@ -36,7 +36,7 @@ class _BookingWidgetState extends State<BookingWidget> {
           onTap: () {
             if (widget.open == true) {
               Navigator.pushNamed(context, BOOKING_STATUS,
-                  arguments: BookingStatusArguments(widget.booking));
+                  arguments: BookingStatusArguments(widget.booking, true));
             }
           },
           child: Container(

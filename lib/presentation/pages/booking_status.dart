@@ -8,9 +8,11 @@ import 'package:lit/presentation/widgets/booking/booking.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class BookingStatusPage extends StatefulWidget {
+  bool fromList;
   Booking booking;
 
-  BookingStatusPage({Key? key, required this.booking}) : super(key: key);
+  BookingStatusPage({Key? key, required this.fromList, required this.booking})
+      : super(key: key);
 
   @override
   State<BookingStatusPage> createState() => _BookingStatusPageState();
@@ -42,6 +44,17 @@ class _BookingStatusPageState extends State<BookingStatusPage> {
               centerTitle: true,
               iconTheme: const IconThemeData(
                 color: Colors.black,
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  if (widget.fromList == false) {
+                    Navigator.of(context).pop(context);
+                    Navigator.of(context).pop(context);
+                  } else {
+                    Navigator.of(context).pop(context);
+                  }
+                },
               ),
               backgroundColor: Colors.white,
               toolbarHeight: 48,

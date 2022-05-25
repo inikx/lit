@@ -116,7 +116,7 @@ class _BottomSheetState extends State<BottomSheet> {
                     info: "Запрос на бронирование отправлен!"),
               );
               Navigator.pushNamed(context, BOOKING_STATUS,
-                  arguments: BookingStatusArguments(state.booking));
+                  arguments: BookingStatusArguments(state.booking, false));
               return;
             case SettingBookingError:
               showTopSnackBar(
@@ -281,6 +281,9 @@ class _BottomSheetState extends State<BottomSheet> {
                             context
                                 .read<SetBookingCubit>()
                                 .updateTimeOfBooking(bookingDate);
+                            context
+                                .read<SetBookingCubit>()
+                                .updatePersonCount(personCount);
                             if ((context
                                     .read<SetBookingCubit>()
                                     .state

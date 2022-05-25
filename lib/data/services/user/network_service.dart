@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
@@ -13,7 +14,8 @@ class UserNetworkService {
           "x-access-token": token.toString()
         },
         body: jsonEncode({"_id": _id}));
-
+    log(token.toString());
+    log(_id.toString());
     return response;
   }
 

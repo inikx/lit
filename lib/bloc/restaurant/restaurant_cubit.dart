@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -33,6 +34,9 @@ class RestaurantCubit extends Cubit<RestaurantState> {
             .map((restaurant) => Restaurant.fromJson(restaurant))
             .toList();
         emit(RestaurantsLoaded(restaurants: restaurants));
+      } else if (response.statusCode == 404) {
+        List<Restaurant> restaurants = [];
+        emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
       } else {
         emit(RestaurantsLoadingError());
       }
@@ -51,6 +55,9 @@ class RestaurantCubit extends Cubit<RestaurantState> {
         } else {
           emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
         }
+      } else if (response.statusCode == 404) {
+        List<Restaurant> restaurants = [];
+        emit(RestaurantsLoaded(restaurants: restaurants, fav: false));
       } else {
         emit(RestaurantsLoadingError());
       }

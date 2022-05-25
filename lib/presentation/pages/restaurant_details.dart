@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geocoding/geocoding.dart';
+import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
@@ -29,6 +32,7 @@ class RestarauntDetails extends StatefulWidget {
 class _RestarauntDetailsState extends State<RestarauntDetails> {
   late bool addFav;
   List<String> fixedImages = [];
+  bool bookingCreated = false;
 
   Future<void> makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
@@ -41,6 +45,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
   @override
   void initState() {
     BlocProvider.of<RestaurantCubit>(context).isFav(widget.restaurant);
+    BlocProvider.of<BookingCubit>(context).fetchBookings();
     super.initState();
   }
 
@@ -238,35 +243,56 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          height: 40,
-                          width: 140,
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.black),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ))),
-                              onPressed: () {
-                                widget.restaurant.phone != ""
-                                    ? BookingInputBottomSheet(
-                                        context,
-                                        widget.restaurant.title,
-                                        widget.restaurant.phone)
-                                    : showTopSnackBar(
-                                        context,
-                                        const ErrorSnackbar(
-                                            info:
-                                                "Номер телефона ресторана не найден"));
+                            height: 40,
+                            width: 140,
+                            child: BlocListener<BookingCubit, BookingState>(
+                              listener: (context, state) {
+                                if (state.bookings
+                                    .where((booking) =>
+                                        booking.status == "created")
+                                    .isNotEmpty) {
+                                  setState(() {
+                                    bookingCreated = true;
+                                  });
+                                }
                               },
-                              child: Text("Забронировать",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ))),
-                        ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.black),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50),
+                                      ))),
+                                  onPressed: () {
+                                    if (widget.restaurant.phone != "" &&
+                                        bookingCreated == false) {
+                                      BookingInputBottomSheet(
+                                          context,
+                                          widget.restaurant.title,
+                                          widget.restaurant.phone);
+                                    } else if (bookingCreated == true) {
+                                      showTopSnackBar(
+                                          context,
+                                          const ErrorSnackbar(
+                                              info:
+                                                  "Дождитесь результатов бронирования"));
+                                    } else if (widget.restaurant.phone == "") {
+                                      showTopSnackBar(
+                                          context,
+                                          const ErrorSnackbar(
+                                              info:
+                                                  "Номер телефона ресторана не найден"));
+                                    }
+                                  },
+                                  child: Text("Забронировать",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ))),
+                            )),
                         IconButton(
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -288,10 +314,12 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                                 List<Restaurant> restaurants = [];
                                 restaurants.add(widget.restaurant);
                                 Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: ((context) =>
-                                            GMap(restaurants: restaurants))));
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: ((context) => GMap(
+                                                restaurants: restaurants))))
+                                    .then((value) => print(value.toString()));
+                                ;
                               } catch (e) {
                                 showTopSnackBar(
                                     context,

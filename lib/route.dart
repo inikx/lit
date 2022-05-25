@@ -118,7 +118,10 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => getIt<BookingCubit>(),
-                  child: BookingStatusPage(booking: args.booking),
+                  child: BookingStatusPage(
+                    booking: args.booking,
+                    fromList: args.fromList,
+                  ),
                 ));
       case BOOKINGS:
         return CupertinoPageRoute(
@@ -171,6 +174,7 @@ class RestarauntDetailsArguments {
 
 class BookingStatusArguments {
   final Booking booking;
+  final bool fromList;
 
-  BookingStatusArguments(this.booking);
+  BookingStatusArguments(this.booking, this.fromList);
 }
