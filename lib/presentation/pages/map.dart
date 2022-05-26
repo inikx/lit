@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geocoding/geocoding.dart' as geo;
@@ -11,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:lit/data/models/user_location.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/data/services/location_service.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class GMap extends StatefulWidget {
   List<Restaurant> restaurants;
@@ -51,6 +54,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   static const googleApiKey = "AIzaSyC9rwCAKSPVSibz8vHHFT4bCdBCVgj8C1M";
+  Completer<GoogleMapController> _controllerCompleter = Completer();
+  late String _mapStyle;
+  bool _mapStyleLoaded = false;
 
   List<Restaurant> geoRestaurants = [];
   List<Marker> restMarkers = [];
@@ -59,15 +65,21 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void initState() {
-    addMarkers();
+    rootBundle.loadString('assets/map/map_style.json').then((jsonStyle) {
+      setState(() {
+        _mapStyle = jsonStyle;
+        _mapStyleLoaded = true;
+      });
+    });
     geoCity();
+    setMarkers();
     super.initState();
   }
 
-  addMarkers() async {
+  Future setMarkers() async {
     BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(),
-      "assets/icons/pin.png",
+      "assets/map/pin.png",
     );
 
     for (var restaurant in widget.restaurants) {
@@ -77,27 +89,28 @@ class _MapPageState extends State<MapPage> {
         restaurant.latitude = locations[0].latitude;
         restaurant.longitude = locations[0].longitude;
         geoRestaurants.add(restaurant);
-
-        restMarkers.add(Marker(
-            markerId: MarkerId(restaurant.title),
-            position: LatLng(restaurant.latitude!, restaurant.longitude!),
-            icon: markerbitmap,
-            infoWindow: InfoWindow(
-                title: restaurant.title,
-                snippet: restaurant.address,
-                onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
-                    arguments: RestarauntDetailsArguments(
-                        restaurant.id,
-                        restaurant.title,
-                        restaurant.city,
-                        restaurant.kitchen,
-                        restaurant.address,
-                        restaurant.rating,
-                        restaurant.imagePath,
-                        restaurant.averagePrice,
-                        restaurant.shortDescription,
-                        restaurant.workingHours,
-                        restaurant.phone)))));
+        setState(() {
+          restMarkers.add(Marker(
+              markerId: MarkerId(restaurant.title),
+              position: LatLng(restaurant.latitude!, restaurant.longitude!),
+              icon: markerbitmap,
+              infoWindow: InfoWindow(
+                  title: restaurant.title,
+                  snippet: restaurant.address,
+                  onTap: () => Navigator.pushNamed(context, RESTAURANT_DETAILS,
+                      arguments: RestarauntDetailsArguments(
+                          restaurant.id,
+                          restaurant.title,
+                          restaurant.city,
+                          restaurant.kitchen,
+                          restaurant.address,
+                          restaurant.rating,
+                          restaurant.imagePath,
+                          restaurant.averagePrice,
+                          restaurant.shortDescription,
+                          restaurant.workingHours,
+                          restaurant.phone)))));
+        });
       } catch (e) {}
     }
   }
@@ -131,50 +144,72 @@ class _MapPageState extends State<MapPage> {
             ));
           } else if (provider.status == LocationProviderStatus.Success) {
             var locationProvider = Provider.of<UserLocation>(context);
-            return Column(children: [
-              Expanded(
-                child: SizedBox(
-                  child: GoogleMap(
-                    markers: Set.from(restMarkers),
-                    initialCameraPosition: restMarkers.length == 1
-                        ? CameraPosition(
-                            zoom: 15,
-                            target: LatLng(widget.restaurants[0].latitude!,
-                                widget.restaurants[0].longitude!))
-                        : CameraPosition(
-                            zoom: 12,
-                            target: LatLng(locationProvider.latitude,
-                                locationProvider.longitude)),
-                    myLocationEnabled: true,
-                    mapToolbarEnabled: true,
-                    mapType: MapType.normal,
-                    myLocationButtonEnabled: true,
-                  ),
-                ),
-              ),
-            ]);
+            return _mapStyleLoaded
+                ? Column(children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: GoogleMap(
+                          onMapCreated: (GoogleMapController controller) {
+                            controller.setMapStyle(_mapStyle);
+                            _controllerCompleter.complete(controller);
+                          },
+                          markers: Set.from(restMarkers),
+                          initialCameraPosition: restMarkers.length == 1
+                              ? CameraPosition(
+                                  zoom: 15,
+                                  target: LatLng(
+                                      widget.restaurants[0].latitude!,
+                                      widget.restaurants[0].longitude!))
+                              : CameraPosition(
+                                  zoom: 12,
+                                  target: LatLng(locationProvider.latitude,
+                                      locationProvider.longitude)),
+                          myLocationEnabled: true,
+                          mapToolbarEnabled: true,
+                          mapType: MapType.normal,
+                          myLocationButtonEnabled: true,
+                        ),
+                      ),
+                    ),
+                  ])
+                : Center(
+                    child: JumpingDotsProgressIndicator(
+                    dotSpacing: 8,
+                    fontSize: 80.0,
+                  ));
           } else {
-            return Column(children: [
-              Expanded(
-                child: SizedBox(
-                  child: GoogleMap(
-                    markers: Set.from(restMarkers),
-                    initialCameraPosition: restMarkers.length == 1
-                        ? CameraPosition(
-                            zoom: 15,
-                            target: LatLng(widget.restaurants[0].latitude!,
-                                widget.restaurants[0].longitude!))
-                        : CameraPosition(
-                            zoom: 12,
-                            target: LatLng(cityLatitude, cityLongitude)),
-                    myLocationEnabled: true,
-                    mapToolbarEnabled: true,
-                    mapType: MapType.normal,
-                    myLocationButtonEnabled: true,
-                  ),
-                ),
-              ),
-            ]);
+            return _mapStyleLoaded
+                ? Column(children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: GoogleMap(
+                          onMapCreated: (GoogleMapController controller) {
+                            controller.setMapStyle(_mapStyle);
+                            _controllerCompleter.complete(controller);
+                          },
+                          markers: Set.from(restMarkers),
+                          initialCameraPosition: restMarkers.length == 1
+                              ? CameraPosition(
+                                  zoom: 15,
+                                  target: LatLng(
+                                      widget.restaurants[0].latitude!,
+                                      widget.restaurants[0].longitude!))
+                              : CameraPosition(
+                                  zoom: 12,
+                                  target: LatLng(cityLatitude, cityLongitude)),
+                          myLocationEnabled: true,
+                          mapToolbarEnabled: true,
+                          mapType: MapType.normal,
+                          myLocationButtonEnabled: true,
+                        ),
+                      ),
+                    ),
+                  ])
+                : Center(
+                    child: JumpingDotsProgressIndicator(
+                    dotSpacing: 8,
+                    fontSize: 80.0,
+                  ));
           }
         }));
   }

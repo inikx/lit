@@ -44,14 +44,14 @@ class _BookingsPageState extends State<BookingsPage> {
                   builder: (context, state) {
                     if (state is BookingsLoaded) {
                       var bookings = state.bookings;
+                      if (bookings.isEmpty) {
+                        return Center(child: Text("Бронирования не найдены."));
+                      }
                       List<Booking> allBookings = [];
-
                       for (var booking in bookings) {
                         allBookings.add(booking);
                       }
-                      if (allBookings.isEmpty) {
-                        return Center(child: Text("Бронирования не найдены."));
-                      }
+
                       return BookingsList(
                           bookings: allBookings.reversed.toList());
                     } else if (state is BookingsLoading) {

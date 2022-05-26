@@ -19,6 +19,9 @@ class BookingCubit extends Cubit<BookingState> {
         List<Booking> bookings =
             rawBookings.map((task) => Booking.fromJson((task))).toList();
         emit(BookingsLoaded(bookings: bookings));
+      } else if (response.statusCode == 404) {
+        List<Booking> bookings = [];
+        emit(BookingsLoaded(bookings: bookings));
       } else {
         emit(BookingsLoadingError());
       }

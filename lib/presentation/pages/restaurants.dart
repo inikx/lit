@@ -237,19 +237,26 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                   IconButton(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
-                                      icon: Image.asset('assets/icons/map.png'),
+                                      icon: Image.asset(
+                                        'assets/icons/map.png',
+                                        color: allRestaurants.length < 150
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
                                       onPressed: () {
-                                        var provider =
-                                            Provider.of<LocationProvider>(
-                                                context,
-                                                listen: false);
-                                        provider.getLocation();
-                                        Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: ((context) => GMap(
-                                                    restaurants:
-                                                        allRestaurants))));
+                                        if (allRestaurants.length < 150) {
+                                          var provider =
+                                              Provider.of<LocationProvider>(
+                                                  context,
+                                                  listen: false);
+                                          provider.getLocation();
+                                          Navigator.push(
+                                              context,
+                                              CupertinoPageRoute(
+                                                  builder: ((context) => GMap(
+                                                      restaurants:
+                                                          allRestaurants))));
+                                        }
                                       }),
                                   Text(allRestaurants.length.toString())
                                 ],
