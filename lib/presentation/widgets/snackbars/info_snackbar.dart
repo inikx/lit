@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SuccessSnackbar extends StatelessWidget {
+class InfoSnackbar extends StatelessWidget {
+  final String title;
   final String info;
-  const SuccessSnackbar({
+  const InfoSnackbar({
     Key? key,
+    required this.title,
     required this.info,
   }) : super(key: key);
 
@@ -29,9 +31,9 @@ class SuccessSnackbar extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(left: 20),
                 child: Icon(
-                  Icons.check_rounded,
+                  Icons.info_outline_rounded,
                   size: 25,
-                  color: Colors.greenAccent[700],
+                  color: Colors.orangeAccent,
                 ),
               ),
               Container(
@@ -40,16 +42,16 @@ class SuccessSnackbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Успешно!',
+                      title,
                       style: TextStyle(
-                          color: Colors.greenAccent[700],
+                          color: Colors.orangeAccent,
                           fontSize: 13,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       info,
                       style: TextStyle(
-                          color: Colors.greenAccent[700],
+                          color: Colors.orangeAccent,
                           fontSize: 12,
                           fontWeight: FontWeight.normal),
                     ),

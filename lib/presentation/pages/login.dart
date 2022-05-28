@@ -7,9 +7,16 @@ import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
     return BlocListener<LogInCubit, LogInState>(
@@ -18,7 +25,7 @@ class LoginPage extends StatelessWidget {
           case LoggedIn:
             showTopSnackBar(
               context,
-              const SuccessSnackbar(info: "Вы успешно авторизовались!"),
+              const SuccessSnackbar(info: "Вы успешно авторизовались"),
             );
             Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
             return;
@@ -46,8 +53,8 @@ class LoginPage extends StatelessWidget {
                 width: 300,
                 child: TextField(
                     cursorColor: Colors.grey,
-                    onChanged: (String value) async {
-                      context.read<LogInCubit>().updateEmail(value);
+                    onChanged: (String newEmail) {
+                      setState(() => email = newEmail);
                     },
                     autofocus: false,
                     decoration: InputDecoration(
@@ -72,8 +79,8 @@ class LoginPage extends StatelessWidget {
                 width: 300,
                 child: TextField(
                     cursorColor: Colors.grey,
-                    onChanged: (String value) async {
-                      context.read<LogInCubit>().updatePassword(value);
+                    onChanged: (String newPassword) {
+                      setState(() => password = newPassword);
                     },
                     autofocus: false,
                     obscureText: true,
@@ -108,6 +115,8 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50),
                       ))),
                   onPressed: () async {
+                    context.read<LogInCubit>().updateEmail(email);
+                    context.read<LogInCubit>().updatePassword(password);
                     BlocProvider.of<LogInCubit>(context)
                         .loginUser(context.read<LogInCubit>().state.data);
                   },
@@ -120,8 +129,9 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 7),
               TextButton(
-                style:
-                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
+                style: ButtonStyle(
+                    overlayColor:
+                        MaterialStateProperty.all(Colors.transparent)),
                 child: const Text(
                   "Создать аккаунт",
                   style: TextStyle(fontSize: 15, color: Colors.black),

@@ -8,8 +8,10 @@ import 'package:lit/data/providers/filters_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/widgets/bottom_sheets/restaurants_filters_bottom_sheet.dart';
 import 'package:lit/presentation/widgets/restaurant/restaurants_list.dart';
+import 'package:lit/presentation/widgets/snackbars/info_snackbar.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class RestaurantsPage extends StatefulWidget {
   const RestaurantsPage({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class RestaurantsPage extends StatefulWidget {
 class _RestaurantsPageState extends State<RestaurantsPage> {
   final Tcontroller = TextEditingController();
   String query = "";
+  final int mapRestCount = 150;
 
   @override
   void initState() {
@@ -239,12 +242,14 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                       highlightColor: Colors.transparent,
                                       icon: Image.asset(
                                         'assets/icons/map.png',
-                                        color: allRestaurants.length < 150
-                                            ? Colors.black
-                                            : Colors.grey,
+                                        color:
+                                            allRestaurants.length < mapRestCount
+                                                ? Colors.black
+                                                : Colors.grey,
                                       ),
                                       onPressed: () {
-                                        if (allRestaurants.length < 150) {
+                                        if (allRestaurants.length <
+                                            mapRestCount) {
                                           var provider =
                                               Provider.of<LocationProvider>(
                                                   context,
@@ -256,6 +261,13 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
                                                   builder: ((context) => GMap(
                                                       restaurants:
                                                           allRestaurants))));
+                                        } else {
+                                          showTopSnackBar(
+                                              context,
+                                              const InfoSnackbar(
+                                                  title: "Обратите внимание!",
+                                                  info:
+                                                      "На карте может быть до 150 ресторанов"));
                                         }
                                       }),
                                   Text(allRestaurants.length.toString())

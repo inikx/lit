@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +8,7 @@ import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
+import 'package:lit/presentation/widgets/snackbars/info_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,8 +74,8 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
               padding: const EdgeInsets.only(top: 20.0),
               child: CarouselSlider(
                 options: CarouselOptions(
-                  height: MediaQuery.of(context).size.height / 3.4,
-                  aspectRatio: 2.0,
+                  height: MediaQuery.of(context).size.height / 3.1,
+                  //aspectRatio: 1.0,
                   enableInfiniteScroll: false,
                   enlargeCenterPage: true,
                   autoPlay: true,
@@ -174,8 +173,6 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                       if (widget.restaurant.workingHours.length == 20 ||
                           widget.restaurant.workingHours.length == 16) {
                         text = widget.restaurant.workingHours;
-                      } else if (widget.restaurant.workingHours.length == 24) {
-                        text = "Нет данных";
                       } else if (widget.restaurant.workingHours.length == 35) {
                         text = widget.restaurant.workingHours.substring(0, 15) +
                             "\n" +
@@ -232,6 +229,8 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                             widget.restaurant.workingHours.substring(54, 71) +
                             "\n" +
                             widget.restaurant.workingHours.substring(71, 91);
+                      } else {
+                        text = "Нет данных";
                       }
                       return Text(text,
                           style: TextStyle(
@@ -276,7 +275,9 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                                     } else if (bookingCreated == true) {
                                       showTopSnackBar(
                                           context,
-                                          const ErrorSnackbar(
+                                          const InfoSnackbar(
+                                              title:
+                                                  "Запрос на бронирование уже отправлен!",
                                               info:
                                                   "Дождитесь результатов бронирования"));
                                     } else if (widget.restaurant.phone == "") {
@@ -324,7 +325,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                                 showTopSnackBar(
                                     context,
                                     const ErrorSnackbar(
-                                        info: "Данный адрес не найден"));
+                                        info: "Адрес ресторана не найден"));
                               }
                             },
                             icon: const Icon(Icons.location_on, size: 35)),

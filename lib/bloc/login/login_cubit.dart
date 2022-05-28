@@ -10,14 +10,18 @@ class LogInCubit extends Cubit<LogInState> {
 
   void updateEmail(String email) {
     final currentState = state;
-    if (currentState is LogInChanged || currentState is LogInInitial) {
+    if (currentState is LogInChanged ||
+        currentState is LogInInitial ||
+        currentState is LogInError) {
       emit(LogInChanged(data: currentState.data.copyWith(email: email)));
     }
   }
 
   void updatePassword(String password) {
     final currentState = state;
-    if (currentState is LogInChanged || currentState is LogInInitial) {
+    if (currentState is LogInChanged ||
+        currentState is LogInInitial ||
+        currentState is LogInError) {
       emit(LogInChanged(data: currentState.data.copyWith(password: password)));
     }
   }

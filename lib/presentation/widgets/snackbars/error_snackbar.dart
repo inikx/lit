@@ -40,7 +40,7 @@ class ErrorSnackbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ошибка',
+                      'Ошибка!',
                       style: TextStyle(
                           color: Colors.red,
                           fontSize: 13,

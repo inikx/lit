@@ -16,6 +16,8 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   final cities = ['Санкт-Петербург', 'Москва'];
   String city = 'Санкт-Петербург';
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +27,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
           case UserRegistered:
             showTopSnackBar(
               context,
-              const SuccessSnackbar(info: "Вы успешно зарегистрировались!"),
+              const SuccessSnackbar(info: "Вы успешно зарегистрировались"),
             );
             Navigator.pushNamed(context, LOGIN);
             return;
           case RegisterError:
-            showTopSnackBar(
-                context,
-                const ErrorSnackbar(
-                    info: "Ошибка регистрации, попробуйте снова"));
-            return;
+            if (!email.contains("@")) {
+              showTopSnackBar(context,
+                  const ErrorSnackbar(info: "Введите корректный email"));
+              return;
+            } else if (password.length < 5 || password.length > 25) {
+              showTopSnackBar(
+                  context,
+                  const ErrorSnackbar(
+                      info: "Введите пароль от 5 до 25 символов"));
+              return;
+            } else {
+              showTopSnackBar(
+                  context,
+                  const ErrorSnackbar(
+                      info: "Ошибка регистрации, попробуйте снова"));
+              return;
+            }
         }
       },
       child: Scaffold(
@@ -62,8 +76,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: 300,
                     child: TextField(
                         cursorColor: Colors.grey,
-                        onChanged: (String value) {
-                          context.read<RegisterCubit>().updateEmail(value);
+                        onChanged: (String newEmail) {
+                          setState(() => email = newEmail);
                         },
                         autofocus: false,
                         decoration: InputDecoration(
@@ -88,8 +102,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: 300,
                     child: TextField(
                         cursorColor: Colors.grey,
-                        onChanged: (String value) {
-                          context.read<RegisterCubit>().updatePassword(value);
+                        onChanged: (String newPassword) {
+                          setState(() => password = newPassword);
                         },
                         autofocus: false,
                         obscureText: true,
@@ -112,7 +126,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           filled: true,
                         )),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
@@ -138,7 +152,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       underline: SizedBox(),
                     ),
                   ),
-                  const SizedBox(height: 70),
+                  const SizedBox(height: 20),
                   Container(
                     width: 300,
                     height: 50,
@@ -152,6 +166,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             borderRadius: BorderRadius.circular(50),
                           ))),
                       onPressed: () async {
+                        context.read<RegisterCubit>().updateEmail(email);
+                        context.read<RegisterCubit>().updatePassword(password);
                         context.read<RegisterCubit>().updateCity(city);
                         BlocProvider.of<RegisterCubit>(context).registerUser(
                             context.read<RegisterCubit>().state.data);

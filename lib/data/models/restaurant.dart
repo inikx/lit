@@ -87,7 +87,7 @@ class Restaurant extends Equatable {
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     List<String> images = [
-      "https://img.icons8.com/wired/344/restaurant-table.png"
+      "https://img.icons8.com/ios/344/restaurant-table.png"
     ];
     if (json['imagePath'][0].toString() != "null") {
       images = List<String>.from(json['imagePath']);
@@ -97,13 +97,15 @@ class Restaurant extends Equatable {
       id: json['_id'] ?? "",
       title: json['title'] ?? "",
       city: json['city'] ?? "",
-      kitchen: List<String>.from(json['kitchen']),
-      address: json['address'] ?? "",
+      kitchen: List<String>.from(json['kitchen']).isNotEmpty
+          ? List<String>.from(json['kitchen'])
+          : ["Нет данных"],
+      address: json['address'] ?? "Адрес отсутствует",
       rating: double.tryParse(json['rating']) ?? 0,
       imagePath: images,
       averagePrice: int.tryParse(json['averagePrice']) ?? 0,
-      shortDescription: json['shortDescription'] ?? "",
-      workingHours: json['workingHours'] ?? "",
+      shortDescription: json['shortDescription'] ?? "Описание отсутствует",
+      workingHours: json['workingHours'] ?? "Нет данных",
       phone: json['phone'] ?? "",
     );
   }

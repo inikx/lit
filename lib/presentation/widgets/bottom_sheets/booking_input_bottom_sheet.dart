@@ -112,8 +112,7 @@ class _BottomSheetState extends State<BottomSheet> {
             case SettingBookingSuccess:
               showTopSnackBar(
                 context,
-                const SuccessSnackbar(
-                    info: "Запрос на бронирование отправлен!"),
+                const SuccessSnackbar(info: "Запрос на бронирование отправлен"),
               );
               Navigator.pushNamed(context, BOOKING_STATUS,
                   arguments: BookingStatusArguments(state.booking, false));
@@ -258,7 +257,7 @@ class _BottomSheetState extends State<BottomSheet> {
                             fillColor: Colors.grey[200],
                             filled: true,
                           )),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       SizedBox(
                         height: 50,
                         width: 180,
@@ -294,15 +293,14 @@ class _BottomSheetState extends State<BottomSheet> {
                               showTopSnackBar(
                                   context,
                                   const ErrorSnackbar(
-                                      info: "Введите данные бронирования!"));
+                                      info: "Введите данные бронирования"));
                             } else {
                               BlocProvider.of<SetBookingCubit>(context)
                                   .setBooking(context
                                       .read<SetBookingCubit>()
                                       .state
                                       .booking);
-                              Navigator.pop(context); //?
-
+                              Navigator.pop(context);
                             }
                           },
                           child: const Text("Подтвердить",

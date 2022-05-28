@@ -12,14 +12,18 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void updateEmail(String email) {
     final currentState = state;
-    if (currentState is RegisterChanged || currentState is RegisterInitial) {
+    if (currentState is RegisterChanged ||
+        currentState is RegisterInitial ||
+        currentState is RegisterError) {
       emit(RegisterChanged(data: currentState.data.copyWith(email: email)));
     }
   }
 
   void updatePassword(String password) {
     final currentState = state;
-    if (currentState is RegisterChanged || currentState is RegisterInitial) {
+    if (currentState is RegisterChanged ||
+        currentState is RegisterInitial ||
+        currentState is RegisterError) {
       emit(RegisterChanged(
           data: currentState.data.copyWith(password: password)));
     }
@@ -27,7 +31,9 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void updateCity(String city) {
     final currentState = state;
-    if (currentState is RegisterChanged || currentState is RegisterInitial) {
+    if (currentState is RegisterChanged ||
+        currentState is RegisterInitial ||
+        currentState is RegisterError) {
       emit(RegisterChanged(data: currentState.data.copyWith(city: city)));
     }
   }
