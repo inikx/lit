@@ -5,6 +5,7 @@ import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
+import 'package:lit/bloc/set_booking/set_booking_cubit.dart';
 import 'package:lit/bloc/user/user_cubit.dart';
 import 'package:lit/constants/locator.dart';
 import 'package:lit/constants/strings.dart';
@@ -111,6 +112,11 @@ class AppRouter {
         );
       case BOOKING_STATUS:
         final args = settings.arguments as BookingStatusArguments;
+        if (getIt.isRegistered<SetBookingCubit>()) {
+          getIt.unregister<SetBookingCubit>();
+        }
+        getIt.registerSingleton(
+            SetBookingCubit(getIt<BookingRepository>(), getIt<BookingCubit>()));
         if (getIt.isRegistered<BookingCubit>()) {
           getIt.unregister<BookingCubit>();
         }

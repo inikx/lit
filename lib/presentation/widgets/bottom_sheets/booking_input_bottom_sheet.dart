@@ -106,6 +106,11 @@ class _BottomSheetState extends State<BottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    if (getIt.isRegistered<SetBookingCubit>()) {
+      getIt.unregister<SetBookingCubit>();
+    }
+    getIt.registerSingleton(
+        SetBookingCubit(getIt<BookingRepository>(), getIt<BookingCubit>()));
     return BlocListener<SetBookingCubit, SetBookingState>(
         listener: (context, state) {
           switch (state.runtimeType) {
@@ -126,7 +131,7 @@ class _BottomSheetState extends State<BottomSheet> {
           }
         },
         child: FractionallySizedBox(
-            heightFactor: 0.85, //keyboard on other devices?
+            heightFactor: 0.85,
             child: Column(
               children: <Widget>[
                 Padding(
