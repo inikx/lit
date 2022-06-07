@@ -8,6 +8,7 @@ var rest = [];
 
 
 const parse = async () => {
+    var i = 1;
     var title;
     var rating;
     var averagePrice;
@@ -22,13 +23,13 @@ const parse = async () => {
     };
 
     const $ = await getHTML(
-        "https://www.restoclub.ru/spb/search/kitajskie-restorany-v-peterburge"
+        "https://www.restoclub.ru/msk/search/restorany-moskvy"
     );
 
     const pageNumber = $("a.pagination__item._page").eq(-2).text();
     for (let i = 1; i <= pageNumber; i++) {
         const selector = await getHTML(
-            `https://www.restoclub.ru/spb/search/kitajskie-restorany-v-peterburge/${i}`
+            `https://www.restoclub.ru/msk/search/restorany-moskvy/${i}`
         );
         selector(".page-search__item").each((i, element) => {
             title = selector(element)
@@ -55,7 +56,7 @@ const parse = async () => {
             if (title) {
                 rest.push({
                     title: title,
-                    city: "Санкт-Петербург",
+                    city: "Москва",
                     kitchen: kitchen,
                     //address: null,
                     rating: rating,
@@ -67,6 +68,8 @@ const parse = async () => {
                     //phone: null,
                     url: subpageUrl,
                 });
+                i = i + 1;
+                console.log(i)
             }
         });
     }
@@ -76,7 +79,7 @@ const parse = async () => {
 };
 
 const parseSubPage = async (rest) => {
-    
+    var i = 1;
     var address;
     var imagePath = [];
     var description;
@@ -108,8 +111,8 @@ const parseSubPage = async (rest) => {
 
         rest[rest.indexOf(res)]= Object.assign({}, res, {address: address,
             workingHours: data[0], phone: phone, imagePath: imagePath})
-
-        
+            i = i + 1
+            console.log(i)
         
         
         // let datas = JSON.stringify({
@@ -162,7 +165,7 @@ const parseSubPage = async (rest) => {
                 "phone": r.phone
               };
         let result = JSON.stringify(datas)
-              console.log(result)
+              //console.log(result)
               await axios.post('http://localhost:3000/api/setRest', datas)
               .then((response) => {
                 console.log(response);
