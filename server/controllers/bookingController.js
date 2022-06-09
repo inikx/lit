@@ -60,7 +60,7 @@ const getBooking = async (req, res) => {
 
 const confirmBooking = async (req, res) => {
     try {
-        phone = req.body
+        var {phone} = req.body
         const booking = await Booking.find({phone : phone}).exec()
         if(booking){
             const confirmation = {status : 'confirmed'}
@@ -74,7 +74,7 @@ const confirmBooking = async (req, res) => {
 
 const cancelBooking = async (req, res) => {
     try {
-        phone = req.body
+        var {phone} = req.body
         var current_time = new Date()
         const booking = await Booking.find({phone : phone}).exec()
         if(booking){
