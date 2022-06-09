@@ -13,9 +13,7 @@ const setBooking = async (req, res) => {
         }
         
         const booking = await Booking.create({user_id: req.user.user_id, title: title, name:name, timeOfBooking: timeOfBooking, timeOfOrder: current_time, personCount: personCount, comment: comment, status: current_status, phone: phone})
-
-        res.status(201).json(booking);
-        let datas = JSON.stringify({
+        await axios.post('https://lk.zvonobot.ru/apiCalls/create', {
             "apiKey": "btxsaBgXY2bkmSclZlNvN9xK07pL1NDeBEQvU5gS8nhC9Yi94JIBq3D9wqfB",
             "phone": "79522716996",
             "outgoingPhone": "73512408331",
@@ -41,7 +39,7 @@ const setBooking = async (req, res) => {
               }
             ]
           })
-        await axios.post('https://lk.zvonobot.ru/apiCalls/create', datas)
+          res.status(201).json(booking);
     } catch (error) {
         console.error(error);
     }
