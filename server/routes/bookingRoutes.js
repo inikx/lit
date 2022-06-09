@@ -18,7 +18,7 @@ router.post(
 );
 
 router.get("/getBooking", auth, bookingController.getBooking);
-router.post("/confirmBooking", auth, bookingController.confirmBooking)
-router.post("/cancelBooking", auth, bookingController.cancelBooking)
+router.post("/confirmBooking", bookingController.confirmBooking)
+router.post("/cancelBooking", bookingController.cancelBooking)
 module.exports = router
 
