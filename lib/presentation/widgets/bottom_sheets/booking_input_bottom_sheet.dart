@@ -115,6 +115,11 @@ class _BottomSheetState extends State<BottomSheet> {
         listener: (context, state) {
           switch (state.runtimeType) {
             case SettingBookingSuccess:
+              if (getIt.isRegistered<SetBookingCubit>()) {
+                getIt.unregister<SetBookingCubit>();
+              }
+              getIt.registerSingleton(SetBookingCubit(
+                  getIt<BookingRepository>(), getIt<BookingCubit>()));
               showTopSnackBar(
                 context,
                 const SuccessSnackbar(info: "Запрос на бронирование отправлен"),
@@ -123,6 +128,11 @@ class _BottomSheetState extends State<BottomSheet> {
                   arguments: BookingStatusArguments(state.booking, false));
               return;
             case SettingBookingError:
+              if (getIt.isRegistered<SetBookingCubit>()) {
+                getIt.unregister<SetBookingCubit>();
+              }
+              getIt.registerSingleton(SetBookingCubit(
+                  getIt<BookingRepository>(), getIt<BookingCubit>()));
               showTopSnackBar(
                 context,
                 const ErrorSnackbar(info: "Ошибка запроса на бронирование"),

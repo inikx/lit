@@ -76,8 +76,9 @@ class SetBookingCubit extends Cubit<SetBookingState> {
     repository.setBooking(booking).then((response) {
       if (response.statusCode == 201) {
         var newBooking = jsonDecode(response.body);
-        emit(SettingBookingSuccess(booking: Booking.fromJson(newBooking)));
         emit(SetBookingInitial());
+        emit(SettingBookingSuccess(booking: Booking.fromJson(newBooking)));
+
         bookingCubit.setBookingToState(Booking.fromJson(newBooking));
       } else if (response.statusCode == 400) {
         emit(SettingBookingError(booking: currentState.booking));
