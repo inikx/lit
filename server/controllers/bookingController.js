@@ -63,8 +63,7 @@ const confirmBooking = async (req, res) => {
         var {phone} = req.body
         const booking = await Booking.find({phone : phone}).exec()
         if(booking){
-            const confirmation = {status : 'confirmed'}
-            await booking.updateOne(confirmation)
+            await Booking.updateOne({phone : phone}, {$set: {status : 'confirmed'}});
             res.status(201).json("Booking confirmed!")
         }
     } catch (error) {
@@ -78,8 +77,7 @@ const cancelBooking = async (req, res) => {
         var current_time = new Date()
         const booking = await Booking.find({phone : phone}).exec()
         if(booking){
-            var cancel_time = {status : 'canceled'}
-            await booking.updateOne(cancel_time)
+            await Booking.updateOne({phone : phone}, {$set: {status : 'canceled'}});
             res.status(201).json("Booking canceled at " + current_time)
         }
     } catch (error) {
