@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/providers/filters_provider.dart';
@@ -8,7 +10,17 @@ import 'package:lit/constants/locator.dart';
 import 'package:lit/route.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
+  HttpOverrides.global = new MyHttpOverrides();
   await setupLocator();
   runApp(LitApp(router: AppRouter()));
 }

@@ -89,7 +89,9 @@ class Restaurant extends Equatable {
     List<String> images = [
       "https://img.icons8.com/ios/344/restaurant-table.png"
     ];
-    if (json['imagePath'][0].toString() != "null") {
+    if (json['imagePath'][0].toString() != "null" &&
+        !json['imagePath'][0].toString().contains("cdn")) {
+      //FIXME: картинки в БД
       images = List<String>.from(json['imagePath']);
     }
 
