@@ -53,7 +53,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  static const googleApiKey = "AIzaSyC9rwCAKSPVSibz8vHHFT4bCdBCVgj8C1M";
+  static const googleApiKey = "";
   Completer<GoogleMapController> _controllerCompleter = Completer();
   late String _mapStyle;
   bool _mapStyleLoaded = false;
