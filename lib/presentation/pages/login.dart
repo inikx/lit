@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lit/bloc/login/login_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
+import 'package:lit/presentation/widgets/app_text_field.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -39,108 +41,62 @@ class _LoginPageState extends State<LoginPage> {
           body: SingleChildScrollView(
         reverse: true,
         child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-                child: SvgPicture.asset(
-                  'assets/icons/lit_logo.svg',
-                  semanticsLabel: 'Logo',
-                  width: 100,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(40.0, 0, 40, 0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 300,
+                  child: SvgPicture.asset(
+                    'assets/icons/lit_logo.svg',
+                    semanticsLabel: 'Logo',
+                    width: 100,
+                  ),
                 ),
-              ),
-              Container(
-                width: 300,
-                child: TextField(
-                    cursorColor: Colors.grey,
-                    onChanged: (String newEmail) {
-                      setState(() => email = newEmail);
-                    },
-                    autofocus: false,
-                    decoration: InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                    )),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                width: 300,
-                child: TextField(
-                    cursorColor: Colors.grey,
-                    onChanged: (String newPassword) {
-                      setState(() => password = newPassword);
-                    },
-                    autofocus: false,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                      hintText: 'Пароль',
-                      hintStyle: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                    )),
-              ),
-              const SizedBox(height: 50),
-              Container(
-                height: 50,
-                width: 300,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ))),
+                AppTextField(
+                  obscureText: false,
+                  enableSuggestions: true,
+                  hintText: "Email",
+                  onChanged: (String newEmail) {
+                    setState(() => email = newEmail);
+                  },
+                ),
+                const SizedBox(height: 30),
+                AppTextField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  hintText: "Пароль",
+                  onChanged: ((String newPassword) {
+                    setState(() => password = newPassword);
+                  }),
+                ),
+                const SizedBox(height: 50),
+                AppElevatedButton(
+                  title: "Войти",
+                  fontSize: 18,
+                  width: MediaQuery.of(context).size.width,
                   onPressed: () async {
                     context.read<LogInCubit>().updateEmail(email);
                     context.read<LogInCubit>().updatePassword(password);
                     BlocProvider.of<LogInCubit>(context)
                         .loginUser(context.read<LogInCubit>().state.data);
                   },
-                  child: const Text("Войти",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      )),
                 ),
-              ),
-              const SizedBox(height: 7),
-              TextButton(
-                style: ButtonStyle(
-                    overlayColor:
-                        MaterialStateProperty.all(Colors.transparent)),
-                child: const Text(
-                  "Создать аккаунт",
-                  style: TextStyle(fontSize: 15, color: Colors.black),
+                const SizedBox(height: 7),
+                TextButton(
+                  style: ButtonStyle(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent)),
+                  child: const Text(
+                    "Создать аккаунт",
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, REGISTER);
+                  },
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, REGISTER);
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       )),

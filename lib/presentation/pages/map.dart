@@ -53,7 +53,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  static const googleApiKey = "";
+  static const googleApiKey = API_KEY;
   Completer<GoogleMapController> _controllerCompleter = Completer();
   late String _mapStyle;
   bool _mapStyleLoaded = false;
@@ -135,82 +135,47 @@ class _MapPageState extends State<MapPage> {
           title: const Text('Карта', style: TextStyle(color: Colors.black)),
         ),
         body: Consumer(builder: (context, LocationProvider provider, _) {
-          if (provider.status == LocationProviderStatus.Loading ||
-              provider.status == LocationProviderStatus.Initial) {
+          if (provider.status == LocationProviderStatus.Success &&
+              _mapStyleLoaded) {
+            var locationProvider = Provider.of<UserLocation>(context);
+            return CustomMap(
+                LatLng(locationProvider.latitude, locationProvider.longitude));
+          } else if (provider.status == LocationProviderStatus.Error &&
+              _mapStyleLoaded) {
+            return CustomMap(LatLng(cityLatitude, cityLongitude));
+          } else {
             return Center(
                 child: JumpingDotsProgressIndicator(
               dotSpacing: 8,
               fontSize: 80.0,
             ));
-          } else if (provider.status == LocationProviderStatus.Success) {
-            var locationProvider = Provider.of<UserLocation>(context);
-            return _mapStyleLoaded
-                ? Column(children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: GoogleMap(
-                          onMapCreated: (GoogleMapController controller) {
-                            controller.setMapStyle(_mapStyle);
-                            _controllerCompleter.complete(controller);
-                          },
-                          markers: Set.from(restMarkers),
-                          initialCameraPosition: restMarkers.length == 1
-                              ? CameraPosition(
-                                  zoom: 15,
-                                  target: LatLng(
-                                      widget.restaurants[0].latitude!,
-                                      widget.restaurants[0].longitude!))
-                              : CameraPosition(
-                                  zoom: 12,
-                                  target: LatLng(locationProvider.latitude,
-                                      locationProvider.longitude)),
-                          myLocationEnabled: true,
-                          mapToolbarEnabled: true,
-                          mapType: MapType.normal,
-                          myLocationButtonEnabled: true,
-                        ),
-                      ),
-                    ),
-                  ])
-                : Center(
-                    child: JumpingDotsProgressIndicator(
-                    dotSpacing: 8,
-                    fontSize: 80.0,
-                  ));
-          } else {
-            return _mapStyleLoaded
-                ? Column(children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: GoogleMap(
-                          onMapCreated: (GoogleMapController controller) {
-                            controller.setMapStyle(_mapStyle);
-                            _controllerCompleter.complete(controller);
-                          },
-                          markers: Set.from(restMarkers),
-                          initialCameraPosition: restMarkers.length == 1
-                              ? CameraPosition(
-                                  zoom: 15,
-                                  target: LatLng(
-                                      widget.restaurants[0].latitude!,
-                                      widget.restaurants[0].longitude!))
-                              : CameraPosition(
-                                  zoom: 12,
-                                  target: LatLng(cityLatitude, cityLongitude)),
-                          myLocationEnabled: true,
-                          mapToolbarEnabled: true,
-                          mapType: MapType.normal,
-                          myLocationButtonEnabled: true,
-                        ),
-                      ),
-                    ),
-                  ])
-                : Center(
-                    child: JumpingDotsProgressIndicator(
-                    dotSpacing: 8,
-                    fontSize: 80.0,
-                  ));
           }
         }));
+  }
+
+  Column CustomMap(LatLng target) {
+    return Column(children: [
+      Expanded(
+        child: SizedBox(
+          child: GoogleMap(
+            onMapCreated: (GoogleMapController controller) {
+              controller.setMapStyle(_mapStyle);
+              _controllerCompleter.complete(controller);
+            },
+            markers: Set.from(restMarkers),
+            initialCameraPosition: restMarkers.length == 1
+                ? CameraPosition(
+                    zoom: 15,
+                    target: LatLng(widget.restaurants[0].latitude!,
+                        widget.restaurants[0].longitude!))
+                : CameraPosition(zoom: 12, target: target),
+            myLocationEnabled: true,
+            mapToolbarEnabled: true,
+            mapType: MapType.normal,
+            myLocationButtonEnabled: true,
+          ),
+        ),
+      ),
+    ]);
   }
 }

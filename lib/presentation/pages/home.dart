@@ -10,15 +10,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    RestaurantsPage(),
-    ProfilePage(),
-  ];
+  int _page = 0;
+  PageController _pageController = PageController();
 
-  void _onItemTapped(int index) {
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: _page);
+    super.initState();
+  }
+
+  void _onTappedBar(int value) {
     setState(() {
-      _selectedIndex = index;
+      _page = value;
+      _pageController.jumpToPage(value);
     });
   }
 
@@ -26,33 +30,55 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
+        body: PageView(
+            physics: const BouncingScrollPhysics(),
+            controller: _pageController,
+            onPageChanged: (currentPage) {
+              setState(() {
+                _page = currentPage;
+              });
+            },
+            children: [RestaurantsPage(), ProfilePage()]),
         bottomNavigationBar: Theme(
-          data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            selectedItemColor: Colors.black87,
-            unselectedItemColor: Colors.black45,
-            iconSize: 35,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                label: "Рестораны",
-                icon: Icon(Icons.restaurant_outlined),
+            data: ThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.134,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  boxShadow: kElevationToShadow[4]),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  selectedItemColor: Colors.black87,
+                  unselectedItemColor: Colors.black45,
+                  selectedIconTheme: IconThemeData(size: 35),
+                  unselectedIconTheme: IconThemeData(
+                    size: 30,
+                  ),
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      label: "Рестораны",
+                      icon: Icon(Icons.restaurant_outlined),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.person),
+                      label: 'Профиль',
+                    ),
+                  ],
+                  currentIndex: _page,
+                  onTap: _onTappedBar,
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Профиль',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-        ));
+            )));
   }
 }

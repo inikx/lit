@@ -7,6 +7,7 @@ import 'package:lit/bloc/booking/booking_cubit.dart';
 import 'package:lit/bloc/restaurant/restaurant_cubit.dart';
 import 'package:lit/data/providers/location_provider.dart';
 import 'package:lit/presentation/pages/map.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/info_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -167,7 +168,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                           fontSize: 20,
                         )),
                     const SizedBox(height: 5),
-                    //workingHours fixies
+                    //workingHours db fixes
                     Builder(builder: (context) {
                       String text = "";
                       if (widget.restaurant.workingHours.length == 20 ||
@@ -255,16 +256,9 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                                   });
                                 }
                               },
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.black),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                      ))),
+                              child: AppElevatedButton(
+                                  title: "Забронировать",
+                                  fontSize: 14,
                                   onPressed: () {
                                     if (widget.restaurant.phone != "" &&
                                         bookingCreated == false) {
@@ -288,11 +282,7 @@ class _RestarauntDetailsState extends State<RestarauntDetails> {
                                                   "Номер телефона ресторана не найден"));
                                     }
                                   },
-                                  child: Text("Забронировать",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ))),
+                                  width: MediaQuery.of(context).size.width),
                             )),
                         IconButton(
                             splashColor: Colors.transparent,

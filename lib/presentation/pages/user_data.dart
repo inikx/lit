@@ -4,6 +4,8 @@ import 'package:lit/bloc/user/user_cubit.dart';
 import 'package:lit/constants/storage.dart';
 import 'package:lit/constants/strings.dart';
 import 'package:lit/data/providers/filters_provider.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
+import 'package:lit/presentation/widgets/select_city_widget.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -16,8 +18,6 @@ class UserDataPage extends StatefulWidget {
 }
 
 class _UserDataPageState extends State<UserDataPage> {
-  final cities = ['Санкт-Петербург', 'Москва'];
-
   @override
   void initState() {
     BlocProvider.of<UserCubit>(context).showUser();
@@ -40,95 +40,66 @@ class _UserDataPageState extends State<UserDataPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        body: Center(
-          child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-            if (state is UserLoaded || state is UserCityUpdated) {
-              var user = state.user;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Email: ",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        user.email,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DropdownButton<String>(
-                      value: user.city,
-                      onChanged: (newCity) async {
-                        setState(() => user.city = newCity!);
-                        context.read<UserCubit>().updateCity(user);
-                        await storage.write(key: 'city', value: newCity);
-                      },
-                      items: cities
-                          .map<DropdownMenuItem<String>>(
-                              (String value) => DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  ))
-                          .toList(),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                      ),
-                      iconSize: 26,
-                      underline: SizedBox(),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+          child: Center(
+            child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
+              if (state is UserLoaded || state is UserCityUpdated) {
+                var user = state.user;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Email: ",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                          user.email,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 50),
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ))),
-                      onPressed: () async {
-                        await storage.deleteAll();
-                        Provider.of<FiltersProvider>(context, listen: false)
-                            .changeSelectedKitchens([]);
-                        Provider.of<FiltersProvider>(context, listen: false)
-                            .changePrice(SfRangeValues(0, 3000));
-                        Provider.of<FiltersProvider>(context, listen: false)
-                            .changeRating(1.0);
-                        Provider.of<FiltersProvider>(context, listen: false)
-                            .changeSort('С наибольшим рейтингом');
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, LOGIN, (r) => false);
-                      },
-                      child: Text("Выйти",
-                          style: TextStyle(color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                ],
-              );
-            } else if (state is UserLoading) {
-              return JumpingDotsProgressIndicator(
-                dotSpacing: 8,
-                fontSize: 80.0,
-              );
-            } else {
-              return Center(child: Text("Ошибка загрузки данных"));
-            }
-          }),
+                    SizedBox(height: 20),
+                    SelectCityWidget(
+                        onChanged: (newCity) async {
+                          setState(() => user.city = newCity!);
+                          context.read<UserCubit>().updateCity(user);
+                          await storage.write(key: 'city', value: newCity);
+                        },
+                        value: user.city),
+                    SizedBox(height: 50),
+                    AppElevatedButton(
+                        title: "Выйти",
+                        onPressed: () async {
+                          await storage.deleteAll();
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeSelectedKitchens([]);
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changePrice(SfRangeValues(0, 3000));
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeRating(1.0);
+                          Provider.of<FiltersProvider>(context, listen: false)
+                              .changeSort('С наибольшим рейтингом');
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, LOGIN, (r) => false);
+                        },
+                        width: MediaQuery.of(context).size.width,
+                        fontSize: 18),
+                  ],
+                );
+              } else if (state is UserLoading) {
+                return JumpingDotsProgressIndicator(
+                  dotSpacing: 8,
+                  fontSize: 80.0,
+                );
+              } else {
+                return Center(child: Text("Ошибка загрузки данных"));
+              }
+            }),
+          ),
         ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lit/data/providers/filters_provider.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -135,7 +136,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           Provider.of<FiltersProvider>(context, listen: false)
                               .changeSelectedKitchens([]);
                           Provider.of<FiltersProvider>(context, listen: false)
-                              .changePrice(SfRangeValues(0, 3000));
+                              .changePrice(SfRangeValues(0.0, 3000.0));
                           Provider.of<FiltersProvider>(context, listen: false)
                               .changeRating(1.0);
                           Provider.of<FiltersProvider>(context, listen: false)
@@ -230,8 +231,8 @@ class _BottomSheetState extends State<BottomSheet> {
                   children: [
                     Text("Рейтинг"),
                     SfSlider(
-                      min: 1,
-                      max: 10,
+                      min: 1.0,
+                      max: 10.0,
                       value: context.watch<FiltersProvider>().rating,
                       stepSize: 1,
                       interval: 1,
@@ -283,29 +284,14 @@ class _BottomSheetState extends State<BottomSheet> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 10),
-              child: SizedBox(
-                height: 50,
-                width: 180,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ))),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Применить",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      )),
-                ),
-              ),
-            )
+            SizedBox(height: 20),
+            AppElevatedButton(
+                title: "Применить",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                width: 200,
+                fontSize: 18)
           ],
         ),
       ),

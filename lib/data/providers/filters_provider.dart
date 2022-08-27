@@ -5,12 +5,12 @@ class FiltersProvider extends ChangeNotifier {
   List _selectedKitchens = [];
   List get selectedKitchens => _selectedKitchens;
 
-  SfRangeValues _price = SfRangeValues(0, 3000);
+  SfRangeValues _price = SfRangeValues(0.0, 3000.0);
   SfRangeValues get price => _price;
   int get lowPrice => _price.start.toInt();
   int get maxPrice => _price.end.toInt();
 
-  double _rating = 1;
+  double _rating = 1.0;
   double get rating => _rating;
 
   String _sort = 'С наибольшим рейтингом';

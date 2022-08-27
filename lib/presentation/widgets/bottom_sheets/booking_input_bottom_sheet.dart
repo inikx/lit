@@ -8,6 +8,8 @@ import 'package:lit/constants/strings.dart';
 import 'package:lit/data/services/booking/repository.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
+import 'package:lit/presentation/widgets/app_text_field.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:lit/route.dart';
@@ -246,45 +248,18 @@ class _BottomSheetState extends State<BottomSheet> {
                                         style: TextStyle(color: Colors.grey)))
                           ]),
                       const SizedBox(height: 15),
-                      TextField(
+                      AppTextField(
                           onChanged: (String value) async {
                             context
                                 .read<SetBookingCubit>()
                                 .updateComment(value);
                           },
-                          controller: _commentEditingController,
-                          cursorColor: Colors.grey,
-                          autofocus: false,
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            hintText: 'Комментарий',
-                            hintStyle: const TextStyle(
-                              fontSize: 15,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                          )),
+                          obscureText: false,
+                          enableSuggestions: true,
+                          hintText: "Комментарий"),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        height: 50,
-                        width: 180,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ))),
+                      AppElevatedButton(
+                          title: "Подтвердить",
                           onPressed: () {
                             context
                                 .read<SetBookingCubit>()
@@ -318,13 +293,8 @@ class _BottomSheetState extends State<BottomSheet> {
                               Navigator.pop(context);
                             }
                           },
-                          child: const Text("Подтвердить",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              )),
-                        ),
-                      )
+                          width: 200,
+                          fontSize: 18)
                     ],
                   ),
                 )

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lit/bloc/register/register_cubit.dart';
 import 'package:lit/constants/strings.dart';
+import 'package:lit/presentation/widgets/app_elevated_button.dart';
+import 'package:lit/presentation/widgets/app_text_field.dart';
+import 'package:lit/presentation/widgets/select_city_widget.dart';
 import 'package:lit/presentation/widgets/snackbars/error_snackbar.dart';
 import 'package:lit/presentation/widgets/snackbars/success_snackbar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -65,121 +68,54 @@ class _RegistrationPageState extends State<RegistrationPage> {
               textAlign: TextAlign.center,
             ),
           ),
-          body: Center(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                        cursorColor: Colors.grey,
-                        onChanged: (String newEmail) {
-                          setState(() => email = newEmail);
-                        },
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: const TextStyle(
-                            fontSize: 15,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          fillColor: Colors.grey[200],
-                          filled: true,
-                        )),
-                  ),
-                  const SizedBox(height: 30),
-                  Container(
-                    width: 300,
-                    child: TextField(
-                        cursorColor: Colors.grey,
-                        onChanged: (String newPassword) {
-                          setState(() => password = newPassword);
-                        },
-                        autofocus: false,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          hintText: 'Пароль',
-                          hintStyle: const TextStyle(
-                            fontSize: 15,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          fillColor: Colors.grey[200],
-                          filled: true,
-                        )),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DropdownButton<String>(
-                      value: city,
-                      onChanged: (newCity) {
-                        setState(() => city = newCity!);
+          body: Padding(
+            padding: const EdgeInsets.fromLTRB(40.0, 0, 40, 0),
+            child: Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(),
+                    AppTextField(
+                      obscureText: false,
+                      enableSuggestions: true,
+                      hintText: "Email",
+                      onChanged: (String newEmail) {
+                        setState(() => email = newEmail);
                       },
-                      items: cities
-                          .map<DropdownMenuItem<String>>(
-                              (String value) => DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  ))
-                          .toList(),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                      ),
-                      iconSize: 26,
-                      underline: SizedBox(),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ))),
-                      onPressed: () async {
-                        context.read<RegisterCubit>().updateEmail(email);
-                        context.read<RegisterCubit>().updatePassword(password);
-                        context.read<RegisterCubit>().updateCity(city);
-                        BlocProvider.of<RegisterCubit>(context).registerUser(
-                            context.read<RegisterCubit>().state.data);
-                      },
-                      child: const Text("Создать аккаунт",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          )),
+                    const SizedBox(height: 30),
+                    AppTextField(
+                      obscureText: true,
+                      enableSuggestions: false,
+                      hintText: "Пароль",
+                      onChanged: ((String newPassword) {
+                        setState(() => password = newPassword);
+                      }),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    SelectCityWidget(
+                        onChanged: (newCity) {
+                          setState(() => city = newCity!);
+                        },
+                        value: city),
+                    const SizedBox(height: 20),
+                    AppElevatedButton(
+                        title: "Создать аккаунт",
+                        fontSize: 18,
+                        onPressed: () async {
+                          context.read<RegisterCubit>().updateEmail(email);
+                          context
+                              .read<RegisterCubit>()
+                              .updatePassword(password);
+                          context.read<RegisterCubit>().updateCity(city);
+                          BlocProvider.of<RegisterCubit>(context).registerUser(
+                              context.read<RegisterCubit>().state.data);
+                        },
+                        width: MediaQuery.of(context).size.width)
+                  ],
+                ),
               ),
             ),
           )),
